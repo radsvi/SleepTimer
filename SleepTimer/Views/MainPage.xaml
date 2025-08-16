@@ -14,7 +14,6 @@
         <StackLayout
             AbsoluteLayout.LayoutBounds="0,0,1,200"
             AbsoluteLayout.LayoutFlags="WidthProportional"
-            BackgroundColor="Red"
             >
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,0,0,20">
@@ -42,7 +41,7 @@
             AbsoluteLayout.LayoutBounds="0,1,1,0.1"
             AbsoluteLayout.LayoutFlags="All"
             >
-            <Button Text="Start timer" />
+            <Button Text="Start timer" Command="{Binding StartTimerCommand}" IsVisible="{Binding MainTimer.TimerToken.Enabled}" />
 
         </Grid>
 
