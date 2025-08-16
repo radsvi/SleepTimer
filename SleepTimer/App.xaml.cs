@@ -9,7 +9,23 @@
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new AppShell());
+            //2400x1080 ratio
+            //const int newHeight = 900;
+            //const int newWidth = 450;
+            const int newHeight = 1000;
+            const int newWidth = 450;
+
+            var resolution = DeviceDisplay.Current.MainDisplayInfo;
+
+            var newWindow = new Window(new AppShell())
+            {
+                Height = newHeight,
+                Width = newWidth,
+                X = resolution.Width - newWidth + 10,
+                Y = 0,
+            };
+
+            return newWindow;
         }
     }
 }
