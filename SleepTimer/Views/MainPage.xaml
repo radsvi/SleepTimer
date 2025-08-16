@@ -6,7 +6,21 @@
 
     <AbsoluteLayout>
 
-
+        <gauge:SfRadialGauge>
+            <gauge:SfRadialGauge.Axes>
+                <gauge:RadialAxis
+                    ShowTicks="True"
+                    ShowLabels="True"
+                    Minimum="0"
+                    Maximum="60"
+                    RadiusFactor="0.9">
+                    <gauge:RadialAxis.AxisLineStyle>
+                        <gauge:RadialLineStyle Fill="#FF355C7D" />
+                    </gauge:RadialAxis.AxisLineStyle>
+                    
+                </gauge:RadialAxis>
+            </gauge:SfRadialGauge.Axes>
+        </gauge:SfRadialGauge>
 
     </AbsoluteLayout>
 </ContentPage>
