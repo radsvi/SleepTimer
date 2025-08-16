@@ -23,5 +23,5 @@ global using System.Runtime.CompilerServices;
 //global using SleepTimer.MVVM;
 //global using SleepTimer.Services;
 //global using SleepTimer.ViewModels;
-//global using SleepTimer.Views;
+global using SleepTimer.Views;
 //global using SleepTimer.Views.Controls;
