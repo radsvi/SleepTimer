@@ -21,7 +21,7 @@
             {
                 Height = newHeight,
                 Width = newWidth,
-                X = resolution.Width - newWidth + 10,
+                X = resolution.Width - newWidth,
                 Y = 0,
             };
 

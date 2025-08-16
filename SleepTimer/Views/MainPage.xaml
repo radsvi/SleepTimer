@@ -2,25 +2,33 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:gauge="clr-namespace:Syncfusion.Maui.Gauges;assembly=Syncfusion.Maui.Gauges"
-             x:Class="SleepTimer.Views.MainPage">
+             xmlns:models="clr-namespace:SleepTimer.Models"
+             xmlns:viewModels="clr-namespace:SleepTimer.ViewModels"
+             x:Class="SleepTimer.Views.MainPage"
+             x:DataType="viewModels:MainVM">
 
-    <AbsoluteLayout>
+    <AbsoluteLayout
+        Margin="5"
+        >
 
-        <gauge:SfRadialGauge>
-            <gauge:SfRadialGauge.Axes>
-                <gauge:RadialAxis
-                    ShowTicks="True"
-                    ShowLabels="True"
-                    Minimum="0"
-                    Maximum="60"
-                    RadiusFactor="0.9">
-                    <gauge:RadialAxis.AxisLineStyle>
-                        <gauge:RadialLineStyle Fill="#FF355C7D" />
-                    </gauge:RadialAxis.AxisLineStyle>
-                    
-                </gauge:RadialAxis>
-            </gauge:SfRadialGauge.Axes>
-        </gauge:SfRadialGauge>
+        <Grid
+            AbsoluteLayout.LayoutBounds="0,0,1,40"
+            AbsoluteLayout.LayoutFlags="WidthProportional"
+            ColumnDefinitions="auto,*">
+            <Label
+                Text="{Binding AppPreferences.DefaultDuration, StringFormat='{0} minutes'}"
+                FontAttributes="Bold"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                Margin="0,0,10,0"/>
+            <Slider
+                Grid.Column="1"
+                Minimum="0"
+                Maximum="60"
+                Value="{Binding AppPreferences.DefaultDuration}"
+                VerticalOptions="Center"
+                />
+        </Grid>
 
     </AbsoluteLayout>
 </ContentPage>

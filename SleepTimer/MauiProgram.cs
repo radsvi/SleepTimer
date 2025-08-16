@@ -17,6 +17,9 @@ namespace SleepTimer
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddSingleton<MainVM>();
+            builder.Services.AddSingleton<AppPreferences>();
+
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
