@@ -17,7 +17,7 @@ global using System.Runtime.CompilerServices;
 
 //global using SleepTimer.Behaviors;
 //global using SleepTimer.Converters;
-//global using SleepTimer.Enums;
+global using SleepTimer.Enums;
 //global using SleepTimer.Helpers;
 global using SleepTimer.Models;
 //global using SleepTimer.MVVM;

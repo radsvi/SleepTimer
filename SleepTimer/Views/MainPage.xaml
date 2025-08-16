@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:gauge="clr-namespace:Syncfusion.Maui.Gauges;assembly=Syncfusion.Maui.Gauges"
+             xmlns:enums="clr-namespace:SleepTimer.Enums"
              xmlns:models="clr-namespace:SleepTimer.Models"
              xmlns:viewModels="clr-namespace:SleepTimer.ViewModels"
              x:Class="SleepTimer.Views.MainPage"
@@ -10,25 +11,32 @@
     <AbsoluteLayout
         Margin="5"
         >
-
-        <Grid
-            AbsoluteLayout.LayoutBounds="0,0,1,40"
+        <StackLayout
+            AbsoluteLayout.LayoutBounds="0,0,1,200"
             AbsoluteLayout.LayoutFlags="WidthProportional"
-            ColumnDefinitions="auto,*">
-            <Label
-                Text="{Binding AppPreferences.DefaultDuration, StringFormat='{0} minutes'}"
-                FontAttributes="Bold"
-                HorizontalOptions="Start"
-                VerticalOptions="Center"
-                Margin="0,0,10,0"/>
-            <Slider
-                Grid.Column="1"
-                Minimum="0"
-                Maximum="60"
-                Value="{Binding AppPreferences.DefaultDuration}"
-                VerticalOptions="Center"
-                />
-        </Grid>
+            BackgroundColor="Red"
+            >
+
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Config" Command="{Binding NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.ConfigurationPage}" />
+            </StackLayout>
+
+            <Grid ColumnDefinitions="auto,*">
+                <Label
+                    Text="{Binding AppPreferences.DefaultDuration, StringFormat='{0} minutes'}"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    Margin="0,0,10,0"/>
+                <Slider
+                    Grid.Column="1"
+                    Minimum="0"
+                    Maximum="60"
+                    Value="{Binding AppPreferences.DefaultDuration}"
+                    VerticalOptions="Center"
+                    />
+            </Grid>
+        </StackLayout>
 
     </AbsoluteLayout>
 </ContentPage>

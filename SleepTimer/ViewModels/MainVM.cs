@@ -6,14 +6,40 @@ using System.Threading.Tasks;
 
 namespace SleepTimer.ViewModels
 {
-    public partial class MainVM : ObservableObject
+    public partial class MainVM(AppPreferences appPreferences) : ObservableObject
     {
-        public AppPreferences AppPreferences { get; }
-        public MainVM(AppPreferences appPreferences)
-        {
-            this.AppPreferences = appPreferences;
-        }
+        public AppPreferences AppPreferences { get; } = appPreferences;
 
-        public double MyDuration { get; set; } = 21.5;
+
+        [RelayCommand]
+        async Task NavigateToPage(Pages page)
+        {
+            //string destination;
+            //switch (menuItem)
+            //{
+            //    case PopupParams.OptionsPage:
+            //        destination = nameof(OptionsPage);
+            //        break;
+            //    //case PopupParams.LoadLevelPage:
+            //    //    destination = nameof(LoadLevelPage);
+            //    //    break;
+            //    default:
+            //        return;
+            //}
+
+            string route;
+            if (page == Pages.MainPage)
+            {
+                route = "///" + page.ToString();
+            }
+            else
+            {
+                route = page.ToString();
+            }
+
+            if (Shell.Current.FlyoutIsPresented is true)
+                Shell.Current.FlyoutIsPresented = false;
+            await AppShell.Current.GoToAsync(route);
+        }
     }
 }

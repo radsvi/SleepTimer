@@ -19,6 +19,8 @@ namespace SleepTimer
 
             builder.Services.AddSingleton<MainVM>();
             builder.Services.AddSingleton<AppPreferences>();
+            builder.Services.AddSingleton<ConfigurationPage>();
+            builder.Services.AddSingleton<ConfigurationVM>();
 
 #if DEBUG
     		builder.Logging.AddDebug();
