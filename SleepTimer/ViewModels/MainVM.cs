@@ -10,7 +10,7 @@ namespace SleepTimer.ViewModels
     {
         public AppPreferences AppPreferences { get; }
         public MainTimer MainTimer { get; }
-        private readonly IVolumeService volumeService;
+        readonly IVolumeService volumeService;
 
         public MainVM(AppPreferences appPreferences, MainTimer mainTimer, IVolumeService volumeService)
         {
@@ -20,7 +20,7 @@ namespace SleepTimer.ViewModels
             MainTimer.PropertyChanged += MainTimer_PropertyChanged;
             this.volumeService = volumeService;
         }
-
+        #region Methods
         private void MainTimer_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(MainTimer.IsStarted))
@@ -43,7 +43,7 @@ namespace SleepTimer.ViewModels
                 volumeService.SetVolume(current - 10);
         }
 
-        #region Navigation
+        
         [RelayCommand]
         async Task NavigateToPage(Pages page)
         {

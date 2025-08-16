@@ -10,10 +10,11 @@ namespace SleepTimer.Models
     public class MainTimer : ObservableObject
     {
         readonly AppPreferences appPreferences;
-        public MainTimer(AppPreferences appPreferences)
+        readonly IVolumeService volumeService;
+        public MainTimer(AppPreferences appPreferences, IVolumeService volumeService)
         {
-
             this.appPreferences = appPreferences;
+            this.volumeService = volumeService;
 
             //Timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             Timer.Elapsed += OnTimedEvent;
@@ -33,11 +34,29 @@ namespace SleepTimer.Models
             get => remainingTime;
             set { remainingTime = value; OnPropertyChanged(); }
         }
-
+        public int StartingVolume { get; private set; }
+        [Obsolete]private int volumeTest = 90;
+        [Obsolete]public int VolumeTest
+        {
+            get => volumeTest;
+            set { volumeTest = value; OnPropertyChanged(); }
+        }
         private void OnTimedEvent(object? source, ElapsedEventArgs e)
         {
-            if (EndTime != null)
-                RemainingTime = (DateTime)EndTime - e.SignalTime;
+            if (EndTime == null)
+                return;
+
+            RemainingTime = (DateTime)EndTime - e.SignalTime;
+
+            if (RemainingTime.CompareTo(new TimeSpan(0,0,Constants.FinalPhaseSeconds)) < 0)
+            {
+                DecreseVolume();
+            }
+            else
+            {
+                // User can change the volume while the SleepTimer is active, but before the final phase is reached, and the starting volume is still being stored correctly.
+                StartingVolume = volumeService.GetVolume(); 
+            }
         }
         public void Start()
         {
@@ -61,6 +80,22 @@ namespace SleepTimer.Models
             DateTime dateTime = (DateTime)EndTime;
 
             EndTime = dateTime.AddMinutes(appPreferences.ExtensionLength);
+        }
+        private void DecreseVolume()
+        {
+            var currentVolume = volumeService.GetVolume();
+            if (currentVolume <= 0)
+                return;
+
+            //var newVolume = currentVolume - Constants.VolumeStep;
+            int newVolume = (100 * RemainingTime.Seconds / Constants.FinalPhaseSeconds);
+            volumeService.SetVolume(newVolume);
+
+
+
+
+
+            VolumeTest = newVolume;
         }
     }
 }
