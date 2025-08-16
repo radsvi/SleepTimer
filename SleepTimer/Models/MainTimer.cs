@@ -28,6 +28,12 @@ namespace SleepTimer.Models
             get => isStarted;
             set { isStarted = value; OnPropertyChanged(); }
         }
+        private bool isFinished;
+        public bool IsFinished
+        {
+            get => isFinished;
+            set { isFinished = value; OnPropertyChanged(); }
+        }
         private TimeSpan remainingTime = TimeSpan.MinValue;
         public TimeSpan RemainingTime
         {
@@ -48,21 +54,29 @@ namespace SleepTimer.Models
 
             RemainingTime = (DateTime)EndTime - e.SignalTime;
 
-            if (RemainingTime.CompareTo(new TimeSpan(0,0,Constants.FinalPhaseSeconds)) < 0)
+            if (RemainingTime.CompareTo(new TimeSpan(0,0,-Constants.ExtensionPeriod)) < 0)
+            {
+                IsFinished = true;
+                volumeService.SetVolume(StartingVolume);
+                Stop();
+            }
+            else if(RemainingTime.CompareTo(new TimeSpan(0, 0, Constants.FinalPhaseSeconds)) < 0)
             {
                 DecreseVolume();
             }
             else
             {
                 // User can change the volume while the SleepTimer is active, but before the final phase is reached, and the starting volume is still being stored correctly.
-                StartingVolume = volumeService.GetVolume(); 
+                StartingVolume = volumeService.GetVolume();
             }
         }
         public void Start()
         {
-            Timer.Enabled = true;
+            IsFinished = false;
             IsStarted = true;
             EndTime = DateTime.Now.AddMinutes(appPreferences.DefaultDuration);
+            StartingVolume = volumeService.GetVolume();
+            Timer.Enabled = true;
 
             if (EndTime != null)
                 RemainingTime = (DateTime)EndTime - DateTime.Now;
@@ -80,6 +94,8 @@ namespace SleepTimer.Models
             DateTime dateTime = (DateTime)EndTime;
 
             EndTime = dateTime.AddMinutes(appPreferences.ExtensionLength);
+
+            volumeService.SetVolume(StartingVolume);
         }
         private void DecreseVolume()
         {
@@ -88,7 +104,7 @@ namespace SleepTimer.Models
                 return;
 
             //var newVolume = currentVolume - Constants.VolumeStep;
-            int newVolume = (100 * RemainingTime.Seconds / Constants.FinalPhaseSeconds);
+            int newVolume = (StartingVolume * RemainingTime.Seconds / Constants.FinalPhaseSeconds);
             volumeService.SetVolume(newVolume);
 
 

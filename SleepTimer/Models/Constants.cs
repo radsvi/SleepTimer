@@ -11,5 +11,6 @@ namespace SleepTimer.Models
     {
         public const int VolumeStep = 1;
         public const int FinalPhaseSeconds = 60;
+        public const int ExtensionPeriod = 60;
     }
 }
