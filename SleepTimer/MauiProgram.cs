@@ -27,12 +27,15 @@ namespace SleepTimer
 
 #if ANDROID
             builder.Services.AddSingleton<IVolumeService, Platforms.Android.VolumeService>();
+            builder.Services.AddSingleton<IMediaControlService, Platforms.Android.MediaControlService>();
             //#elif IOS
             //        builder.Services.AddSingleton<IVolumeService, VolumeService>();
 #elif WINDOWS
             builder.Services.AddSingleton<IVolumeService, Platforms.Windows.VolumeService>();
+            builder.Services.AddSingleton<IMediaControlService, Platforms.Windows.MediaControlService>();
 #else
             builder.Services.AddSingleton<IVolumeService, StubVolumeService>();
+            builder.Services.AddSingleton<IMediaControlService, StubMediaControlService>();
 #endif
 
 #if DEBUG

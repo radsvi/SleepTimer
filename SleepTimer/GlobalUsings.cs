@@ -21,7 +21,7 @@ global using SleepTimer.Enums;
 //global using SleepTimer.Helpers;
 global using SleepTimer.Models;
 //global using SleepTimer.MVVM;
-//global using SleepTimer.Services;
+global using SleepTimer.Services;
 global using SleepTimer.ViewModels;
 global using SleepTimer.Views;
 //global using SleepTimer.Views.Controls;

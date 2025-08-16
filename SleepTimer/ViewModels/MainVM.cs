@@ -11,14 +11,16 @@ namespace SleepTimer.ViewModels
         public AppPreferences AppPreferences { get; }
         public MainTimer MainTimer { get; }
         readonly IVolumeService volumeService;
+        readonly IMediaControlService mediaService;
 
-        public MainVM(AppPreferences appPreferences, MainTimer mainTimer, IVolumeService volumeService)
+        public MainVM(AppPreferences appPreferences, MainTimer mainTimer, IVolumeService volumeService, IMediaControlService mediaService)
         {
             AppPreferences = appPreferences;
             MainTimer = mainTimer;
 
             MainTimer.PropertyChanged += MainTimer_PropertyChanged;
             this.volumeService = volumeService;
+            this.mediaService = mediaService;
         }
         #region Methods
         private void MainTimer_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -79,6 +81,11 @@ namespace SleepTimer.ViewModels
         bool IsStarted()
         {
             return MainTimer.IsStarted;
+        }
+        [RelayCommand]
+        void StopPlayback()
+        {
+            mediaService.PauseOtherApps();
         }
         #endregion
     }
