@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:gauge="clr-namespace:Syncfusion.Maui.Gauges;assembly=Syncfusion.Maui.Gauges"
              xmlns:converters="clr-namespace:SleepTimer.Converters"
              xmlns:enums="clr-namespace:SleepTimer.Enums"
              xmlns:models="clr-namespace:SleepTimer.Models"
@@ -23,9 +22,11 @@
             <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,0,0,20">
                 <Button Text="Config" Command="{Binding NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.ConfigurationPage}" />
                 <Button Text="Extend" Command="{Binding ExtendTimerCommand}" />
-                <Button Text="Stop playback" Command="{Binding StopPlaybackCommand}" />
+                <!--<Button Text="Stop playback" Command="{Binding StopPlaybackCommand}" />-->
+                <Button Text="Show notification" Command="{Binding ShowNotificationCommand}" />
                 <!--<Button Text="↑" Command="{Binding IncreaseVolumeCommand}" />
                 <Button Text="↓" Command="{Binding DecreseVolumeCommand}" />-->
+                <Button Text="Show notification CLICK" Clicked="Button_Clicked" />
             </StackLayout>
 
             <!-- // Timer is stopped // -->

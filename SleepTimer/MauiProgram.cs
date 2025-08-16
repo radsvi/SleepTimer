@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using Syncfusion.Maui.Core.Hosting;
+//using Syncfusion.Maui.Core.Hosting;
+using Plugin.LocalNotification;
 
 namespace SleepTimer
 {
@@ -8,9 +9,9 @@ namespace SleepTimer
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
-            builder.ConfigureSyncfusionCore();
             builder
                 .UseMauiApp<App>()
+                .UseLocalNotification()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
