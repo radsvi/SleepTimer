@@ -16,15 +16,17 @@
         Margin="5"
         >
         <StackLayout
-            AbsoluteLayout.LayoutBounds="0,0,1,200"
+            AbsoluteLayout.LayoutBounds="0,0,1,300"
             AbsoluteLayout.LayoutFlags="WidthProportional"
             >
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,0,0,20">
                 <Button Text="Config" Command="{Binding NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.ConfigurationPage}" />
+                <Button Text="Extend" Command="{Binding ExtendTimerCommand}" />
             </StackLayout>
 
-            <Grid ColumnDefinitions="auto,*">
+            <!-- // Timer is stopped // -->
+            <Grid ColumnDefinitions="auto,*" IsVisible="{Binding MainTimer.IsStarted, Converter={StaticResource InvertBoolConv}}">
                 <Label
                     Text="{Binding AppPreferences.DefaultDuration, StringFormat='{0} minutes'}"
                     FontAttributes="Bold"
@@ -39,13 +41,32 @@
                     VerticalOptions="Center"
                     />
             </Grid>
+            
+            <!-- // Timer is active // -->
+            <StackLayout
+                HorizontalOptions="Fill"
+                IsVisible="{Binding MainTimer.IsStarted}">
+                <Label
+                    Text="{Binding MainTimer.RemainingTime, StringFormat='{0:mm\\:ss}'}"
+                    FontSize="130"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Margin="0,0,10,0"/> <!--{0:mm\\:ss}-->
+                <Label
+                    Text="minutes remaining"
+                    HorizontalOptions="Center"
+                    />
+            </StackLayout>
         </StackLayout>
 
         <Grid
             AbsoluteLayout.LayoutBounds="0,1,1,0.1"
             AbsoluteLayout.LayoutFlags="All"
             >
-            <Button Text="Start timer" Command="{Binding StartTimerCommand}" IsVisible="{Binding MainTimer.TimerToken.Enabled, Converter={StaticResource InvertBoolConv}}" />
+            <!--<Button Text="Start timer" Command="{Binding StartTimerCommand}" IsVisible="{Binding MainTimer.TimerToken.Enabled, Converter={StaticResource InvertBoolConv}}" />-->
+            <Button Text="Start timer" Command="{Binding StartTimerCommand}" IsVisible="{Binding MainTimer.IsStarted, Converter={StaticResource InvertBoolConv}}" />
+            <Button Text="Stop timer" Command="{Binding StopTimerCommand}" IsVisible="{Binding MainTimer.IsStarted}" />
 
         </Grid>
 
