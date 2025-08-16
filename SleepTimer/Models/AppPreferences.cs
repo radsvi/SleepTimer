@@ -10,7 +10,7 @@ namespace SleepTimer.Models
     {
         public int DefaultDuration
         {
-            get => Preferences.Default.Get(nameof(DefaultDuration), 12);
+            get => Preferences.Default.Get(nameof(DefaultDuration), 15);
             set { Preferences.Set(nameof(DefaultDuration), value); OnPropertyChanged(); }
         }
         public int ExtensionLength

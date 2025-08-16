@@ -25,8 +25,18 @@ namespace SleepTimer
             builder.Services.AddSingleton<AppPreferences>();
             builder.Services.AddSingleton<MainTimer>();
 
+#if ANDROID
+            builder.Services.AddSingleton<IVolumeService, Platforms.Android.VolumeService>();
+            //#elif IOS
+            //        builder.Services.AddSingleton<IVolumeService, VolumeService>();
+#elif WINDOWS
+            builder.Services.AddSingleton<IVolumeService, Platforms.Windows.VolumeService>();
+#else
+            builder.Services.AddSingleton<IVolumeService, StubVolumeService>();
+#endif
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
