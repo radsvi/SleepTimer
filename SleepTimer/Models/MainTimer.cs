@@ -42,12 +42,6 @@ namespace SleepTimer.Models
             set { remainingTime = value; OnPropertyChanged(); }
         }
         public int StartingVolume { get; private set; }
-        [Obsolete]private int volumeTest = 90;
-        [Obsolete]public int VolumeTest
-        {
-            get => volumeTest;
-            set { volumeTest = value; OnPropertyChanged(); }
-        }
         private async void OnTimedEvent(object? source, ElapsedEventArgs e)
         {
             if (EndTime == null)
@@ -55,6 +49,7 @@ namespace SleepTimer.Models
 
             RemainingTime = (DateTime)EndTime - e.SignalTime;
 
+            // Volume:
             if (RemainingTime.CompareTo(new TimeSpan(0,0,-Constants.ExtensionPeriod)) < 0)
             {
                 IsFinished = true;
@@ -71,6 +66,7 @@ namespace SleepTimer.Models
                 StartingVolume = volumeService.GetVolume();
             }
 
+            // Notifications:
             if (RemainingTime.Minutes == 0 && RemainingTime.Seconds < 10)
             {
                 await Notifications.Show(NotificationMsg.GoingToSleep);
@@ -122,12 +118,6 @@ namespace SleepTimer.Models
             //var newVolume = currentVolume - Constants.VolumeStep;
             int newVolume = (StartingVolume * RemainingTime.Seconds / Constants.FinalPhaseSeconds);
             volumeService.SetVolume(newVolume);
-
-
-
-
-
-            VolumeTest = newVolume;
         }
     }
 }

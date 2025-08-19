@@ -22,11 +22,6 @@
             <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,0,0,20">
                 <Button Text="Config" Command="{Binding NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.ConfigurationPage}" />
                 <Button Text="Extend" Command="{Binding ExtendTimerCommand}" />
-                <!--<Button Text="Stop playback" Command="{Binding StopPlaybackCommand}" />-->
-                <Button Text="Show noti" Command="{Binding ShowNotificationCommand}" />
-                <Button Text="Cancel noti" Command="{Binding CancelNotificationCommand}" />
-                <!--<Button Text="↑" Command="{Binding IncreaseVolumeCommand}" />
-                <Button Text="↓" Command="{Binding DecreseVolumeCommand}" />-->
             </StackLayout>
 
             <!-- // Timer is stopped // -->
@@ -59,14 +54,6 @@
                     Margin="0,0,10,0"/> <!--{0:mm\\:ss}-->
                 <Label
                     Text="minutes remaining"
-                    HorizontalOptions="Center"
-                    />
-                <Label
-                    Text="last action"
-                    HorizontalOptions="Center"
-                    />
-                <Label
-                    Text="{Binding MainTimer.VolumeTest}"
                     HorizontalOptions="Center"
                     />
             </StackLayout>

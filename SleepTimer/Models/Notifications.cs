@@ -28,7 +28,7 @@ namespace SleepTimer.Models
             var notification = new NotificationRequest
             {
                 NotificationId = notificationId,
-                Title = "Sleep timer!",
+                Title = "Sleep timer",
                 Description = message,
                 Android = new Plugin.LocalNotification.AndroidOption.AndroidOptions
                 {

@@ -75,9 +75,9 @@ namespace SleepTimer.ViewModels
             await AppShell.Current.GoToAsync(route);
         }
         [RelayCommand]
-        void StartTimer()
+        async Task StartTimer()
         {
-            MainTimer.Start();
+            await MainTimer.Start();
         }
         [RelayCommand]
         void StopTimer()
@@ -93,30 +93,6 @@ namespace SleepTimer.ViewModels
         {
             return MainTimer.IsStarted;
         }
-        //[RelayCommand]
-        //void StopPlayback()
-        //{
-        //    mediaService.PauseOtherApps();
-        //}
-        [RelayCommand]
-        async Task ShowNotification()
-        {
-            //notification.Show(5);
-            await Notifications.Show(NotificationMsg.GoingToSleep);
-        }
-        [RelayCommand]
-        async Task UpdateNotification()
-        {
-            //notification.Show(5);
-            //await Notifications.Show(5);
-        }
-        [RelayCommand]
-        static void CancelNotification()
-        {
-            //notification.Show(5);
-            Notifications.Cancel();
-        }
-
         #endregion
     }
 }
