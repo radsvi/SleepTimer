@@ -23,7 +23,8 @@
                 <Button Text="Config" Command="{Binding NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.ConfigurationPage}" />
                 <Button Text="Extend" Command="{Binding ExtendTimerCommand}" />
                 <!--<Button Text="Stop playback" Command="{Binding StopPlaybackCommand}" />-->
-                <Button Text="Show notification" Command="{Binding ShowNotificationCommand}" />
+                <Button Text="Show noti" Command="{Binding ShowNotificationCommand}" />
+                <Button Text="Cancel noti" Command="{Binding CancelNotificationCommand}" />
                 <!--<Button Text="↑" Command="{Binding IncreaseVolumeCommand}" />
                 <Button Text="↓" Command="{Binding DecreseVolumeCommand}" />-->
             </StackLayout>

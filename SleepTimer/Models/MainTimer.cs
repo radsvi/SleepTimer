@@ -34,6 +34,7 @@ namespace SleepTimer.Models
             get => isFinished;
             set { isFinished = value; OnPropertyChanged(); }
         }
+        public int LastNotificationUpdate { get; private set; }
         private TimeSpan remainingTime = TimeSpan.MinValue;
         public TimeSpan RemainingTime
         {
@@ -47,7 +48,7 @@ namespace SleepTimer.Models
             get => volumeTest;
             set { volumeTest = value; OnPropertyChanged(); }
         }
-        private void OnTimedEvent(object? source, ElapsedEventArgs e)
+        private async void OnTimedEvent(object? source, ElapsedEventArgs e)
         {
             if (EndTime == null)
                 return;
@@ -62,15 +63,25 @@ namespace SleepTimer.Models
             }
             else if(RemainingTime.CompareTo(new TimeSpan(0, 0, Constants.FinalPhaseSeconds)) < 0)
             {
-                DecreseVolume();
+                DecreaseVolume();
             }
             else
             {
                 // User can change the volume while the SleepTimer is active, but before the final phase is reached, and the starting volume is still being stored correctly.
                 StartingVolume = volumeService.GetVolume();
             }
+
+            if (RemainingTime.Minutes == 0 && RemainingTime.Seconds < 10)
+            {
+                await Notifications.Show(NotificationMsg.GoingToSleep);
+            }
+            else if (RemainingTime.Seconds > 0 && Math.Abs(RemainingTime.Minutes - LastNotificationUpdate) > 0)
+            {
+                await Notifications.Show(NotificationMsg.RemainingTime, RemainingTime.Minutes);
+                LastNotificationUpdate = RemainingTime.Minutes;
+            }
         }
-        public void Start()
+        public async Task Start()
         {
             IsFinished = false;
             IsStarted = true;
@@ -80,12 +91,17 @@ namespace SleepTimer.Models
 
             if (EndTime != null)
                 RemainingTime = (DateTime)EndTime - DateTime.Now;
+
+            LastNotificationUpdate = RemainingTime.Minutes;
+            await Notifications.Show(NotificationMsg.RemainingTime, RemainingTime.Minutes);
         }
         public void Stop()
         {
             Timer.Enabled = false;
             IsStarted = false;
             EndTime = null;
+
+            Notifications.Cancel();
         }
         public void Extend()
         {
@@ -97,7 +113,7 @@ namespace SleepTimer.Models
 
             volumeService.SetVolume(StartingVolume);
         }
-        private void DecreseVolume()
+        private void DecreaseVolume()
         {
             var currentVolume = volumeService.GetVolume();
             if (currentVolume <= 0)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 //using Syncfusion.Maui.Core.Hosting;
 using Plugin.LocalNotification;
+using Plugin.LocalNotification.AndroidOption;
 
 namespace SleepTimer
 {
@@ -11,7 +12,20 @@ namespace SleepTimer
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UseLocalNotification()
+                .UseLocalNotification(cfg =>
+                {
+                    cfg.AddAndroid(android =>
+                    {
+                        android.AddChannel(new NotificationChannelRequest
+                        {
+                            Id = "silent_channel",
+                            Name = "Silent Notifications",
+                            Description = "Notifications without sound",
+                            Importance = AndroidImportance.Low, // Low = no sound
+                            EnableVibration = false,           // Optional: no vibration
+                        });
+                    });
+                })
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

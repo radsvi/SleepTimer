@@ -99,11 +99,22 @@ namespace SleepTimer.ViewModels
         //    mediaService.PauseOtherApps();
         //}
         [RelayCommand]
-        //async Task ShowNotification(Notifications notification)
         async Task ShowNotification()
         {
             //notification.Show(5);
-            await Notifications.Show(5);
+            await Notifications.Show(NotificationMsg.GoingToSleep);
+        }
+        [RelayCommand]
+        async Task UpdateNotification()
+        {
+            //notification.Show(5);
+            //await Notifications.Show(5);
+        }
+        [RelayCommand]
+        static void CancelNotification()
+        {
+            //notification.Show(5);
+            Notifications.Cancel();
         }
 
         #endregion
