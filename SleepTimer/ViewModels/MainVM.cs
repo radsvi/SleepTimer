@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using Plugin.LocalNotification.AndroidOption;
+
+using Plugin.LocalNotification.AndroidOption;
 
 namespace SleepTimer.ViewModels
 {
@@ -23,6 +24,13 @@ namespace SleepTimer.ViewModels
             MainTimer.PropertyChanged += MainTimer_PropertyChanged;
             this.volumeService = volumeService;
             this.mediaService = mediaService;
+
+            LocalNotificationCenter.Current.NotificationActionTapped += Current_NotificationActionTapped;
+        }
+
+        private void Current_NotificationActionTapped(Plugin.LocalNotification.EventArgs.NotificationActionEventArgs e)
+        {
+            MainTimer.Extend();
         }
         #region Methods
         private void MainTimer_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -95,33 +103,16 @@ namespace SleepTimer.ViewModels
             var notification = new NotificationRequest
             {
                 NotificationId = 100,
-                Title = "Hello!",
-                Subtitle = "subtitle",
-                Description = "This is a local notification from MAUI",
-                ReturningData = "Some data",
-                BadgeNumber = 42,
+                Title = "Sleep timer!",
+                Description = "X minutes left. Tap to extend!",
                 Android = new Plugin.LocalNotification.AndroidOption.AndroidOptions
                 {
+                    Ongoing = true,
+                    AutoCancel = false,
                     ChannelId = "default",
-                    
+                    Priority = AndroidPriority.High
                 }
             };
-            //ChannelId = "default",
-            //Importance = AndroidImportance.High,
-            //Priority = AndroidPriority.High,
-            //Visibility = AndroidVisibilityType.Public
-
-            //#if ANDROID
-            //            notification.Android = new Plugin.LocalNotification.AndroidOption.AndroidOptions
-            //            {
-            //                ChannelId = "default",
-            //                Priority = Plugin.LocalNotification.AndroidOptionPriority.High
-            //            };
-            //#endif
-
-            //NotifyTime = DateTime.Now.AddSeconds(5) // Schedule for 5 seconds later
-            //var qwer = LocalNotificationCenter.Current.AreNotificationsEnabled;
-            //await LocalNotificationCenter.Current.RequestNotificationPermission();
 
             await EnsureNotificationPermissionAsync();
 
@@ -129,12 +120,10 @@ namespace SleepTimer.ViewModels
         }
         public async Task<bool> EnsureNotificationPermissionAsync()
         {
-            // Returns true if notifications are allowed for your app
             var enabled = await LocalNotificationCenter.Current.AreNotificationsEnabled();
-            if (enabled) return true;
+            if (enabled)
+                return true;
 
-            // Android 13+ shows a runtime prompt; this triggers it.
-            // (Optionally request exact alarm if you schedule exact times)
             var granted = await LocalNotificationCenter.Current.RequestNotificationPermission(
                 new NotificationPermission
                 {
