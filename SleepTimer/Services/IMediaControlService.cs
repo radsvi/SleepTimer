@@ -11,11 +11,11 @@ namespace SleepTimer.Services
         /// <summary>
         /// Requests other apps to pause or stop playback (if supported).
         /// </summary>
-        void PauseOtherApps();
+        void StopPlayback();
     }
     public class StubMediaControlService : IMediaControlService
     {
-        public void PauseOtherApps()
+        public void StopPlayback()
         {
             // Not supported on this platform
         }

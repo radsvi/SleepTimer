@@ -6,7 +6,7 @@ namespace SleepTimer.Platforms.Android
 {
     public class MediaControlService : IMediaControlService
     {
-        public void PauseOtherApps()
+        public void StopPlayback()
         {
             var context = global::Android.App.Application.Context;
 

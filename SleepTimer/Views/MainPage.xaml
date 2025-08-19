@@ -22,6 +22,7 @@
             <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,0,0,20">
                 <Button Text="Config" Command="{Binding NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.ConfigurationPage}" />
                 <Button Text="Extend" Command="{Binding ExtendTimerCommand}" />
+                <Button Text="Extend" Command="{Binding StopPlaybackCommand}" />
             </StackLayout>
 
             <!-- // Timer is stopped // -->
@@ -47,7 +48,7 @@
                 IsVisible="{Binding MainTimer.IsStarted}">
                 <Label
                     Text="{Binding MainTimer.RemainingTime, StringFormat='{0:mm\\:ss}'}"
-                    FontSize="130"
+                    FontSize="120"
                     FontAttributes="Bold"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"

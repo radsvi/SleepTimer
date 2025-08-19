@@ -18,5 +18,10 @@ namespace SleepTimer.Models
             get => Preferences.Default.Get(nameof(ExtensionLength), 5);
             set { Preferences.Set(nameof(ExtensionLength), value); OnPropertyChanged(); }
         }
+        public int WaitTimeAfterFadeOut
+        {
+            get => Preferences.Default.Get(nameof(WaitTimeAfterFadeOut), 60);
+            set { Preferences.Set(nameof(WaitTimeAfterFadeOut), value); OnPropertyChanged(); }
+        }
     }
 }

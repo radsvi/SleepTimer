@@ -22,5 +22,21 @@
                 VerticalOptions="Center"
                 />
         </Grid>
+        <Grid
+            ColumnDefinitions="auto,*">
+            <Label
+                Text="{Binding AppPreferences.WaitTimeAfterFadeOut, StringFormat='{0} seconds'}"
+                FontAttributes="Bold"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                Margin="0,0,10,0"/>
+            <Slider
+                Grid.Column="1"
+                Minimum="0"
+                Maximum="60"
+                Value="{Binding AppPreferences.WaitTimeAfterFadeOut}"
+                VerticalOptions="Center"
+                />
+        </Grid>
     </VerticalStackLayout>
 </ContentPage>

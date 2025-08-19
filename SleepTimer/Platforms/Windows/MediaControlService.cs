@@ -12,7 +12,7 @@ namespace SleepTimer.Platforms.Windows
         private const byte VK_MEDIA_PLAY_PAUSE = 0xB3;
         private const byte VK_MEDIA_STOP = 0xB2;
 
-        public void PauseOtherApps()
+        public void StopPlayback()
         {
             // Simulate media play/pause key press
             keybd_event(VK_MEDIA_PLAY_PAUSE, 0, KEYEVENTF_EXTENDEDKEY, 0);

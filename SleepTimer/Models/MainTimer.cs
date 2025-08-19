@@ -11,10 +11,12 @@ namespace SleepTimer.Models
     {
         readonly AppPreferences appPreferences;
         readonly IVolumeService volumeService;
-        public MainTimer(AppPreferences appPreferences, IVolumeService volumeService)
+        readonly IMediaControlService mediaService;
+        public MainTimer(AppPreferences appPreferences, IVolumeService volumeService, IMediaControlService mediaService)
         {
             this.appPreferences = appPreferences;
             this.volumeService = volumeService;
+            this.mediaService = mediaService;
 
             //Timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             Timer.Elapsed += OnTimedEvent;
@@ -41,7 +43,7 @@ namespace SleepTimer.Models
             get => remainingTime;
             set { remainingTime = value; OnPropertyChanged(); }
         }
-        public int StartingVolume { get; private set; }
+        private int StartingVolume { get; set; }
         private async void OnTimedEvent(object? source, ElapsedEventArgs e)
         {
             if (EndTime == null)
@@ -50,13 +52,14 @@ namespace SleepTimer.Models
             RemainingTime = (DateTime)EndTime - e.SignalTime;
 
             // Volume:
-            if (RemainingTime.CompareTo(new TimeSpan(0,0,-Constants.ExtensionPeriod)) < 0)
+            if (RemainingTime.CompareTo(new TimeSpan(0,0,-appPreferences.WaitTimeAfterFadeOut)) < 0)
             {
                 IsFinished = true;
                 volumeService.SetVolume(StartingVolume);
                 Stop();
+                mediaService.StopPlayback();
             }
-            else if(RemainingTime.CompareTo(new TimeSpan(0, 0, Constants.FinalPhaseSeconds)) < 0)
+            else if(RemainingTime.CompareTo(new TimeSpan(0, 0, Constants.FadeOutDuration)) < 0)
             {
                 DecreaseVolume();
             }
@@ -116,7 +119,7 @@ namespace SleepTimer.Models
                 return;
 
             //var newVolume = currentVolume - Constants.VolumeStep;
-            int newVolume = (StartingVolume * RemainingTime.Seconds / Constants.FinalPhaseSeconds);
+            int newVolume = (StartingVolume * RemainingTime.Seconds / Constants.FadeOutDuration);
             volumeService.SetVolume(newVolume);
         }
     }
