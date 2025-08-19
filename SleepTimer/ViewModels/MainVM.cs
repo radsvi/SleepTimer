@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//using Plugin.LocalNotification;
 
-using Plugin.LocalNotification.AndroidOption;
 
 namespace SleepTimer.ViewModels
 {
@@ -13,6 +13,7 @@ namespace SleepTimer.ViewModels
     {
         public AppPreferences AppPreferences { get; }
         public MainTimer MainTimer { get; }
+        //public Notifications notifications { get; }
         readonly IVolumeService volumeService;
         readonly IMediaControlService mediaService;
 
@@ -25,7 +26,7 @@ namespace SleepTimer.ViewModels
             this.volumeService = volumeService;
             this.mediaService = mediaService;
 
-            LocalNotificationCenter.Current.NotificationActionTapped += Current_NotificationActionTapped;
+            Plugin.LocalNotification.LocalNotificationCenter.Current.NotificationActionTapped += Current_NotificationActionTapped;
         }
 
         private void Current_NotificationActionTapped(Plugin.LocalNotification.EventArgs.NotificationActionEventArgs e)
@@ -98,39 +99,11 @@ namespace SleepTimer.ViewModels
         //    mediaService.PauseOtherApps();
         //}
         [RelayCommand]
+        //async Task ShowNotification(Notifications notification)
         async Task ShowNotification()
         {
-            var notification = new NotificationRequest
-            {
-                NotificationId = 100,
-                Title = "Sleep timer!",
-                Description = "X minutes left. Tap to extend!",
-                Android = new Plugin.LocalNotification.AndroidOption.AndroidOptions
-                {
-                    Ongoing = true,
-                    AutoCancel = false,
-                    ChannelId = "default",
-                    Priority = AndroidPriority.High
-                }
-            };
-
-            await EnsureNotificationPermissionAsync();
-
-            await LocalNotificationCenter.Current.Show(notification);
-        }
-        public async Task<bool> EnsureNotificationPermissionAsync()
-        {
-            var enabled = await LocalNotificationCenter.Current.AreNotificationsEnabled();
-            if (enabled)
-                return true;
-
-            var granted = await LocalNotificationCenter.Current.RequestNotificationPermission(
-                new NotificationPermission
-                {
-                    Android = { RequestPermissionToScheduleExactAlarm = false }
-                });
-
-            return granted;
+            //notification.Show(5);
+            await Notifications.Show(5);
         }
 
         #endregion
