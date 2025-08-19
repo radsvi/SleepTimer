@@ -22,7 +22,12 @@
             <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,0,0,20">
                 <Button Text="Config" Command="{Binding NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.ConfigurationPage}" />
                 <Button Text="Extend" Command="{Binding ExtendTimerCommand}" />
-                <Button Text="Extend" Command="{Binding StopPlaybackCommand}" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,0,0,20">
+                <!--<Button Text="Stop playback" Command="{Binding StopPlaybackCommand}" />-->
+                <Button Text="start service" Clicked="OnStartServiceClicked" />
+                <Button Text="stop service" Clicked="OnStopServiceClicked" />
+                <Button Text="reduce volume" Clicked="OnSetVolumeClicked" />
             </StackLayout>
 
             <!-- // Timer is stopped // -->
