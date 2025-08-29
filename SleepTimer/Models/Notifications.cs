@@ -48,7 +48,7 @@ namespace SleepTimer.Models
         {
             LocalNotificationCenter.Current.Cancel(notificationId);
         }
-        static async Task<bool> EnsureNotificationPermissionAsync()
+        public static async Task<bool> EnsureNotificationPermissionAsync()
         {
             var enabled = await LocalNotificationCenter.Current.AreNotificationsEnabled();
             if (enabled)

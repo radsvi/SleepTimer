@@ -9,11 +9,13 @@ namespace SleepTimer.Platforms.Android
     {
         public override void OnReceive(Context context, Intent intent)
         {
-            // Handle notification tap WITHOUT launching app
+            var volumeService = MauiApplication.Current.Services.GetService<IVolumeService>();
             string data = intent.GetStringExtra("payload");
-            //System.Diagnostics.Debug.WriteLine($"Notification tapped with payload: {data}");
 
-            
+            //var current = volumeService.GetVolume();
+            //if (current >= 0)
+            //    volumeService.SetVolume(current - 10);
+            volumeService?.SetVolume(50);
         }
     }
 }

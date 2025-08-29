@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Plugin.LocalNotification;
+using System.Threading.Tasks;
 
 namespace SleepTimer.Views
 {
@@ -10,7 +11,25 @@ namespace SleepTimer.Views
 
             BindingContext = mainVM;
         }
+        //protected async override void OnAppearing()
+        //{
+        //    base.OnAppearing();
+        //    await Task.Run(() => EnsureNotificationPermissionAsync());
+        //}
+        //static async Task<bool> EnsureNotificationPermissionAsync()
+        //{
+        //    var enabled = await LocalNotificationCenter.Current.AreNotificationsEnabled();
+        //    if (enabled)
+        //        return true;
 
+        //    var granted = await LocalNotificationCenter.Current.RequestNotificationPermission(
+        //        new NotificationPermission
+        //        {
+        //            Android = { RequestPermissionToScheduleExactAlarm = false }
+        //        });
+
+        //    return granted;
+        //}
         private void OnStartServiceClicked(object sender, EventArgs e)
         {
 #if ANDROID
