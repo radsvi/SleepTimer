@@ -20,7 +20,7 @@ namespace SleepTimer.Platforms.Android
             // Run the timer in a background task
             Task.Run(async () =>
             {
-                await Task.Delay(60000); // wait 1 minute
+                await Task.Delay(5000); // wait 1 minute
 
                 LowerMusicVolume();
 
@@ -57,7 +57,7 @@ namespace SleepTimer.Platforms.Android
             int currentVolume = audioManager.GetStreamVolume(global::Android.Media.Stream.Music);
 
             // Example: lower volume by 3 steps (you can adjust)
-            int targetVolume = Math.Max(currentVolume - 3, 0);
+            int targetVolume = 5;
 
             // Simulate user volume button presses
             while (currentVolume > targetVolume)

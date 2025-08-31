@@ -29,6 +29,9 @@
                 <Button Text="stop service" Clicked="OnStopServiceClicked" />
                 <Button Text="reduce volume" Clicked="OnSetVolumeClicked" />
             </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,0,0,20">
+                <Button Text="start service VM" Command="{Binding StartVolumeTimerCommand}" />
+            </StackLayout>
 
             <!-- // Timer is stopped // -->
             <Grid ColumnDefinitions="auto,*" IsVisible="{Binding MainTimer.IsStarted, Converter={StaticResource InvertBoolConv}}">

@@ -5,6 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 //using Plugin.LocalNotification;
+#if ANDROID
+using Android.Content;
+using Android.OS;
+using SleepTimer.Platforms.Android;
+#endif
 
 
 namespace SleepTimer.ViewModels
@@ -97,6 +102,19 @@ namespace SleepTimer.ViewModels
         bool IsStarted()
         {
             return MainTimer.IsStarted;
+        }
+        [RelayCommand]
+        public void StartVolumeTimer()
+        {
+#if ANDROID
+            var context = Android.App.Application.Context;
+            var intent = new Intent(context, typeof(VolumeAdjustService));
+
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+                context.StartForegroundService(intent);
+            else
+                context.StartService(intent);
+#endif
         }
         #endregion
     }
