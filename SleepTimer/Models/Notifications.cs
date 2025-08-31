@@ -52,25 +52,21 @@ namespace SleepTimer.Models
     public class NotificationMessage
     {
         protected string Message { get; set; } = string.Empty;
+        protected NotificationMessage(string message)
+        {
+            this.Message = message;
+        }
         public override string ToString()
         {
             return Message;
         }
     }
-    public class NotificationMessageRemainingTime : NotificationMessage
-    {
-        public NotificationMessageRemainingTime(int remainingMinutes)
-        {
-            this.Message = $"{remainingMinutes} minutes left. Tap to extend!";
-        }
-    }
-    public class NotificationMessageGoingToSleep : NotificationMessage
-    {
-        public NotificationMessageGoingToSleep()
-        {
-            this.Message = $"Going to sleep.";
-        }
-    }
+    public class NotificationMessageRemainingTime(int remainingMinutes)
+        : NotificationMessage($"{remainingMinutes} minutes left. Tap to extend!") {}
+    public class NotificationMessageGoingToSleep()
+        : NotificationMessage("Going to sleep.") { }
+    public class NotificationMessageCustom(string message)
+        : NotificationMessage(message) { }
 
 
 
