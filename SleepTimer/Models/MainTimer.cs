@@ -72,11 +72,11 @@ namespace SleepTimer.Models
             // Notifications:
             if (RemainingTime.Minutes == 0 && RemainingTime.Seconds < 10)
             {
-                await Notifications.Show(NotificationMsg.GoingToSleep);
+                await Notifications.Show(new NotificationMessageGoingToSleep());
             }
             else if (RemainingTime.Seconds > 0 && Math.Abs(RemainingTime.Minutes - LastNotificationUpdate) > 0)
             {
-                await Notifications.Show(NotificationMsg.RemainingTime, RemainingTime.Minutes);
+                await Notifications.Show(new NotificationMessageRemainingTime(RemainingTime.Minutes));
                 LastNotificationUpdate = RemainingTime.Minutes;
             }
         }
@@ -92,7 +92,7 @@ namespace SleepTimer.Models
                 RemainingTime = (DateTime)EndTime - DateTime.Now;
 
             LastNotificationUpdate = RemainingTime.Minutes;
-            await Notifications.Show(NotificationMsg.RemainingTime, RemainingTime.Minutes);
+            await Notifications.Show(new NotificationMessageRemainingTime(RemainingTime.Minutes));
         }
         public void Stop()
         {

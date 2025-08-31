@@ -3,33 +3,18 @@ using Plugin.LocalNotification.AndroidOption;
 
 namespace SleepTimer.Models
 {
-    public enum NotificationMsg {
-        RemainingTime,
-        GoingToSleep
-    }
     public static class Notifications
     {
         const int notificationId = 100;
 
-
-        public async static Task Show(NotificationMsg msg)
+        public async static Task Show(NotificationMessage message)
         {
-            if (msg == NotificationMsg.GoingToSleep)
-                await Show(msg, 0);
-        }
-        public async static Task Show(NotificationMsg msg, int remainingMinutes)
-        {
-            string message;
-            if (msg == NotificationMsg.RemainingTime)
-                message = $"{remainingMinutes} minutes left. Tap to extend!";
-            else
-                message = "Going to sleep.";
 
             var notification = new NotificationRequest
             {
                 NotificationId = notificationId,
                 Title = "Sleep timer",
-                Description = message,
+                Description = message.ToString(),
                 Android = new Plugin.LocalNotification.AndroidOption.AndroidOptions
                 {
                     Ongoing = true,
@@ -63,4 +48,30 @@ namespace SleepTimer.Models
             return granted;
         }
     }
+
+    public class NotificationMessage
+    {
+        protected string Message { get; set; } = string.Empty;
+        public override string ToString()
+        {
+            return Message;
+        }
+    }
+    public class NotificationMessageRemainingTime : NotificationMessage
+    {
+        public NotificationMessageRemainingTime(int remainingMinutes)
+        {
+            this.Message = $"{remainingMinutes} minutes left. Tap to extend!";
+        }
+    }
+    public class NotificationMessageGoingToSleep : NotificationMessage
+    {
+        public NotificationMessageGoingToSleep()
+        {
+            this.Message = $"Going to sleep.";
+        }
+    }
+
+
+
 }
