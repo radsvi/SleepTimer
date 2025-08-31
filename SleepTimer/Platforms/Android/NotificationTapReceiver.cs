@@ -16,6 +16,9 @@ namespace SleepTimer.Platforms.Android
             //if (current >= 0)
             //    volumeService.SetVolume(current - 10);
             volumeService?.SetVolume(50);
+
+            Task.Run(() => Notifications.Show(new NotificationMessageCustom("Testuju jestli se to zobrazi")));
+            
         }
     }
 }
