@@ -16,8 +16,8 @@ public class VolumeService : IVolumeService
     {
         int maxVolume = _audioManager.GetStreamMaxVolume(global::Android.Media.Stream.Music);
         int newVolume = (int)(Math.Clamp(level, 0, 100) / 100.0 * maxVolume);
-        //_audioManager.SetStreamVolume(global::Android.Media.Stream.Music, newVolume, VolumeNotificationFlags.ShowUi);
-        _audioManager.SetStreamVolume(global::Android.Media.Stream.Music, newVolume, 0);
+        _audioManager.SetStreamVolume(global::Android.Media.Stream.Music, newVolume, VolumeNotificationFlags.ShowUi);
+        //_audioManager.SetStreamVolume(global::Android.Media.Stream.Music, newVolume, 0);
     }
 
     public int GetVolume()
