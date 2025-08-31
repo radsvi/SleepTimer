@@ -6,25 +6,24 @@ using System.Threading.Tasks;
 
 namespace SleepTimer.Platforms.Android
 {
-    [Service(Enabled = true)]
+    [Service(Enabled = true, ForegroundServiceType = global::Android.Content.PM.ForegroundService.TypeMediaPlayback)]
     public class VolumeAdjustService : Service
     {
         const int SERVICE_ID = 1001;
-
+        private readonly AudioManager audioManager = (AudioManager)global::Android.App.Application.Context.GetSystemService(Context.AudioService)!;
         public override IBinder OnBind(Intent intent) => null;
 
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
             StartForegroundServiceNotification();
 
-            // Run the timer in a background task
             Task.Run(async () =>
             {
-                await Task.Delay(5000); // wait 1 minute
+                await Task.Delay(5000);
 
                 LowerMusicVolume();
 
-                StopSelf(); // stop the service after volume adjustment
+                StopSelf();
             });
 
             return StartCommandResult.NotSticky;
@@ -52,20 +51,20 @@ namespace SleepTimer.Platforms.Android
 
         void LowerMusicVolume()
         {
-            var audioManager = (AudioManager)global::Android.App.Application.Context.GetSystemService(Context.AudioService);
+            int targetVolume = 0;
 
-            int currentVolume = audioManager.GetStreamVolume(global::Android.Media.Stream.Music);
-
-            // Example: lower volume by 3 steps (you can adjust)
-            int targetVolume = 5;
-
-            // Simulate user volume button presses
-            while (currentVolume > targetVolume)
+            while (GetVolume() > targetVolume)
             {
-                audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, Adjust.Lower, VolumeNotificationFlags.ShowUi);
-                currentVolume--;
-                Task.Delay(200).Wait(); // small delay between steps
+                // Simulate user volume button presses
+                //audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, Adjust.Lower, VolumeNotificationFlags.ShowUi);
+                audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, Adjust.Lower, 0); // hide UI
+
+                Task.Delay(200).Wait();
             }
+        }
+        int GetVolume()
+        {
+            return this.audioManager.GetStreamVolume(global::Android.Media.Stream.Music);
         }
     }
 }

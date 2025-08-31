@@ -11,6 +11,23 @@ namespace SleepTimer.Views
 
             BindingContext = mainVM;
         }
+        //protected override async void OnAppearing()
+        //{
+        //    base.OnAppearing();
+
+        //    // Example: request location permission
+        //    var status = await Permissions.CheckStatusAsync<Permissions.PostNotifications>();
+
+        //    if (status != PermissionStatus.Granted)
+        //    {
+        //        status = await Permissions.RequestAsync<Permissions.PostNotifications>();
+        //    }
+
+        //    if (status != PermissionStatus.Granted)
+        //    {
+        //        await DisplayAlert("Permission Required", "Location is needed for this app to work properly.", "OK");
+        //    }
+        //}
         //protected async override void OnAppearing()
         //{
         //    base.OnAppearing();

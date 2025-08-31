@@ -28,7 +28,7 @@ namespace SleepTimer.Platforms.Android
                 .SetContentTitle("My Notification")
                 .SetContentText("Tap me, but I won't open the app")
                 .SetSmallIcon(global::Android.Resource.Drawable.IcMediaPlay)
-                .SetContentIntent(pendingIntent) // 👈 Goes to BroadcastReceiver
+                .SetContentIntent(pendingIntent) // Goes to BroadcastReceiver
                 .SetAutoCancel(true);
 
             NotificationManagerCompat.From(context).Notify(1001, builder.Build());
