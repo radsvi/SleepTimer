@@ -50,14 +50,14 @@ namespace SleepTimer.Views
         private void OnStartServiceClicked(object sender, EventArgs e)
         {
 #if ANDROID
-            SleepTimer.Platforms.Android.ServiceHelper.StartVolumeService();
+            //SleepTimer.Platforms.Android.ServiceHelper.StartVolumeService();
 #endif
         }
 
         private void OnStopServiceClicked(object sender, EventArgs e)
         {
 #if ANDROID
-            SleepTimer.Platforms.Android.ServiceHelper.StopVolumeService();
+            //SleepTimer.Platforms.Android.ServiceHelper.StopVolumeService();
 #endif
         }
         private async void OnSetVolumeClicked(object sender, EventArgs e)
