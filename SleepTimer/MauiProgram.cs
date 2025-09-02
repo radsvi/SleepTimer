@@ -41,6 +41,7 @@ namespace SleepTimer
             builder.Services.AddSingleton<MainTimer>();
 
             builder.Services.AddSingleton<ISleepTimerLogic, SleepTimerLogic>();
+            builder.Services.AddSingleton<IMainTimerLogic, MainTimerLogic>();
 
 #if ANDROID
             builder.Services.AddSingleton<IVolumeService, Platforms.Android.VolumeService>();

@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.OS;
 using Android.Media;
+using System.Timers;
 
 namespace SleepTimer.Platforms.Android
 {
@@ -14,11 +15,14 @@ namespace SleepTimer.Platforms.Android
     [Service(ForegroundServiceType = global::Android.Content.PM.ForegroundService.TypeMediaPlayback)]
     public class SleepTimerService : Service
     {
+#warning smazat CancellationTokenSource? _cts
         private CancellationTokenSource? _cts;
+        public System.Timers.Timer Timer { get; private set; } = new System.Timers.Timer();
         const int SERVICE_ID = 1001;
         private readonly AudioManager audioManager = (AudioManager?)global::Android.App.Application.Context.GetSystemService(Context.AudioService)
             ?? throw new InvalidOperationException("AudioService not available");
         private readonly AppPreferences appPreferences = ServiceHelper.GetService<AppPreferences>();
+        private readonly ISleepTimerLogic timerLogic = ServiceHelper.GetService<IMainTimerLogic>();
 
         public override IBinder? OnBind(Intent? intent) => null;
 
@@ -48,30 +52,40 @@ namespace SleepTimer.Platforms.Android
             ShowNotification();
             return StartCommandResult.Sticky;
         }
+        //private void StartTimer(TimeSpan duration)
+        //{
+        //    StopTimer(); // reset
+        //    _cts = new CancellationTokenSource();
 
-        private void StartTimer(TimeSpan duration)
+        //    Task.Run(async () =>
+        //    {
+        //        try
+        //        {
+        //            await Task.Delay(duration, _cts.Token);
+        //            if (!_cts.IsCancellationRequested)
+        //            {
+        //                LowerMusicVolume();
+
+        //                var logic = ServiceHelper.GetService<ISleepTimerLogic>();
+        //                await logic.OnTimerElapsedAsync();
+
+
+        //                StopSelf();
+        //            }
+        //        }
+        //        catch (TaskCanceledException) { }
+        //    });
+        //}
+        private async void StartTimer(TimeSpan duration)
         {
-            StopTimer(); // reset
-            _cts = new CancellationTokenSource();
+            Timer.Elapsed += OnTimedEvent;
+            Timer.Interval = 1000; // seconds
 
-            Task.Run(async () =>
-            {
-                try
-                {
-                    await Task.Delay(duration, _cts.Token);
-                    if (!_cts.IsCancellationRequested)
-                    {
-                        LowerMusicVolume();
-                        
-                        var logic = ServiceHelper.GetService<ISleepTimerLogic>();
-                        await logic.OnTimerElapsedAsync();
-
-
-                        StopSelf();
-                    }
-                }
-                catch (TaskCanceledException) { }
-            });
+            await sleepTimerLogic.OnTimerElapsedAsync();
+        }
+        private void OnTimedEvent(object? sender, ElapsedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void StopTimer()
@@ -135,22 +149,26 @@ namespace SleepTimer.Platforms.Android
             base.OnDestroy();
         }
 
-        void LowerMusicVolume()
-        {
-            int targetVolume = 0;
+        //void LowerMusicVolume()
+        //{
+        //    int targetVolume = 0;
+        //    int i = 0;
 
-            while (GetVolume() > targetVolume)
-            {
-                // Simulate user volume button presses
-                audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, Adjust.Lower, VolumeNotificationFlags.ShowUi);
-                //audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, Adjust.Lower, 0); // hide UI
+        //    while (GetVolume() > targetVolume)
+        //    {
+        //        // Simulate user volume button presses
+        //        audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, Adjust.Lower, VolumeNotificationFlags.ShowUi);
+        //        //audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, Adjust.Lower, 0); // hide UI
 
-                Task.Delay(200).Wait();
-            }
-        }
-        int GetVolume()
-        {
-            return this.audioManager.GetStreamVolume(global::Android.Media.Stream.Music);
-        }
+        //        Task.Delay(200).Wait();
+        //        i++;
+        //        if (i >= 100)
+        //            throw new InvalidOperationException("Couldn't lower the volume.");
+        //    }
+        //}
+        //int GetVolume()
+        //{
+        //    return this.audioManager.GetStreamVolume(global::Android.Media.Stream.Music);
+        //}
     }
 }
