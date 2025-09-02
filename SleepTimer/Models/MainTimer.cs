@@ -26,7 +26,7 @@ namespace SleepTimer.Models
             Timer.Elapsed += OnTimedEvent;
             Timer.Interval = 1000; // seconds
         }
-        private Action<string>? callback;
+        private Action<string>? callbackNotificationMessage;
         public System.Timers.Timer Timer { get; private set; }
         public DateTime? EndTime { get; private set; }
         private bool isStarted;
@@ -64,35 +64,41 @@ namespace SleepTimer.Models
                 Stop();
                 mediaService.StopPlayback();
 
-                callback?.Invoke($"{RemainingTime.Minutes} minutes left.");
+                //callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.");
             }
             else if (RemainingTime.CompareTo(new TimeSpan(0, 0, Constants.FadeOutDuration)) < 0)
             {
                 DecreaseVolume();
 
-                callback?.Invoke($"{RemainingTime.Seconds} seconds left.");
+                //callbackNotificationMessage?.Invoke($"{RemainingTime.Seconds} seconds left.");
             }
             else
             {
                 // User can change the volume while the SleepTimer is active, but before the final phase is reached, and the starting volume is still being stored correctly.
                 StartingVolume = volumeService.GetVolume();
 
-                callback?.Invoke($"{RemainingTime.Minutes} minutes left.");
+                //callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.");
             }
 
             // Notifications:
             //callback?.Invoke($"Elapsed: {RemainingTime} minute(s)");
             //callback?.Invoke($"{RemainingTime.Minutes} minutes left.");
 
-            //if (RemainingTime.Minutes == 0 && RemainingTime.Seconds < 10)
-            //{
-            //    await Notifications.Show(new NotificationMessageGoingToSleep());
-            //}
-            //else if (RemainingTime.Seconds > 0 && Math.Abs(RemainingTime.Minutes - LastNotificationUpdate) > 0)
-            //{
-            //    await Notifications.Show(new NotificationMessageRemainingTime(RemainingTime.Minutes));
-            //    LastNotificationUpdate = RemainingTime.Minutes;
-            //}
+            if (RemainingTime.Minutes == 0 && RemainingTime.Seconds < 10)
+            {
+                //await Notifications.Show(new NotificationMessageGoingToSleep());
+                callbackNotificationMessage?.Invoke("Going to sleep.");
+            }
+            else if (RemainingTime.Minutes == 0 && RemainingTime.Seconds >= 10)
+            {
+                callbackNotificationMessage?.Invoke($"{RemainingTime.Seconds} seconds left.");
+            }
+            else if (RemainingTime.Seconds > 0 && Math.Abs(RemainingTime.Minutes - LastNotificationUpdate) > 0)
+            {
+                //await Notifications.Show(new NotificationMessageRemainingTime(RemainingTime.Minutes));
+                callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.");
+                LastNotificationUpdate = RemainingTime.Minutes;
+            }
         }
         //private async void OnTimedEvent(object? source, ElapsedEventArgs e)
         //{
@@ -100,7 +106,7 @@ namespace SleepTimer.Models
         //}
         public async Task Start(Action<string>? callback = null)
         {
-            this.callback = callback;
+            this.callbackNotificationMessage = callback;
             IsFinished = false;
             IsStarted = true;
             EndTime = DateTime.Now.AddMinutes(appPreferences.DefaultDuration);
