@@ -41,11 +41,13 @@ namespace SleepTimer
             builder.Services.AddSingleton<MainTimer>();
 
             builder.Services.AddSingleton<ISleepTimerLogic, SleepTimerLogic>();
-            builder.Services.AddSingleton<IMainTimerLogic, MainTimerLogic>();
+            //builder.Services.AddSingleton<IMainTimerLogic, MainTimerLogic>();
 
 #if ANDROID
             builder.Services.AddSingleton<IVolumeService, Platforms.Android.VolumeService>();
             builder.Services.AddSingleton<IMediaControlService, Platforms.Android.MediaControlService>();
+            builder.Services.AddSingleton<ISleepTimerService, Platforms.Android.SleepTimerService>();
+            builder.Services.AddSingleton<IGradualVolumeService, Platforms.Android.GradualVolumeService>();
             //#elif IOS
             //        builder.Services.AddSingleton<IVolumeService, VolumeService>();
 #elif WINDOWS
@@ -54,6 +56,8 @@ namespace SleepTimer
 #else
             builder.Services.AddSingleton<IVolumeService, StubVolumeService>();
             builder.Services.AddSingleton<IMediaControlService, StubMediaControlService>();
+            builder.Services.AddSingleton<ISleepTimerService, StubSleepTimerService>();
+            builder.Services.AddSingleton<IGradualVolumeService, StubGradualVolumeService>();
 #endif
 
 #if DEBUG

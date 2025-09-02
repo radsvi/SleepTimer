@@ -13,7 +13,7 @@ namespace SleepTimer.Platforms.Android
         Stop
     }
     [Service(ForegroundServiceType = global::Android.Content.PM.ForegroundService.TypeMediaPlayback)]
-    public class SleepTimerService : Service
+    public class SleepTimerService : Service, ISleepTimerService
     {
 #warning smazat CancellationTokenSource? _cts
         private CancellationTokenSource? _cts;
@@ -22,7 +22,7 @@ namespace SleepTimer.Platforms.Android
         private readonly AudioManager audioManager = (AudioManager?)global::Android.App.Application.Context.GetSystemService(Context.AudioService)
             ?? throw new InvalidOperationException("AudioService not available");
         private readonly AppPreferences appPreferences = ServiceHelper.GetService<AppPreferences>();
-        private readonly ISleepTimerLogic timerLogic = ServiceHelper.GetService<IMainTimerLogic>();
+        private readonly MainTimer timerLogic = ServiceHelper.GetService<MainTimer>();
 
         public override IBinder? OnBind(Intent? intent) => null;
 
@@ -78,20 +78,35 @@ namespace SleepTimer.Platforms.Android
         //}
         private async void StartTimer(TimeSpan duration)
         {
-            Timer.Elapsed += OnTimedEvent;
-            Timer.Interval = 1000; // seconds
+            //Timer.Elapsed += OnTimedEvent;
+            //Timer.Interval = 1000; // seconds
 
-            await sleepTimerLogic.OnTimerElapsedAsync();
+            //EndTime = DateTime.Now.AddMinutes(appPreferences.DefaultDuration);
+            //StartingVolume = volumeService.GetVolume();
+            //Timer.Enabled = true;
+
+            //if (EndTime != null)
+            //    RemainingTime = (DateTime)EndTime - DateTime.Now;
+
+            //LastNotificationUpdate = RemainingTime.Minutes;
+            //await Notifications.Show(new NotificationMessageRemainingTime(RemainingTime.Minutes));
+
+            //await timerLogic.OnTimedEvent();
+
+            await timerLogic.Start();
         }
-        private void OnTimedEvent(object? sender, ElapsedEventArgs e)
+        //private void OnTimedEvent(object? sender, ElapsedEventArgs e)
+        //{
+        //    await timerLogic.OnTimedEvent();
+        //}
+        public async Task OnTimedEvent(object? sender, ElapsedEventArgs e)
         {
-            throw new NotImplementedException();
+            
         }
 
         private void StopTimer()
         {
-            _cts?.Cancel();
-            _cts = null;
+            timerLogic.Stop();
         }
 
         private void ShowNotification()

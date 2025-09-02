@@ -11,24 +11,52 @@ namespace SleepTimer.Platforms.Android
     {
         private readonly AudioManager audioManager = (AudioManager?)global::Android.App.Application.Context.GetSystemService(Context.AudioService)
             ?? throw new InvalidOperationException("AudioService not available");
-        public void LowerVolume()
-        {
-            int targetVolume = 0;
-            int i = 0;
+        //public void LowerVolume()
+        //{
+        //    int targetVolume = 0;
+        //    int i = 0;
 
-            while (GetVolume() > targetVolume)
+        //    while (GetVolume() > targetVolume)
+        //    {
+        //        // Simulate user volume button presses
+        //        audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, Adjust.Lower, VolumeNotificationFlags.ShowUi);
+        //        //audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, Adjust.Lower, 0); // hide UI
+
+        //        Task.Delay(200).Wait();
+        //        i++;
+        //        if (i >= 100)
+        //            throw new InvalidOperationException("Couldn't lower the volume.");
+        //    }
+        //}
+        public void SetVolume(int targetVolume)
+        {
+            if (targetVolume == GetVolume())
+                return;
+
+            var action = targetVolume < GetVolume() ? Adjust.Lower : Adjust.Raise;
+
+            int i = 0;
+            while (WhileCondition(action, targetVolume))
             {
                 // Simulate user volume button presses
-                audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, Adjust.Lower, VolumeNotificationFlags.ShowUi);
+                audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, action, VolumeNotificationFlags.ShowUi);
                 //audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, Adjust.Lower, 0); // hide UI
 
                 Task.Delay(200).Wait();
                 i++;
                 if (i >= 100)
-                    throw new InvalidOperationException("Couldn't lower the volume.");
+                    throw new InvalidOperationException("Couldn't set the volume.");
             }
         }
-        int GetVolume()
+        private bool WhileCondition(Adjust action, int targetVolume)
+        {
+            if ((action == Adjust.Lower && targetVolume < GetVolume())
+                || (action == Adjust.Raise && targetVolume > GetVolume()))
+                return true;
+
+            return false;
+        }
+        public int GetVolume()
         {
             return this.audioManager.GetStreamVolume(global::Android.Media.Stream.Music);
         }

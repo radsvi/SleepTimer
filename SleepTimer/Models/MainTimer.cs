@@ -9,14 +9,17 @@ namespace SleepTimer.Models
 {
     public class MainTimer : ObservableObject
     {
-        readonly AppPreferences appPreferences;
-        readonly IVolumeService volumeService;
-        readonly IMediaControlService mediaService;
-        public MainTimer(AppPreferences appPreferences, IVolumeService volumeService, IMediaControlService mediaService)
+        private readonly AppPreferences appPreferences;
+        private readonly IGradualVolumeService volumeService;
+        private readonly IMediaControlService mediaService;
+        private readonly ISleepTimerService sleepTimerService;
+
+        public MainTimer(AppPreferences appPreferences, IGradualVolumeService volumeService, IMediaControlService mediaService, ISleepTimerService sleepTimerService)
         {
             this.appPreferences = appPreferences;
             this.volumeService = volumeService;
             this.mediaService = mediaService;
+            this.sleepTimerService = sleepTimerService;
 
             //Timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             Timer.Elapsed += OnTimedEvent;
@@ -52,14 +55,15 @@ namespace SleepTimer.Models
             RemainingTime = (DateTime)EndTime - e.SignalTime;
 
             // Volume:
-            if (RemainingTime.CompareTo(new TimeSpan(0,0,-appPreferences.WaitTimeAfterFadeOut)) < 0)
+            if (RemainingTime.CompareTo(new TimeSpan(0, 0, -appPreferences.WaitTimeAfterFadeOut)) < 0)
             {
                 IsFinished = true;
-                volumeService.SetVolume(StartingVolume);
+#warning Dodelat nastaveni volume zpet na puvodni hodnotu
+                //volumeService.SetVolume(StartingVolume);
                 Stop();
                 mediaService.StopPlayback();
             }
-            else if(RemainingTime.CompareTo(new TimeSpan(0, 0, Constants.FadeOutDuration)) < 0)
+            else if (RemainingTime.CompareTo(new TimeSpan(0, 0, Constants.FadeOutDuration)) < 0)
             {
                 DecreaseVolume();
             }
@@ -80,6 +84,10 @@ namespace SleepTimer.Models
                 LastNotificationUpdate = RemainingTime.Minutes;
             }
         }
+        //private async void OnTimedEvent(object? source, ElapsedEventArgs e)
+        //{
+        //    await sleepTimerService.OnTimedEvent(source, e);
+        //}
         public async Task Start()
         {
             IsFinished = false;
