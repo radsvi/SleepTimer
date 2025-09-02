@@ -23,5 +23,10 @@ namespace SleepTimer.Models
             get => Preferences.Default.Get(nameof(WaitTimeAfterFadeOut), 60);
             set { Preferences.Set(nameof(WaitTimeAfterFadeOut), value); OnPropertyChanged(); }
         }
+        public bool DisplayVolumeChange
+        {
+            get => Preferences.Default.Get(nameof(DisplayVolumeChange), false);
+            set { Preferences.Set(nameof(DisplayVolumeChange), value); OnPropertyChanged(); }
+        }
     }
 }

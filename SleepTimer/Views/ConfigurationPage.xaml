@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:SleepTimer.ViewModels"
+             xmlns:controls="clr-namespace:SleepTimer.Views.Controls"
              x:Class="SleepTimer.Views.ConfigurationPage"
              x:DataType="viewModels:ConfigurationVM"
              Title="Configuration Page">
@@ -38,5 +39,9 @@
                 VerticalOptions="Center"
                 />
         </Grid>
+        
+        <controls:SwitchControl
+            IsChecked="{Binding AppPreferences.DisplayVolumeChange, Mode=TwoWay}"
+            Text="Display volume change slider when volume is being lowered during the fade-out phase" />
     </VerticalStackLayout>
 </ContentPage>

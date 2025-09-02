@@ -11,6 +11,7 @@ namespace SleepTimer.Platforms.Android
     {
         private readonly AudioManager audioManager = (AudioManager?)global::Android.App.Application.Context.GetSystemService(Context.AudioService)
             ?? throw new InvalidOperationException("AudioService not available");
+        private readonly AppPreferences appPreferences = ServiceHelper.GetService<AppPreferences>();
         //public void LowerVolume()
         //{
         //    int targetVolume = 0;
@@ -34,13 +35,13 @@ namespace SleepTimer.Platforms.Android
                 return;
 
             var action = targetVolume < GetVolume() ? Adjust.Lower : Adjust.Raise;
+            VolumeNotificationFlags showUi = appPreferences.DisplayVolumeChange ? VolumeNotificationFlags.ShowUi : 0;
 
             int i = 0;
             while (LoopCondition(action, targetVolume))
             {
                 // Simulate user volume button presses
-                audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, action, VolumeNotificationFlags.ShowUi);
-                //audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, Adjust.Lower, 0); // hide UI
+                audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, action, showUi);
 
                 Task.Delay(200).Wait();
                 i++;
