@@ -68,10 +68,28 @@ namespace SleepTimer.Platforms.Android
         {
             var channelId = "sleep_timer_channel";
 
-            // Ensure channel exists
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+            var builder = Build.VERSION.SdkInt >= BuildVersionCodes.O
+                ? new Notification.Builder(this, channelId)
+                : new Notification.Builder(this);
+
+            builder.SetContentTitle("Sleep Timer")
+                   .SetContentText("Timer is running")
+                   .SetSmallIcon(global::Android.Resource.Drawable.IcMediaPlay);
+
+            // Handle priority for pre-26
+            if (Build.VERSION.SdkInt < BuildVersionCodes.O)
             {
-                var channel = new NotificationChannel(channelId, "Sleep Timer", NotificationImportance.Default);
+                builder.SetPriority((int)NotificationPriority.Low); // silent but visible
+            }
+            else
+            {
+                // Ensure the channel exists for API 26+
+                var channel = new NotificationChannel(
+                    channelId,
+                    "Sleep Timer",
+                    NotificationImportance.Low // silent but visible
+                );
+
                 var manager = (NotificationManager)GetSystemService(NotificationService);
                 manager.CreateNotificationChannel(channel);
             }
@@ -84,13 +102,33 @@ namespace SleepTimer.Platforms.Android
             stopIntent.SetAction("STOP");
             var stopPending = PendingIntent.GetService(this, 2, stopIntent, PendingIntentFlags.Immutable);
 
-            var notification = new Notification.Builder(this, channelId)
-                .SetContentTitle("Sleep Timer")
-                .SetContentText("Timer is running")
-                .SetSmallIcon(global::Android.Resource.Drawable.IcMediaPlay)
-                .AddAction(new Notification.Action.Builder(0, "Postpone", postponePending).Build())
-                .AddAction(new Notification.Action.Builder(0, "Stop", stopPending).Build())
-                .Build();
+            builder.AddAction(new Notification.Action.Builder(0, "Postpone", postponePending).Build())
+                .AddAction(new Notification.Action.Builder(0, "Stop", stopPending).Build());
+
+            var notification = builder.Build();
+
+            //if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+            //{
+            //    var channel = new NotificationChannel(channelId, "Sleep Timer", NotificationImportance.Low);
+            //    var manager = (NotificationManager)GetSystemService(NotificationService);
+            //    manager.CreateNotificationChannel(channel);
+            //}
+
+            //var postponeIntent = new Intent(this, typeof(SleepTimerService));
+            //postponeIntent.SetAction("POSTPONE");
+            //var postponePending = PendingIntent.GetService(this, 1, postponeIntent, PendingIntentFlags.Immutable);
+
+            //var stopIntent = new Intent(this, typeof(SleepTimerService));
+            //stopIntent.SetAction("STOP");
+            //var stopPending = PendingIntent.GetService(this, 2, stopIntent, PendingIntentFlags.Immutable);
+
+            //var notification = new Notification.Builder(this, channelId)
+            //    .SetContentTitle("Sleep Timer")
+            //    .SetContentText("Timer is running")
+            //    .SetSmallIcon(global::Android.Resource.Drawable.IcMediaPlay)
+            //    .AddAction(new Notification.Action.Builder(0, "Postpone", postponePending).Build())
+            //    .AddAction(new Notification.Action.Builder(0, "Stop", stopPending).Build())
+            //    .Build();
 
             StartForeground(1, notification);
         }

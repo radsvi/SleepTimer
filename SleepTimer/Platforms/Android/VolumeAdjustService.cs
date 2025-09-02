@@ -56,8 +56,8 @@ namespace SleepTimer.Platforms.Android
             while (GetVolume() > targetVolume)
             {
                 // Simulate user volume button presses
-                //audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, Adjust.Lower, VolumeNotificationFlags.ShowUi);
-                audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, Adjust.Lower, 0); // hide UI
+                audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, Adjust.Lower, VolumeNotificationFlags.ShowUi);
+                //audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, Adjust.Lower, 0); // hide UI
 
                 Task.Delay(200).Wait();
             }
