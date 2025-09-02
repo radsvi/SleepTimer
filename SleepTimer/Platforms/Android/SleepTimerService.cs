@@ -75,7 +75,7 @@ namespace SleepTimer.Platforms.Android
         //        catch (TaskCanceledException) { }
         //    });
         //}
-        private async void StartTimer(TimeSpan duration)
+        private void StartTimer(TimeSpan duration)
         {
             //Timer.Elapsed += OnTimedEvent;
             //Timer.Interval = 1000; // seconds
@@ -92,7 +92,7 @@ namespace SleepTimer.Platforms.Android
 
             //await timerLogic.OnTimedEvent();
 
-            await timerLogic.Start(UpdateNotification);
+            timerLogic.Start(UpdateNotification);
         }
         //private void OnTimedEvent(object? sender, ElapsedEventArgs e)
         //{

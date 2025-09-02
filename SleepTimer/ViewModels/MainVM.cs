@@ -85,9 +85,9 @@ namespace SleepTimer.ViewModels
             mediaService.StopPlayback();
         }
         [RelayCommand]
-        async Task StartTimer()
+        void StartTimer()
         {
-            await MainTimer.Start();
+            MainTimer.Start();
         }
         [RelayCommand]
         void StopTimer()

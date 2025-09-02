@@ -56,13 +56,12 @@ namespace SleepTimer.Models
 
             RemainingTime = (DateTime)EndTime - e.SignalTime;
 
-            // Volume:
             if (RemainingTime.CompareTo(new TimeSpan(0, 0, -appPreferences.WaitTimeAfterFadeOut)) < 0)
             {
                 IsFinished = true;
                 volumeService.SetVolume(StartingVolume);
-                Stop();
                 mediaService.StopPlayback();
+                Stop();
 
                 //callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.");
             }
@@ -84,7 +83,11 @@ namespace SleepTimer.Models
             //callback?.Invoke($"Elapsed: {RemainingTime} minute(s)");
             //callback?.Invoke($"{RemainingTime.Minutes} minutes left.");
 
-            if (RemainingTime.Minutes == 0 && RemainingTime.Seconds < 10)
+            if (RemainingTime.CompareTo(new TimeSpan(0, 0, -appPreferences.WaitTimeAfterFadeOut)) < 0)
+            {
+                callbackNotificationMessage?.Invoke($"Sleeping. {appPreferences.WaitTimeAfterFadeOut} minutes wait time after fade out");
+            }
+            else if (RemainingTime.Minutes == 0 && RemainingTime.Seconds < 10)
             {
                 //await Notifications.Show(new NotificationMessageGoingToSleep());
                 callbackNotificationMessage?.Invoke("Going to sleep.");
@@ -104,7 +107,7 @@ namespace SleepTimer.Models
         //{
         //    await sleepTimerService.OnTimedEvent(source, e);
         //}
-        public async Task Start(Action<string>? callback = null)
+        public void Start(Action<string>? callback = null)
         {
             this.callbackNotificationMessage = callback;
             IsFinished = false;
@@ -124,6 +127,8 @@ namespace SleepTimer.Models
             Timer.Enabled = false;
             IsStarted = false;
             EndTime = null;
+
+            volumeService.SetVolume(StartingVolume);
 
             Notifications.Cancel();
         }
