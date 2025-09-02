@@ -7,7 +7,7 @@ using System.Timers;
 
 namespace SleepTimer.Models
 {
-    public class MainTimer : ObservableObject
+    public partial class MainTimer : ObservableObject
     {
         private readonly AppPreferences appPreferences;
         private readonly IGradualVolumeService volumeService;
@@ -26,7 +26,7 @@ namespace SleepTimer.Models
             Timer.Elapsed += OnTimedEvent;
             Timer.Interval = 1000; // seconds
         }
-        private Action<int>? callback;
+        private Action<string>? callback;
         public System.Timers.Timer Timer { get; private set; }
         public DateTime? EndTime { get; private set; }
         private bool isStarted;
@@ -63,20 +63,26 @@ namespace SleepTimer.Models
                 volumeService.SetVolume(StartingVolume);
                 Stop();
                 mediaService.StopPlayback();
+
+                callback?.Invoke($"{RemainingTime.Minutes} minutes left.");
             }
             else if (RemainingTime.CompareTo(new TimeSpan(0, 0, Constants.FadeOutDuration)) < 0)
             {
                 DecreaseVolume();
+
+                callback?.Invoke($"{RemainingTime.Seconds} seconds left.");
             }
             else
             {
                 // User can change the volume while the SleepTimer is active, but before the final phase is reached, and the starting volume is still being stored correctly.
                 StartingVolume = volumeService.GetVolume();
+
+                callback?.Invoke($"{RemainingTime.Minutes} minutes left.");
             }
 
             // Notifications:
             //callback?.Invoke($"Elapsed: {RemainingTime} minute(s)");
-            callback?.Invoke(RemainingTime.Minutes);
+            //callback?.Invoke($"{RemainingTime.Minutes} minutes left.");
 
             //if (RemainingTime.Minutes == 0 && RemainingTime.Seconds < 10)
             //{
@@ -92,7 +98,7 @@ namespace SleepTimer.Models
         //{
         //    await sleepTimerService.OnTimedEvent(source, e);
         //}
-        public async Task Start(Action<int>? callback = null)
+        public async Task Start(Action<string>? callback = null)
         {
             this.callback = callback;
             IsFinished = false;

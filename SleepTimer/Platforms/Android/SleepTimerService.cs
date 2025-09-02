@@ -31,9 +31,10 @@ namespace SleepTimer.Platforms.Android
             if (intent?.Action == ServiceAction.Start.ToString())
             {
                 var minutes = intent.GetIntExtra("minutes", appPreferences.DefaultDuration);
-#warning Revert back to "TimeSpan.FromMinutes(minutes)"
-                StartTimer(TimeSpan.FromSeconds(5));
-                //StartTimer(TimeSpan.FromMinutes(minutes));
+                StartTimer(TimeSpan.FromMinutes(minutes));
+
+                var notification = BuildNotification("Starting timer.");
+                StartForeground(SERVICE_ID, notification);
             }
             else if (intent?.Action == ServiceAction.Postpone.ToString())
             {
@@ -48,9 +49,7 @@ namespace SleepTimer.Platforms.Android
                 StopTimer();
                 StopSelf();
             }
-#warning updatnout notification se spravnym casem
-            var notification = BuildNotification(5);
-            StartForeground(SERVICE_ID, notification);
+
             return StartCommandResult.Sticky;
         }
         //private void StartTimer(TimeSpan duration)
@@ -107,7 +106,7 @@ namespace SleepTimer.Platforms.Android
             timerLogic.Stop();
         }
 
-        private Notification BuildNotification(int remainingTime)
+        private Notification BuildNotification(string remainingTime)
         {
 #pragma warning disable CA1416, CA1422
             var channelId = "sleep_timer_channel";
@@ -117,7 +116,7 @@ namespace SleepTimer.Platforms.Android
                 : new Notification.Builder(this);
 
             builder.SetContentTitle("Sleep Timer")
-                   .SetContentText($"{remainingTime} minutes left. Tap to extend!")
+                   .SetContentText($"{remainingTime} Tap to extend!")
                    .SetSmallIcon(global::Android.Resource.Drawable.IcMediaPlay);
 
             // Handle priority for pre-26
@@ -155,7 +154,7 @@ namespace SleepTimer.Platforms.Android
             return notification;
 #pragma warning restore CA1416, CA1422
         }
-        private void UpdateNotification(int remainingTime)
+        private void UpdateNotification(string remainingTime)
         {
             var notification = BuildNotification(remainingTime);
             var manager = NotificationManagerCompat.From(this);
