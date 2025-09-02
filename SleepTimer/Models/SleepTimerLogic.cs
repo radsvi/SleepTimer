@@ -16,14 +16,14 @@ namespace SleepTimer.Models
         public Task OnTimerElapsedAsync()
         {
             // Example: lower volume, stop playback, etc.
-            Console.WriteLine("Timer elapsed -> Lower volume.");
+            //Console.WriteLine("Timer elapsed -> Lower volume.");
             return Task.CompletedTask;
         }
 
         public Task OnPostponeAsync()
         {
             // Example: reset media playback inactivity
-            Console.WriteLine("Timer postponed -> Restart countdown.");
+            //Console.WriteLine("Timer postponed -> Restart countdown.");
             return Task.CompletedTask;
         }
     }

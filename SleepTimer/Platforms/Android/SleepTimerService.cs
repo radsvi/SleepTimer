@@ -72,6 +72,7 @@ namespace SleepTimer.Platforms.Android
 
         private void ShowNotification()
         {
+#pragma warning disable CA1416, CA1422
             var channelId = "sleep_timer_channel";
 
             var builder = Build.VERSION.SdkInt >= BuildVersionCodes.O
@@ -93,10 +94,11 @@ namespace SleepTimer.Platforms.Android
                 var channel = new NotificationChannel(
                     channelId,
                     "Sleep Timer",
-                    NotificationImportance.Low // silent but visible
+                    NotificationImportance.Low
                 );
 
-                var manager = (NotificationManager)GetSystemService(NotificationService);
+                var manager = (NotificationManager?)GetSystemService(NotificationService)
+                    ?? throw new InvalidOperationException("NotificationManager not available");
                 manager.CreateNotificationChannel(channel);
             }
 
@@ -113,30 +115,8 @@ namespace SleepTimer.Platforms.Android
 
             var notification = builder.Build();
 
-            //if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
-            //{
-            //    var channel = new NotificationChannel(channelId, "Sleep Timer", NotificationImportance.Low);
-            //    var manager = (NotificationManager)GetSystemService(NotificationService);
-            //    manager.CreateNotificationChannel(channel);
-            //}
-
-            //var postponeIntent = new Intent(this, typeof(SleepTimerService));
-            //postponeIntent.SetAction("POSTPONE");
-            //var postponePending = PendingIntent.GetService(this, 1, postponeIntent, PendingIntentFlags.Immutable);
-
-            //var stopIntent = new Intent(this, typeof(SleepTimerService));
-            //stopIntent.SetAction("STOP");
-            //var stopPending = PendingIntent.GetService(this, 2, stopIntent, PendingIntentFlags.Immutable);
-
-            //var notification = new Notification.Builder(this, channelId)
-            //    .SetContentTitle("Sleep Timer")
-            //    .SetContentText("Timer is running")
-            //    .SetSmallIcon(global::Android.Resource.Drawable.IcMediaPlay)
-            //    .AddAction(new Notification.Action.Builder(0, "Postpone", postponePending).Build())
-            //    .AddAction(new Notification.Action.Builder(0, "Stop", stopPending).Build())
-            //    .Build();
-
             StartForeground(1, notification);
+#pragma warning restore CA1416, CA1422
         }
 
         public override void OnDestroy()
