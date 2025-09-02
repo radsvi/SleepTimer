@@ -143,14 +143,14 @@ namespace SleepTimer.Platforms.Android
 
             var extendIntent = new Intent(this, typeof(SleepTimerService));
             extendIntent.SetAction(ServiceAction.Extend.ToString());
-            var postponePending = PendingIntent.GetService(this, 1, extendIntent, PendingIntentFlags.Immutable);
+            var extendPending = PendingIntent.GetService(this, 1, extendIntent, PendingIntentFlags.Immutable);
 
             var stopIntent = new Intent(this, typeof(SleepTimerService));
             stopIntent.SetAction(ServiceAction.Stop.ToString());
             var stopPending = PendingIntent.GetService(this, 2, stopIntent, PendingIntentFlags.Immutable);
 
             builder
-                .SetContentIntent(postponePending)
+                .SetContentIntent(extendPending)
                 //.AddAction(new Notification.Action.Builder(0, ServiceAction.Extend.ToString(), postponePending).Build())
                 .AddAction(new Notification.Action.Builder(0, ServiceAction.Stop.ToString(), stopPending).Build());
 

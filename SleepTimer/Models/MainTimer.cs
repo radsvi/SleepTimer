@@ -130,7 +130,7 @@ namespace SleepTimer.Models
 
             volumeService.SetVolume(StartingVolume);
 
-            Notifications.Cancel();
+            //Notifications.Cancel();
         }
         public void Extend()
         {
