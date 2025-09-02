@@ -99,10 +99,7 @@ namespace SleepTimer.Platforms.Android
         //{
         //    await timerLogic.OnTimedEvent();
         //}
-        public async Task OnTimedEvent(object? sender, ElapsedEventArgs e)
-        {
-            
-        }
+
 
         private void StopTimer()
         {

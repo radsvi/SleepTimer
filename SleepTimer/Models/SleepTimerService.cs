@@ -9,14 +9,14 @@ namespace SleepTimer.Models
 {
     public interface ISleepTimerService
     {
-        Task OnTimedEvent(object? sender, System.Timers.ElapsedEventArgs e);
+        //Task OnTimedEvent(object? sender, System.Timers.ElapsedEventArgs e);
         // Dodelat dalsi
     }
     public class StubSleepTimerService : ISleepTimerService
     {
-        public Task OnTimedEvent(object? sender, ElapsedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task OnTimedEvent(object? sender, ElapsedEventArgs e)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
