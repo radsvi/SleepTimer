@@ -150,7 +150,7 @@ namespace SleepTimer.Platforms.Android
 
             var notification = builder.Build();
 
-            StartForeground(1, notification);
+            StartForeground(SERVICE_ID, notification);
 #pragma warning restore CA1416, CA1422
         }
 

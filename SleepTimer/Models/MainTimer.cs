@@ -101,7 +101,7 @@ namespace SleepTimer.Models
                 RemainingTime = (DateTime)EndTime - DateTime.Now;
 
             LastNotificationUpdate = RemainingTime.Minutes;
-            await Notifications.Show(new NotificationMessageRemainingTime(RemainingTime.Minutes));
+            //await Notifications.Show(new NotificationMessageRemainingTime(RemainingTime.Minutes));
         }
         public void Stop()
         {
