@@ -2,7 +2,7 @@
 using Android.Content;
 using Android.OS;
 using Android.Media;
-using System.Timers;
+
 
 namespace SleepTimer.Platforms.Android
 {
@@ -15,9 +15,8 @@ namespace SleepTimer.Platforms.Android
     [Service(ForegroundServiceType = global::Android.Content.PM.ForegroundService.TypeMediaPlayback)]
     public class SleepTimerService : Service, ISleepTimerService
     {
-#warning smazat CancellationTokenSource? _cts
-        private CancellationTokenSource? _cts;
-        public System.Timers.Timer Timer { get; private set; } = new System.Timers.Timer();
+        //private CancellationTokenSource? _cts;
+        //public System.Timers.Timer Timer { get; private set; } = new System.Timers.Timer();
         const int SERVICE_ID = 1001;
         private readonly AudioManager audioManager = (AudioManager?)global::Android.App.Application.Context.GetSystemService(Context.AudioService)
             ?? throw new InvalidOperationException("AudioService not available");

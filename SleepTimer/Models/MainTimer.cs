@@ -12,20 +12,21 @@ namespace SleepTimer.Models
         private readonly AppPreferences appPreferences;
         private readonly IGradualVolumeService volumeService;
         private readonly IMediaControlService mediaService;
-        private readonly ISleepTimerService sleepTimerService;
 
-        public MainTimer(AppPreferences appPreferences, IGradualVolumeService volumeService, IMediaControlService mediaService, ISleepTimerService sleepTimerService)
+        public MainTimer(AppPreferences appPreferences, IGradualVolumeService volumeService, IMediaControlService mediaService)
         {
+            Debug.WriteLine("Reached MainTimer");
             this.appPreferences = appPreferences;
             this.volumeService = volumeService;
             this.mediaService = mediaService;
-            this.sleepTimerService = sleepTimerService;
+            
 
             //Timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            Timer = new System.Timers.Timer();
             Timer.Elapsed += OnTimedEvent;
             Timer.Interval = 1000; // seconds
         }
-        public System.Timers.Timer Timer { get; private set; } = new System.Timers.Timer();
+        public System.Timers.Timer Timer { get; private set; }
         public DateTime? EndTime { get; private set; }
         private bool isStarted;
         public bool IsStarted
