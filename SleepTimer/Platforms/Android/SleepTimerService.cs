@@ -11,7 +11,8 @@ namespace SleepTimer.Platforms.Android
     {
         Start,
         Extend,
-        Stop
+        Stop,
+        StopPlayback
     }
     [Service(ForegroundServiceType = global::Android.Content.PM.ForegroundService.TypeMediaPlayback)]
     public class SleepTimerService : Service, ISleepTimerService
@@ -35,6 +36,13 @@ namespace SleepTimer.Platforms.Android
 
                 var notification = BuildNotification("Starting timer.");
                 StartForeground(SERVICE_ID, notification);
+            }
+            else if (intent?.Action == ServiceAction.StopPlayback.ToString())
+            {
+                var mediaControlService = ServiceHelper.GetService<IMediaControlService>();
+                mediaControlService.StopPlayback();
+
+                
             }
             else if (intent?.Action == ServiceAction.Extend.ToString())
             {
@@ -145,6 +153,10 @@ namespace SleepTimer.Platforms.Android
             extendIntent.SetAction(ServiceAction.Extend.ToString());
             var extendPending = PendingIntent.GetService(this, 1, extendIntent, PendingIntentFlags.Immutable);
 
+            var stopPlaybackIntent = new Intent(this, typeof(SleepTimerService));
+            stopPlaybackIntent.SetAction(ServiceAction.StopPlayback.ToString());
+            var stopPlaybackPending = PendingIntent.GetService(this, 3, stopPlaybackIntent, PendingIntentFlags.Immutable);
+
             var stopIntent = new Intent(this, typeof(SleepTimerService));
             stopIntent.SetAction(ServiceAction.Stop.ToString());
             var stopPending = PendingIntent.GetService(this, 2, stopIntent, PendingIntentFlags.Immutable);
@@ -152,6 +164,7 @@ namespace SleepTimer.Platforms.Android
             builder
                 .SetContentIntent(extendPending)
                 //.AddAction(new Notification.Action.Builder(0, ServiceAction.Extend.ToString(), postponePending).Build())
+                .AddAction(new Notification.Action.Builder(0, ServiceAction.StopPlayback.ToString(), stopPlaybackPending).Build())
                 .AddAction(new Notification.Action.Builder(0, ServiceAction.Stop.ToString(), stopPending).Build());
 
             var notification = builder.Build();
