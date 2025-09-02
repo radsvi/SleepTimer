@@ -10,7 +10,7 @@ namespace SleepTimer.Platforms.Android
     public enum ServiceAction
     {
         Start,
-        Postpone,
+        Extend,
         Stop
     }
     [Service(ForegroundServiceType = global::Android.Content.PM.ForegroundService.TypeMediaPlayback)]
@@ -36,13 +36,12 @@ namespace SleepTimer.Platforms.Android
                 var notification = BuildNotification("Starting timer.");
                 StartForeground(SERVICE_ID, notification);
             }
-            else if (intent?.Action == ServiceAction.Postpone.ToString())
+            else if (intent?.Action == ServiceAction.Extend.ToString())
             {
                 var logic = ServiceHelper.GetService<ISleepTimerLogic>();
                 _ = logic.OnPostponeAsync();
 
-                // restart timer
-                //StartTimer(TimeSpan.FromMinutes(10));
+                Extend();
             }
             else if (intent?.Action == ServiceAction.Stop.ToString())
             {
@@ -99,6 +98,10 @@ namespace SleepTimer.Platforms.Android
         //{
         //    await timerLogic.OnTimedEvent();
         //}
+        private void Extend()
+        {
+            timerLogic.Extend();
+        }
 
 
         private void StopTimer()
@@ -138,15 +141,15 @@ namespace SleepTimer.Platforms.Android
                 manager.CreateNotificationChannel(channel);
             }
 
-            var postponeIntent = new Intent(this, typeof(SleepTimerService));
-            postponeIntent.SetAction(ServiceAction.Postpone.ToString());
-            var postponePending = PendingIntent.GetService(this, 1, postponeIntent, PendingIntentFlags.Immutable);
+            var extendIntent = new Intent(this, typeof(SleepTimerService));
+            extendIntent.SetAction(ServiceAction.Extend.ToString());
+            var postponePending = PendingIntent.GetService(this, 1, extendIntent, PendingIntentFlags.Immutable);
 
             var stopIntent = new Intent(this, typeof(SleepTimerService));
             stopIntent.SetAction(ServiceAction.Stop.ToString());
             var stopPending = PendingIntent.GetService(this, 2, stopIntent, PendingIntentFlags.Immutable);
 
-            builder.AddAction(new Notification.Action.Builder(0, ServiceAction.Postpone.ToString(), postponePending).Build())
+            builder.AddAction(new Notification.Action.Builder(0, ServiceAction.Extend.ToString(), postponePending).Build())
                 .AddAction(new Notification.Action.Builder(0, ServiceAction.Stop.ToString(), stopPending).Build());
 
             var notification = builder.Build();
