@@ -74,8 +74,10 @@
             AbsoluteLayout.LayoutFlags="All"
             >
             <!--<Button Text="Start timer" Command="{Binding StartTimerCommand}" IsVisible="{Binding MainTimer.TimerToken.Enabled, Converter={StaticResource InvertBoolConv}}" />-->
-            <Button Text="Start timer" Command="{Binding StartTimerCommand}" IsVisible="{Binding MainTimer.IsStarted, Converter={StaticResource InvertBoolConv}}" />
-            <Button Text="Stop timer" Command="{Binding StopTimerCommand}" IsVisible="{Binding MainTimer.IsStarted}" />
+            <!--<Button Text="Start timer" Command="{Binding StartTimerCommand}" IsVisible="{Binding MainTimer.IsStarted, Converter={StaticResource InvertBoolConv}}" />
+            <Button Text="Stop timer" Command="{Binding StopTimerCommand}" IsVisible="{Binding MainTimer.IsStarted}" />-->
+            <Button Text="Start timer" Command="{Binding StartSleepTimerCommand}" IsVisible="{Binding MainTimer.IsStarted, Converter={StaticResource InvertBoolConv}}" />
+            <Button Text="Stop timer" Command="{Binding StopSleepTimerCommand}" IsVisible="{Binding MainTimer.IsStarted}" />
 
         </Grid>
 

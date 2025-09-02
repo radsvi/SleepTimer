@@ -36,7 +36,7 @@ namespace SleepTimer.Platforms.Android
             var action = targetVolume < GetVolume() ? Adjust.Lower : Adjust.Raise;
 
             int i = 0;
-            while (WhileCondition(action, targetVolume))
+            while (LoopCondition(action, targetVolume))
             {
                 // Simulate user volume button presses
                 audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, action, VolumeNotificationFlags.ShowUi);
@@ -48,7 +48,7 @@ namespace SleepTimer.Platforms.Android
                     throw new InvalidOperationException("Couldn't set the volume.");
             }
         }
-        private bool WhileCondition(Adjust action, int targetVolume)
+        private bool LoopCondition(Adjust action, int targetVolume)
         {
             if ((action == Adjust.Lower && targetVolume < GetVolume())
                 || (action == Adjust.Raise && targetVolume > GetVolume()))

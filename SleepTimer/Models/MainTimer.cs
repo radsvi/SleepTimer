@@ -26,6 +26,7 @@ namespace SleepTimer.Models
             Timer.Elapsed += OnTimedEvent;
             Timer.Interval = 1000; // seconds
         }
+        private Action<int>? callback;
         public System.Timers.Timer Timer { get; private set; }
         public DateTime? EndTime { get; private set; }
         private bool isStarted;
@@ -59,8 +60,7 @@ namespace SleepTimer.Models
             if (RemainingTime.CompareTo(new TimeSpan(0, 0, -appPreferences.WaitTimeAfterFadeOut)) < 0)
             {
                 IsFinished = true;
-#warning Dodelat nastaveni volume zpet na puvodni hodnotu
-                //volumeService.SetVolume(StartingVolume);
+                volumeService.SetVolume(StartingVolume);
                 Stop();
                 mediaService.StopPlayback();
             }
@@ -75,22 +75,26 @@ namespace SleepTimer.Models
             }
 
             // Notifications:
-            if (RemainingTime.Minutes == 0 && RemainingTime.Seconds < 10)
-            {
-                await Notifications.Show(new NotificationMessageGoingToSleep());
-            }
-            else if (RemainingTime.Seconds > 0 && Math.Abs(RemainingTime.Minutes - LastNotificationUpdate) > 0)
-            {
-                await Notifications.Show(new NotificationMessageRemainingTime(RemainingTime.Minutes));
-                LastNotificationUpdate = RemainingTime.Minutes;
-            }
+            //callback?.Invoke($"Elapsed: {RemainingTime} minute(s)");
+            callback?.Invoke(RemainingTime.Minutes);
+
+            //if (RemainingTime.Minutes == 0 && RemainingTime.Seconds < 10)
+            //{
+            //    await Notifications.Show(new NotificationMessageGoingToSleep());
+            //}
+            //else if (RemainingTime.Seconds > 0 && Math.Abs(RemainingTime.Minutes - LastNotificationUpdate) > 0)
+            //{
+            //    await Notifications.Show(new NotificationMessageRemainingTime(RemainingTime.Minutes));
+            //    LastNotificationUpdate = RemainingTime.Minutes;
+            //}
         }
         //private async void OnTimedEvent(object? source, ElapsedEventArgs e)
         //{
         //    await sleepTimerService.OnTimedEvent(source, e);
         //}
-        public async Task Start()
+        public async Task Start(Action<int>? callback = null)
         {
+            this.callback = callback;
             IsFinished = false;
             IsStarted = true;
             EndTime = DateTime.Now.AddMinutes(appPreferences.DefaultDuration);

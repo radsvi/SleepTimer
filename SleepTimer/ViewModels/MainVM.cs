@@ -123,7 +123,20 @@ namespace SleepTimer.ViewModels
             var context = Android.App.Application.Context;
             var intent = new Intent(context, typeof(SleepTimerService));
             intent.SetAction(ServiceAction.Start.ToString());
-            intent.PutExtra("minutes", 15); // start 15-minute timer
+            //intent.PutExtra("minutes", 25); // start 15-minute timer
+            if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
+                context.StartForegroundService(intent);
+            else
+                context.StartService(intent);
+#endif
+        }
+        [RelayCommand]
+        public void StopSleepTimer()
+        {
+#if ANDROID
+            var context = Android.App.Application.Context;
+            var intent = new Intent(context, typeof(SleepTimerService));
+            intent.SetAction(ServiceAction.Stop.ToString());
             if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
                 context.StartForegroundService(intent);
             else

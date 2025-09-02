@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.OS;
 using Android.Media;
+using AndroidX.Core.App;
 
 
 namespace SleepTimer.Platforms.Android
@@ -47,8 +48,9 @@ namespace SleepTimer.Platforms.Android
                 StopTimer();
                 StopSelf();
             }
-
-            ShowNotification();
+#warning updatnout notification se spravnym casem
+            var notification = BuildNotification(5);
+            StartForeground(SERVICE_ID, notification);
             return StartCommandResult.Sticky;
         }
         //private void StartTimer(TimeSpan duration)
@@ -92,7 +94,7 @@ namespace SleepTimer.Platforms.Android
 
             //await timerLogic.OnTimedEvent();
 
-            await timerLogic.Start();
+            await timerLogic.Start(UpdateNotification);
         }
         //private void OnTimedEvent(object? sender, ElapsedEventArgs e)
         //{
@@ -105,7 +107,7 @@ namespace SleepTimer.Platforms.Android
             timerLogic.Stop();
         }
 
-        private void ShowNotification()
+        private Notification BuildNotification(int remainingTime)
         {
 #pragma warning disable CA1416, CA1422
             var channelId = "sleep_timer_channel";
@@ -115,7 +117,7 @@ namespace SleepTimer.Platforms.Android
                 : new Notification.Builder(this);
 
             builder.SetContentTitle("Sleep Timer")
-                   .SetContentText("Timer is running")
+                   .SetContentText($"{remainingTime} minutes left. Tap to extend!")
                    .SetSmallIcon(global::Android.Resource.Drawable.IcMediaPlay);
 
             // Handle priority for pre-26
@@ -150,8 +152,14 @@ namespace SleepTimer.Platforms.Android
 
             var notification = builder.Build();
 
-            StartForeground(SERVICE_ID, notification);
+            return notification;
 #pragma warning restore CA1416, CA1422
+        }
+        private void UpdateNotification(int remainingTime)
+        {
+            var notification = BuildNotification(remainingTime);
+            var manager = NotificationManagerCompat.From(this);
+            manager.Notify(1001, notification);
         }
 
         public override void OnDestroy()
