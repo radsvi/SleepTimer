@@ -39,10 +39,12 @@ namespace SleepTimer.Platforms.Android
             }
             else if (intent?.Action == ServiceAction.StopPlayback.ToString())
             {
-                var mediaControlService = ServiceHelper.GetService<IMediaControlService>();
-                mediaControlService.StopPlayback();
+                //var mediaControlService = ServiceHelper.GetService<IMediaControlService>();
+                //mediaControlService.StopPlayback();
 
-                
+                var audioFocusHelper = ServiceHelper.GetService<IAudioFocusHelper>();
+                audioFocusHelper.RequestAudioFocus();
+
             }
             else if (intent?.Action == ServiceAction.Extend.ToString())
             {
