@@ -7,6 +7,7 @@
              x:DataType="viewModels:ConfigurationVM"
              Title="Configuration Page">
     <VerticalStackLayout>
+        <Label Text="Extension length:" />
         <Grid
             ColumnDefinitions="auto,*">
             <Label
@@ -23,6 +24,7 @@
                 VerticalOptions="Center"
                 />
         </Grid>
+        <Label Text="Wait time after fade-out:" />
         <Grid
             ColumnDefinitions="auto,*">
             <Label
@@ -34,14 +36,14 @@
             <Slider
                 Grid.Column="1"
                 Minimum="0"
-                Maximum="60"
+                Maximum="120"
                 Value="{Binding AppPreferences.WaitTimeAfterFadeOut}"
                 VerticalOptions="Center"
                 />
         </Grid>
         
         <controls:SwitchControl
-            IsChecked="{Binding AppPreferences.DisplayVolumeChange, Mode=TwoWay}"
-            Text="Display volume change slider when volume is being lowered during the fade-out phase" />
+            IsToggled="{Binding AppPreferences.DisplayVolumeChange, Mode=TwoWay}"
+            Text="Show when volume changes" />
     </VerticalStackLayout>
 </ContentPage>

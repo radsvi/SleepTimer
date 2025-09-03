@@ -10,13 +10,13 @@ public partial class SwitchControl : ContentView
         this.Loaded += OnControlLoaded;
     }
 
-	public bool IsChecked
+	public bool IsToggled
 	{
-		get { return (bool)GetValue(IsCheckedProperty); }
-		set { SetValue(IsCheckedProperty, value); }
+		get { return (bool)GetValue(IsToggledProperty); }
+		set { SetValue(IsToggledProperty, value); }
 	}
-	public static readonly BindableProperty IsCheckedProperty =
-		BindableProperty.Create(nameof(IsChecked), typeof(bool), typeof(SwitchControl), false);
+	public static readonly BindableProperty IsToggledProperty =
+		BindableProperty.Create(nameof(IsToggled), typeof(bool), typeof(SwitchControl), false);
 
 	public string Text
 	{
@@ -29,12 +29,12 @@ public partial class SwitchControl : ContentView
     private void OnControlLoaded(object sender, EventArgs e)
     {
         if (this.GetTemplateChild("LinkedLabel") is Label label &&
-            this.GetTemplateChild("LinkedCheckBox") is CheckBox checkBox)
+            this.GetTemplateChild("LinkedSwitch") is Microsoft.Maui.Controls.Switch switchElement)
         {
             var tap = new TapGestureRecognizer();
             tap.Tapped += (s, args) =>
             {
-                checkBox.IsChecked = !checkBox.IsChecked;
+                switchElement.IsToggled = !switchElement.IsToggled;
             };
 
             label.GestureRecognizers.Add(tap);

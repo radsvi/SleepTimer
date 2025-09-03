@@ -7,8 +7,8 @@
             <FlexLayout>
                 <Switch
                     FlexLayout.Shrink="0"
-                    IsToggled="{TemplateBinding IsChecked}"
-                    x:Name="LinkedCheckBox" />
+                    IsToggled="{TemplateBinding IsToggled}"
+                    x:Name="LinkedSwitch" />
                 <Label
                     FlexLayout.Shrink="1"
                     x:Name="LinkedLabel"
