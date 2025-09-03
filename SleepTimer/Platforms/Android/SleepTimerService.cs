@@ -42,8 +42,10 @@ namespace SleepTimer.Platforms.Android
                 //var mediaControlService = ServiceHelper.GetService<IMediaControlService>();
                 //mediaControlService.StopPlayback();
 
-                var audioFocusHelper = ServiceHelper.GetService<IAudioFocusHelper>();
-                audioFocusHelper.RequestAudioFocus();
+                RequestFocus();
+
+
+
 
             }
             else if (intent?.Action == ServiceAction.Extend.ToString())
@@ -60,6 +62,19 @@ namespace SleepTimer.Platforms.Android
             }
 
             return StartCommandResult.Sticky;
+        }
+        async void RequestFocus()
+        {
+            var audioFocusHelper = ServiceHelper.GetService<IAudioFocusHelper>();
+
+            var audioPlayer = new SilentAudioPlayer();
+            audioPlayer.Start();
+
+            audioFocusHelper.RequestAudioFocus();
+
+            await Task.Delay(15000);
+            audioPlayer.Stop();
+            audioFocusHelper.AbandonAudioFocus();
         }
         //private void StartTimer(TimeSpan duration)
         //{
