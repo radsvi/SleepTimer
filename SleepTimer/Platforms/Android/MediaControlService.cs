@@ -13,6 +13,14 @@ namespace SleepTimer.Platforms.Android
 
             var mediaSessionManager = (MediaSessionManager?)context.GetSystemService(Context.MediaSessionService)
                 ?? throw new InvalidOperationException("MediaSessionManager not available"); ;
+
+            if (!NotificationAccessHelper.HasNotificationAccess(context))
+            {
+                NotificationAccessHelper.RequestNotificationAccess(context); // Show a dialog/snackbar to explain to the user
+
+                return;
+            }
+
             var sessions = mediaSessionManager.GetActiveSessions(null);
 
             foreach (var session in sessions)

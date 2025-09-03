@@ -1,5 +1,8 @@
 ﻿using Plugin.LocalNotification;
 using System.Threading.Tasks;
+//#if ANDROID
+//using SleepTimer.Platforms.Android;
+//#endif
 
 namespace SleepTimer.Views
 {
@@ -11,6 +14,19 @@ namespace SleepTimer.Views
 
             BindingContext = mainVM;
         }
+//        protected override async void OnAppearing()
+//        {
+//            base.OnAppearing();
+//#if ANDROID
+//            var context = global::Android.App.Application.Context;
+//            if (!NotificationAccessHelper.HasNotificationAccess(context))
+//            {
+//                NotificationAccessHelper.RequestNotificationAccess(context); // Show a dialog/snackbar to explain to the user
+
+//                return;
+//            }
+//#endif
+//        }
         //protected override async void OnAppearing()
         //{
         //    base.OnAppearing();
