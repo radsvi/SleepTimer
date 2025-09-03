@@ -1,5 +1,6 @@
 ﻿using Android.Content;
-using Android.Views;
+//using Android.Views;
+using Android.Media.Session;
 using Android.App;
 
 namespace SleepTimer.Platforms.Android
@@ -10,14 +11,19 @@ namespace SleepTimer.Platforms.Android
         {
             var context = global::Android.App.Application.Context;
 
-            // Send Media Pause key events
-            var downIntent = new Intent(Intent.ActionMediaButton);
-            downIntent.PutExtra(Intent.ExtraKeyEvent, new KeyEvent(KeyEventActions.Down, Keycode.MediaPause));
-            context.SendBroadcast(downIntent);
+            var mediaSessionManager = (MediaSessionManager?)context.GetSystemService(Context.MediaSessionService)
+                ?? throw new InvalidOperationException("MediaSessionManager not available"); ;
+            var sessions = mediaSessionManager.GetActiveSessions(null);
 
-            var upIntent = new Intent(Intent.ActionMediaButton);
-            upIntent.PutExtra(Intent.ExtraKeyEvent, new KeyEvent(KeyEventActions.Up, Keycode.MediaPause));
-            context.SendBroadcast(upIntent);
+            foreach (var session in sessions)
+            {
+                try
+                {
+                    var controller = session as MediaController;
+                    controller?.GetTransportControls()?.Pause();
+                }
+                catch {}
+            }
         }
     }
 }
