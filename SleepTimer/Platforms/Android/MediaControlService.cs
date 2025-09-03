@@ -14,14 +14,14 @@ namespace SleepTimer.Platforms.Android
         {
             var context = global::Android.App.Application.Context;
 
-            // 1️⃣ Check notification access
+            
             if (!HasNotificationAccess(context))
             {
                 RequestNotificationAccess(context);
                 return; // Wait for user to grant access
             }
 
-            // 2️⃣ Access MediaSessionManager and pause sessions
+            
             var mediaSessionManager = (MediaSessionManager)context.GetSystemService(Context.MediaSessionService);
             var componentName = new ComponentName(context, Java.Lang.Class.FromType(typeof(NotificationListener)).Name);
             var sessions = mediaSessionManager.GetActiveSessions(componentName);
@@ -32,10 +32,7 @@ namespace SleepTimer.Platforms.Android
                 {
                     controller?.GetTransportControls()?.Pause();
                 }
-                catch
-                {
-                    // Some sessions may be non-controllable
-                }
+                catch {}
             }
         }
         private bool HasNotificationAccess(Context context)

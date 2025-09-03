@@ -20,9 +20,10 @@ namespace SleepTimer.ViewModels
         public MainTimer MainTimer { get; }
         //public Notifications notifications { get; }
         readonly IVolumeService volumeService;
+        readonly IAudioFocusHelper audioFocusHelper;
         readonly IMediaControlService mediaService;
 
-        public MainVM(AppPreferences appPreferences, MainTimer mainTimer, IVolumeService volumeService, IMediaControlService mediaService)
+        public MainVM(AppPreferences appPreferences, MainTimer mainTimer, IVolumeService volumeService, IMediaControlService mediaService, IAudioFocusHelper audioFocusHelper)
         {
             AppPreferences = appPreferences;
             MainTimer = mainTimer;
@@ -30,6 +31,7 @@ namespace SleepTimer.ViewModels
             MainTimer.PropertyChanged += MainTimer_PropertyChanged;
             this.volumeService = volumeService;
             this.mediaService = mediaService;
+            this.audioFocusHelper = audioFocusHelper;
 
             Plugin.LocalNotification.LocalNotificationCenter.Current.NotificationActionTapped += Current_NotificationActionTapped;
         }
@@ -82,7 +84,8 @@ namespace SleepTimer.ViewModels
         [RelayCommand]
         void StopPlayback()
         {
-            mediaService.StopPlayback();
+            //mediaService.StopPlayback();
+            audioFocusHelper.RequestAudioFocus();
         }
         [RelayCommand]
         void StartTimer()
