@@ -1,7 +1,10 @@
-﻿using Android.Content;
-//using Android.Views;
+﻿using Android.App;
+using Android.Content;
 using Android.Media.Session;
-using Android.App;
+using Android.Service.Notification;
+using Android.Provider;
+using Android.OS;
+using SleepTimer.Platforms.Android.Services;
 
 namespace SleepTimer.Platforms.Android
 {
@@ -11,27 +14,52 @@ namespace SleepTimer.Platforms.Android
         {
             var context = global::Android.App.Application.Context;
 
-            var mediaSessionManager = (MediaSessionManager?)context.GetSystemService(Context.MediaSessionService)
-                ?? throw new InvalidOperationException("MediaSessionManager not available"); ;
-
-            if (!NotificationAccessHelper.HasNotificationAccess(context))
+            // 1️⃣ Check notification access
+            if (!HasNotificationAccess(context))
             {
-                NotificationAccessHelper.RequestNotificationAccess(context); // Show a dialog/snackbar to explain to the user
-
-                return;
+                RequestNotificationAccess(context);
+                return; // Wait for user to grant access
             }
 
-            var sessions = mediaSessionManager.GetActiveSessions(null);
+            // 2️⃣ Access MediaSessionManager and pause sessions
+            var mediaSessionManager = (MediaSessionManager)context.GetSystemService(Context.MediaSessionService);
+            var componentName = new ComponentName(context, Java.Lang.Class.FromType(typeof(NotificationListener)).Name);
+            var sessions = mediaSessionManager.GetActiveSessions(componentName);
 
-            foreach (var session in sessions)
+            foreach (var controller in sessions)
             {
                 try
                 {
-                    var controller = session as MediaController;
                     controller?.GetTransportControls()?.Pause();
                 }
-                catch {}
+                catch
+                {
+                    // Some sessions may be non-controllable
+                }
             }
+        }
+        private bool HasNotificationAccess(Context context)
+        {
+            var enabledListeners = Settings.Secure.GetString(context.ContentResolver, "enabled_notification_listeners");
+            return !string.IsNullOrEmpty(enabledListeners) && enabledListeners.Contains(context.PackageName);
+        }
+
+        // Send user to Notification Access settings
+        private void RequestNotificationAccess(Context context)
+        {
+            Intent intent;
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.R)
+            {
+                // Android 11+
+                intent = new Intent(Settings.ActionNotificationListenerSettings);
+            }
+            else
+            {
+                // Older versions
+                intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+            }
+            intent.AddFlags(ActivityFlags.NewTask);
+            context.StartActivity(intent);
         }
     }
 }
