@@ -41,7 +41,7 @@ namespace SleepTimer.Models
             get => isFinished;
             set { isFinished = value; OnPropertyChanged(); }
         }
-        public int LastNotificationUpdate { get; private set; }
+        public int LastNotificationUpdate { get; private set; } = int.MaxValue;
         private TimeSpan remainingTime = TimeSpan.MinValue;
         public TimeSpan RemainingTime
         {
@@ -130,7 +130,6 @@ namespace SleepTimer.Models
             if (EndTime != null)
                 RemainingTime = (DateTime)EndTime - DateTime.Now;
 
-            LastNotificationUpdate = RemainingTime.Minutes;
             //await Notifications.Show(new NotificationMessageRemainingTime(RemainingTime.Minutes));
         }
         public void StopTimer()
