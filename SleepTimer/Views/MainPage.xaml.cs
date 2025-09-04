@@ -63,13 +63,5 @@ namespace SleepTimer.Views
             //SleepTimer.Platforms.Android.ServiceHelper.StopVolumeService();
 #endif
         }
-        private async void OnSetVolumeClicked(object sender, EventArgs e)
-        {
-            await Task.Delay(5000);
-#if ANDROID
-
-            SleepTimer.Platforms.Android.VolumeForegroundService.Instance?.SetVolume(50);
-#endif
-        }
     }
 }
