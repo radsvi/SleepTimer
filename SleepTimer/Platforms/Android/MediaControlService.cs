@@ -15,12 +15,11 @@ namespace SleepTimer.Platforms.Android
             var context = global::Android.App.Application.Context;
 
             
-            if (!HasNotificationAccess(context))
+            if (!HasNotificationAccess())
             {
-                RequestNotificationAccess(context);
-                return; // Wait for user to grant access
+                RequestNotificationAccess();
+                return; // Interrupting here. User has to grant access manually.
             }
-
             
             var mediaSessionManager = (MediaSessionManager)context.GetSystemService(Context.MediaSessionService);
             var componentName = new ComponentName(context, Java.Lang.Class.FromType(typeof(NotificationListener)).Name);
@@ -35,15 +34,19 @@ namespace SleepTimer.Platforms.Android
                 catch {}
             }
         }
-        private bool HasNotificationAccess(Context context)
+        private static bool HasNotificationAccess()
         {
-            var enabledListeners = Settings.Secure.GetString(context.ContentResolver, "enabled_notification_listeners");
+            var context = global::Android.App.Application.Context;
+            var enabledListeners = Settings.Secure.GetString(global::Android.App.Application.Context.ContentResolver, "enabled_notification_listeners");
             return !string.IsNullOrEmpty(enabledListeners) && enabledListeners.Contains(context.PackageName);
         }
 
-        // Send user to Notification Access settings
-        private void RequestNotificationAccess(Context context)
+        /// <summary>
+        /// Sends user to Notification Access settings
+        /// </summary>
+        private static void RequestNotificationAccess()
         {
+            var context = global::Android.App.Application.Context;
             Intent intent;
             if (Build.VERSION.SdkInt >= BuildVersionCodes.R)
             {
@@ -57,6 +60,16 @@ namespace SleepTimer.Platforms.Android
             }
             intent.AddFlags(ActivityFlags.NewTask);
             context.StartActivity(intent);
+        }
+        public async void CheckNotificationAccess()
+        {
+            if (HasNotificationAccess())
+                return;
+            
+            var answer = await App.Current!.Windows[0].Page!.DisplayAlert("Permissions", "Missing permission to send Stop broadcast.", "Open permission settings", "Close");
+
+            if (answer)
+                RequestNotificationAccess();
         }
     }
 }

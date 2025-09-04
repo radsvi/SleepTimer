@@ -2,11 +2,25 @@
 {
     public partial class App : Application
     {
-        public App()
+        readonly IMediaControlService mediaControlService;
+        public App(IMediaControlService mediaControlService)
         {
             InitializeComponent();
-        }
 
+            this.mediaControlService = mediaControlService;
+        }
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            mediaControlService.CheckNotificationAccess();
+        }
+        protected override void OnStart()
+        {
+            base.OnResume();
+
+            mediaControlService.CheckNotificationAccess();
+        }
         protected override Window CreateWindow(IActivationState? activationState)
         {
             //2400x1080 ratio
