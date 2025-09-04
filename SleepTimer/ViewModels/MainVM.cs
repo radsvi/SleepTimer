@@ -27,6 +27,7 @@ namespace SleepTimer.ViewModels
             this.volumeService = volumeService;
             this.sleepTimerServiceHelper = sleepTimerServiceHelper;
 
+            App.Current!.UserAppTheme = AppTheme.Dark;
             Plugin.LocalNotification.LocalNotificationCenter.Current.NotificationActionTapped += Current_NotificationActionTapped;
         }
 
