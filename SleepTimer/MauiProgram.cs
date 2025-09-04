@@ -40,7 +40,6 @@ namespace SleepTimer
             builder.Services.AddSingleton<AppPreferences>();
             builder.Services.AddSingleton<MainTimer>();
 
-            builder.Services.AddSingleton<ISleepTimerLogic, SleepTimerLogic>();
 
 #if ANDROID
             builder.Services.AddSingleton<IMediaControlService, Platforms.Android.MediaControlService>();
