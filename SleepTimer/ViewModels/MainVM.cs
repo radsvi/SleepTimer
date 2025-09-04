@@ -11,20 +11,20 @@ namespace SleepTimer.ViewModels
         public AppPreferences AppPreferences { get; }
         public MainTimer MainTimer { get; }
         readonly IMediaControlService mediaService;
-        readonly IGradualVolumeService gradualVolumeService;
+        readonly IVolumeService volumeService;
         readonly ISleepTimerServiceHelper sleepTimerServiceHelper;
 
         public MainVM(AppPreferences appPreferences,
             MainTimer mainTimer,
             IMediaControlService mediaService,
-            IGradualVolumeService gradualVolumeService,
+            IVolumeService volumeService,
             ISleepTimerServiceHelper sleepTimerServiceHelper)
         {
             AppPreferences = appPreferences;
             MainTimer = mainTimer;
 
             this.mediaService = mediaService;
-            this.gradualVolumeService = gradualVolumeService;
+            this.volumeService = volumeService;
             this.sleepTimerServiceHelper = sleepTimerServiceHelper;
 
             Plugin.LocalNotification.LocalNotificationCenter.Current.NotificationActionTapped += Current_NotificationActionTapped;

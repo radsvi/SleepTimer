@@ -10,10 +10,10 @@ namespace SleepTimer.Models
     public partial class MainTimer : ObservableObject
     {
         private readonly AppPreferences appPreferences;
-        private readonly IGradualVolumeService volumeService;
+        private readonly IVolumeService volumeService;
         private readonly IMediaControlService mediaService;
 
-        public MainTimer(AppPreferences appPreferences, IGradualVolumeService volumeService, IMediaControlService mediaService)
+        public MainTimer(AppPreferences appPreferences, IVolumeService volumeService, IMediaControlService mediaService)
         {
             Debug.WriteLine("Reached MainTimer");
             this.appPreferences = appPreferences;

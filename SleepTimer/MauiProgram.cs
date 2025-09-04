@@ -44,14 +44,14 @@ namespace SleepTimer
 #if ANDROID
             builder.Services.AddSingleton<IMediaControlService, Platforms.Android.MediaControlService>();
             builder.Services.AddSingleton<ISleepTimerService, Platforms.Android.Services.SleepTimerService>();
-            builder.Services.AddSingleton<IGradualVolumeService, Platforms.Android.GradualVolumeService>();
+            builder.Services.AddSingleton<IVolumeService, Platforms.Android.VolumeService>();
             builder.Services.AddSingleton<ISleepTimerServiceHelper, Platforms.Android.Services.SleepTimerServiceHelper>();
 #elif WINDOWS
             builder.Services.AddSingleton<IMediaControlService, Platforms.Windows.MediaControlService>();
 #else
             builder.Services.AddSingleton<IMediaControlService, StubMediaControlService>();
             builder.Services.AddSingleton<ISleepTimerService, StubSleepTimerService>();
-            builder.Services.AddSingleton<IGradualVolumeService, StubGradualVolumeService>();
+            builder.Services.AddSingleton<IVolumeService, StubVolumeService>();
             builder.Services.AddSingleton<ISleepTimerServiceHelper, Services.StubSleepTimerServiceHelper>();
 #endif
 

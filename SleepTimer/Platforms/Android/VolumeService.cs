@@ -7,7 +7,7 @@ using System.Timers;
 namespace SleepTimer.Platforms.Android
 {
 
-    public class GradualVolumeService : IGradualVolumeService
+    public class VolumeService : IVolumeService
     {
         private readonly AudioManager audioManager = (AudioManager?)global::Android.App.Application.Context.GetSystemService(Context.AudioService)
             ?? throw new InvalidOperationException("AudioService not available");

@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace SleepTimer.Models
 {
-    public interface IGradualVolumeService
+    public interface IVolumeService
     {
         int GetVolume();
         void SetVolume(int volume);
-        //void LowerVolume();
-
     }
-    internal class StubGradualVolumeService : IGradualVolumeService
+    internal class StubVolumeService : IVolumeService
     {
         public int GetVolume()
         {
