@@ -39,21 +39,29 @@
             </StackLayout>-->
 
             <!-- // Timer is stopped // -->
-            <Grid ColumnDefinitions="auto,*" IsVisible="{Binding MainTimer.IsStarted, Converter={StaticResource InvertBoolConv}}">
+            <StackLayout
+                HorizontalOptions="Fill"
+                IsVisible="{Binding MainTimer.IsStarted, Converter={StaticResource InvertBoolConv}}">
                 <Label
-                    Text="{Binding AppPreferences.DefaultDuration, StringFormat='{0} minutes'}"
+                    Text="{Binding AppPreferences.DefaultDuration}"
+                    FontSize="120"
                     FontAttributes="Bold"
-                    HorizontalOptions="Start"
+                    HorizontalOptions="Center"
                     VerticalOptions="Center"
-                    Margin="0,0,10,0"/>
+                    Margin="0,0,10,0"/> <!--{0:mm\\:ss}-->
+                <Label
+                    Text="minutes"
+                    HorizontalOptions="Center"
+                    />
                 <Slider
+                    Margin="0,15,0,0"
                     Grid.Column="1"
                     Minimum="0"
                     Maximum="60"
                     Value="{Binding AppPreferences.DefaultDuration}"
                     VerticalOptions="Center"
                     />
-            </Grid>
+            </StackLayout>
             
             <!-- // Timer is active // -->
             <StackLayout

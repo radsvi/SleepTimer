@@ -6,8 +6,8 @@
              x:Class="SleepTimer.Views.ConfigurationPage"
              x:DataType="viewModels:ConfigurationVM"
              Title="Configuration Page">
-    <VerticalStackLayout>
-        <Label Text="Extension length:" />
+    <VerticalStackLayout Margin="5">
+        <Label Text="Extension length:" Margin="0,15,0,0" />
         <Grid
             ColumnDefinitions="auto,*">
             <Label
@@ -24,7 +24,7 @@
                 VerticalOptions="Center"
                 />
         </Grid>
-        <Label Text="Wait time after fade-out:" />
+        <Label Text="Wait time after fade-out:" Margin="0,15,0,0" />
         <Grid
             ColumnDefinitions="auto,*">
             <Label
