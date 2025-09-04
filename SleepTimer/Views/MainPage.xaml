@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:SleepTimer.Converters"
+             xmlns:controls="clr-namespace:SleepTimer.Views.Controls"
              xmlns:enums="clr-namespace:SleepTimer.Enums"
              xmlns:models="clr-namespace:SleepTimer.Models"
              xmlns:viewModels="clr-namespace:SleepTimer.ViewModels"
@@ -79,6 +80,14 @@
                     HorizontalOptions="Center"
                     />
             </StackLayout>
+
+            <controls:RadialSlider x:Name="MySlider"
+                               WidthRequest="250"
+                               HeightRequest="250"
+                               Minimum="0"
+                               Maximum="100"
+                               Value="40" />
+
         </StackLayout>
 
         <Grid
