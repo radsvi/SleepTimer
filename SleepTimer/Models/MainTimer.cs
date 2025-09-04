@@ -49,7 +49,7 @@ namespace SleepTimer.Models
             set { remainingTime = value; OnPropertyChanged(); }
         }
         private int StartingVolume { get; set; }
-        private async void OnTimedEvent(object? source, ElapsedEventArgs e)
+        private void OnTimedEvent(object? source, ElapsedEventArgs e)
         {
             if (EndTime == null)
                 return;
@@ -59,15 +59,22 @@ namespace SleepTimer.Models
             if (RemainingTime.CompareTo(new TimeSpan(0, 0, -appPreferences.WaitTimeAfterFadeOut)) < 0)
             {
                 IsFinished = true;
-                volumeService.SetVolume(StartingVolume);
                 mediaService.StopPlayback();
-                Stop();
+                volumeService.SetVolume(StartingVolume);
+                StopTimer();
+
+                //callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.");
+            }
+            else if (RemainingTime.CompareTo(new TimeSpan(0, 0, 0)) == 0)
+            {
+                volumeService.SetVolume(0);
+                mediaService.StopPlayback();
 
                 //callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.");
             }
             else if (RemainingTime.CompareTo(new TimeSpan(0, 0, Constants.FadeOutDuration)) < 0)
             {
-                DecreaseVolume();
+                GraduallyDecreaseVolume();
 
                 //callbackNotificationMessage?.Invoke($"{RemainingTime.Seconds} seconds left.");
             }
@@ -85,7 +92,11 @@ namespace SleepTimer.Models
 
             if (RemainingTime.CompareTo(new TimeSpan(0, 0, -appPreferences.WaitTimeAfterFadeOut)) < 0)
             {
-                callbackNotificationMessage?.Invoke($"Sleeping. {appPreferences.WaitTimeAfterFadeOut} minutes wait time after fade out");
+                callbackNotificationMessage?.Invoke($"Sleep timer finished.");
+            }
+            else if (RemainingTime.CompareTo(new TimeSpan(0, 0, 0)) == 0)
+            {
+                callbackNotificationMessage?.Invoke($"Sleeping. {appPreferences.WaitTimeAfterFadeOut} minutes wait time after fade out.");
             }
             else if (RemainingTime.Minutes == 0 && RemainingTime.Seconds < 10)
             {
@@ -107,12 +118,14 @@ namespace SleepTimer.Models
         //{
         //    await sleepTimerService.OnTimedEvent(source, e);
         //}
-        public void Start(Action<string>? callback = null)
+        public void StartTimer(Action<string>? callback = null)
         {
             this.callbackNotificationMessage = callback;
             IsFinished = false;
             IsStarted = true;
-            EndTime = DateTime.Now.AddMinutes(appPreferences.DefaultDuration);
+#warning revert EndTime
+            //EndTime = DateTime.Now.AddMinutes(appPreferences.DefaultDuration);
+            EndTime = DateTime.Now.AddSeconds(20);
             StartingVolume = volumeService.GetVolume();
             Timer.Enabled = true;
 
@@ -122,7 +135,7 @@ namespace SleepTimer.Models
             LastNotificationUpdate = RemainingTime.Minutes;
             //await Notifications.Show(new NotificationMessageRemainingTime(RemainingTime.Minutes));
         }
-        public void Stop()
+        public void StopTimer()
         {
             Timer.Enabled = false;
             IsStarted = false;
@@ -142,10 +155,10 @@ namespace SleepTimer.Models
 
             volumeService.SetVolume(StartingVolume);
         }
-        private void DecreaseVolume()
+        private void GraduallyDecreaseVolume()
         {
             var currentVolume = volumeService.GetVolume();
-            if (currentVolume <= 0)
+            if (currentVolume <= 1)
                 return;
 
             //var newVolume = currentVolume - Constants.VolumeStep;

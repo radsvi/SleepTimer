@@ -23,8 +23,9 @@ namespace SleepTimer.ViewModels
         readonly IAudioFocusHelper audioFocusHelper;
         readonly IMediaControlService mediaService;
         readonly IMediaPlaybackBroadcast playbackBroadcasts;
+        readonly IGradualVolumeService gradualVolumeService;
 
-        public MainVM(AppPreferences appPreferences, MainTimer mainTimer, IVolumeService volumeService, IMediaControlService mediaService, IAudioFocusHelper audioFocusHelper, IMediaPlaybackBroadcast mediaPlaybackBroadcast)
+        public MainVM(AppPreferences appPreferences, MainTimer mainTimer, IVolumeService volumeService, IMediaControlService mediaService, IAudioFocusHelper audioFocusHelper, IMediaPlaybackBroadcast mediaPlaybackBroadcast, IGradualVolumeService gradualVolumeService)
         {
             AppPreferences = appPreferences;
             MainTimer = mainTimer;
@@ -34,6 +35,7 @@ namespace SleepTimer.ViewModels
             this.mediaService = mediaService;
             this.audioFocusHelper = audioFocusHelper;
             this.playbackBroadcasts = mediaPlaybackBroadcast;
+            this.gradualVolumeService = gradualVolumeService;
 
             Plugin.LocalNotification.LocalNotificationCenter.Current.NotificationActionTapped += Current_NotificationActionTapped;
         }
@@ -92,12 +94,12 @@ namespace SleepTimer.ViewModels
         [RelayCommand]
         void StartTimer()
         {
-            MainTimer.Start();
+            MainTimer.StartTimer();
         }
         [RelayCommand]
         void StopTimer()
         {
-            MainTimer.Stop();
+            MainTimer.StopTimer();
         }
         [RelayCommand(CanExecute = nameof(IsStarted))]
         void ExtendTimer()
@@ -157,6 +159,13 @@ namespace SleepTimer.ViewModels
         public void SendStopBroadcast()
         {
             playbackBroadcasts.SendMediaStop();
+        }
+        [RelayCommand]
+        public async Task CheckVolume()
+        {
+            await App.Current!.Windows[0].Page!.DisplayAlert("Permissions", $"Volume {gradualVolumeService.GetVolume()}", "Close");
+            
+
         }
         #endregion
     }

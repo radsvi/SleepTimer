@@ -29,7 +29,7 @@ namespace SleepTimer.Platforms.Android
         //            throw new InvalidOperationException("Couldn't lower the volume.");
         //    }
         //}
-        public void SetVolume(int targetVolume)
+        public async void SetVolume(int targetVolume)
         {
             if (targetVolume == GetVolume())
                 return;
@@ -43,7 +43,7 @@ namespace SleepTimer.Platforms.Android
                 // Simulate user volume button presses
                 audioManager.AdjustStreamVolume(global::Android.Media.Stream.Music, action, showUi);
 
-                Task.Delay(200).Wait();
+                await Task.Delay(200);
                 i++;
                 if (i >= 100)
                     throw new InvalidOperationException("Couldn't set the volume.");
