@@ -18,20 +18,17 @@ namespace SleepTimer.ViewModels
     {
         public AppPreferences AppPreferences { get; }
         public MainTimer MainTimer { get; }
-        //public Notifications notifications { get; }
-        readonly IVolumeService volumeService;
         readonly IAudioFocusHelper audioFocusHelper;
         readonly IMediaControlService mediaService;
         readonly IMediaPlaybackBroadcast playbackBroadcasts;
         readonly IGradualVolumeService gradualVolumeService;
 
-        public MainVM(AppPreferences appPreferences, MainTimer mainTimer, IVolumeService volumeService, IMediaControlService mediaService, IAudioFocusHelper audioFocusHelper, IMediaPlaybackBroadcast mediaPlaybackBroadcast, IGradualVolumeService gradualVolumeService)
+        public MainVM(AppPreferences appPreferences, MainTimer mainTimer, IMediaControlService mediaService, IAudioFocusHelper audioFocusHelper, IMediaPlaybackBroadcast mediaPlaybackBroadcast, IGradualVolumeService gradualVolumeService)
         {
             AppPreferences = appPreferences;
             MainTimer = mainTimer;
 
             //MainTimer.PropertyChanged += MainTimer_PropertyChanged;
-            this.volumeService = volumeService;
             this.mediaService = mediaService;
             this.audioFocusHelper = audioFocusHelper;
             this.playbackBroadcasts = mediaPlaybackBroadcast;
@@ -44,6 +41,7 @@ namespace SleepTimer.ViewModels
         {
             MainTimer.Extend();
         }
+
         #region Methods
         //private void MainTimer_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         //{
@@ -52,21 +50,6 @@ namespace SleepTimer.ViewModels
         //        ExtendTimerCommand.NotifyCanExecuteChanged();
         //    }
         //}
-        [RelayCommand]
-        private void IncreaseVolume()
-        {
-            var current = volumeService.GetVolume();
-            if (current >= 0)
-                volumeService.SetVolume(current + 10);
-        }
-        [RelayCommand]
-        private void DecreseVolume()
-        {
-            var current = volumeService.GetVolume();
-            if (current >= 0)
-                volumeService.SetVolume(current - 10);
-        }
-
         
         [RelayCommand]
         async Task NavigateToPage(Pages page)

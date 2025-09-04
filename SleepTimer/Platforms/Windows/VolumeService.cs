@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace SleepTimer.Platforms.Windows;
 
-public class VolumeService : IVolumeService
+public class VolumeService// : IVolumeService // Originally created with the old volumeService that were supposed to be paralel to the VolumeService for Android, but that one didn't work so I disabled both for now.
 {
     [ComImport]
     [Guid("BCDE0395-E52F-467C-8E3D-C4579291692E")]
