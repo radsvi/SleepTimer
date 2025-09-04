@@ -23,8 +23,11 @@ namespace SleepTimer.ViewModels
         readonly IMediaControlService mediaService;
         readonly IMediaPlaybackBroadcast playbackBroadcasts;
         readonly IGradualVolumeService gradualVolumeService;
+        readonly ISleepTimerServiceHelper sleepTimerServiceHelper;
 
-        public MainVM(AppPreferences appPreferences, MainTimer mainTimer, IMediaControlService mediaService, IAudioFocusHelper audioFocusHelper, IMediaPlaybackBroadcast mediaPlaybackBroadcast, IGradualVolumeService gradualVolumeService)
+        public MainVM(AppPreferences appPreferences, MainTimer mainTimer, IMediaControlService mediaService,
+            IAudioFocusHelper audioFocusHelper, IMediaPlaybackBroadcast mediaPlaybackBroadcast,
+            IGradualVolumeService gradualVolumeService, ISleepTimerServiceHelper sleepTimerServiceHelper)
         {
             AppPreferences = appPreferences;
             MainTimer = mainTimer;
@@ -34,6 +37,8 @@ namespace SleepTimer.ViewModels
             this.audioFocusHelper = audioFocusHelper;
             this.playbackBroadcasts = mediaPlaybackBroadcast;
             this.gradualVolumeService = gradualVolumeService;
+            this.sleepTimerServiceHelper = sleepTimerServiceHelper;
+
 
             Plugin.LocalNotification.LocalNotificationCenter.Current.NotificationActionTapped += Current_NotificationActionTapped;
         }
@@ -91,29 +96,12 @@ namespace SleepTimer.ViewModels
         [RelayCommand]
         public void StartSleepTimer()
         {
-#if ANDROID
-            var context = Android.App.Application.Context;
-            var intent = new Intent(context, typeof(SleepTimerService));
-            intent.SetAction(ServiceAction.Start.ToString());
-            //intent.PutExtra("minutes", 25); // start 15-minute timer
-            if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
-                context.StartForegroundService(intent);
-            else
-                context.StartService(intent);
-#endif
+            sleepTimerServiceHelper.SleepTimerControl(ServiceAction.Start);
         }
         [RelayCommand]
         public void StopSleepTimer()
         {
-#if ANDROID
-            var context = Android.App.Application.Context;
-            var intent = new Intent(context, typeof(SleepTimerService));
-            intent.SetAction(ServiceAction.Stop.ToString());
-            if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.O)
-                context.StartForegroundService(intent);
-            else
-                context.StartService(intent);
-#endif
+            sleepTimerServiceHelper.SleepTimerControl(ServiceAction.Stop);
         }
         #endregion
     }

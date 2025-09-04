@@ -7,12 +7,6 @@ using AndroidX.Core.App;
 
 namespace SleepTimer.Platforms.Android.Services
 {
-    public enum ServiceAction
-    {
-        Start,
-        Extend,
-        Stop
-    }
     [Service(ForegroundServiceType = global::Android.Content.PM.ForegroundService.TypeMediaPlayback)]
     public class SleepTimerService : Service, ISleepTimerService
     {
