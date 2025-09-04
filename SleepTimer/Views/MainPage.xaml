@@ -56,7 +56,7 @@
                 <Slider
                     Margin="0,15,0,0"
                     Grid.Column="1"
-                    Minimum="0"
+                    Minimum="1"
                     Maximum="60"
                     Value="{Binding AppPreferences.DefaultDuration}"
                     VerticalOptions="Center"
