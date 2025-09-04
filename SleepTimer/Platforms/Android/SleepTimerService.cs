@@ -41,18 +41,16 @@ namespace SleepTimer.Platforms.Android
             {
                 //var mediaControlService = ServiceHelper.GetService<IMediaControlService>();
                 //mediaControlService.StopPlayback();
-                //var mediaControlService = ServiceHelper.GetService<IMediaControlService>()
-                //    ?? throw new InvalidOperationException("No service provider.");
-                //mediaControlService.StopPlayback();
 
                 //RequestFocus();
 
-                //var mediaControlService = ServiceHelper.GetService<MediaPlaybackBroadcast>();
-                var mediaPlaybackBroadcast = ServiceHelper.GetService<IMediaPlaybackBroadcast>()
+                //var mediaPlaybackBroadcast = ServiceHelper.GetService<IMediaPlaybackBroadcast>()
+                //    ?? throw new InvalidOperationException("No service provider.");
+                //mediaPlaybackBroadcast.SendMediaPause();
+
+                var mediaControlService = ServiceHelper.GetService<IMediaControlService>()
                     ?? throw new InvalidOperationException("No service provider.");
-                mediaPlaybackBroadcast.SendMediaPause();
-
-
+                mediaControlService.StopPlayback();
             }
             else if (intent?.Action == ServiceAction.Extend.ToString())
             {
