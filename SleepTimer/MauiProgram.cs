@@ -47,7 +47,6 @@ namespace SleepTimer
             builder.Services.AddSingleton<ISleepTimerService, Platforms.Android.Services.SleepTimerService>();
             builder.Services.AddSingleton<IGradualVolumeService, Platforms.Android.GradualVolumeService>();
             builder.Services.AddSingleton<IAudioFocusHelper, Platforms.Android.AudioFocusHelper>();
-            //builder.Services.AddSingleton<IAudioFocusService, Platforms.Android.Services.AudioFocusService>();
             builder.Services.AddSingleton<IMediaPlaybackBroadcast, Platforms.Android.MediaPlaybackBroadcast>();
             builder.Services.AddSingleton<ISleepTimerServiceHelper, Platforms.Android.Services.SleepTimerServiceHelper>();
 #elif WINDOWS
@@ -57,7 +56,6 @@ namespace SleepTimer
             builder.Services.AddSingleton<ISleepTimerService, StubSleepTimerService>();
             builder.Services.AddSingleton<IGradualVolumeService, StubGradualVolumeService>();
             builder.Services.AddSingleton<IAudioFocusHelper, StubAudioFocusHelper>();
-            builder.Services.AddSingleton<IAudioFocusService, StubAudioFocusService>();
             builder.Services.AddSingleton<IMediaPlaybackBroadcast, StubMediaPlaybackBroadcast>();
             builder.Services.AddSingleton<ISleepTimerServiceHelper, Services.StubSleepTimerServiceHelper>();
 #endif
