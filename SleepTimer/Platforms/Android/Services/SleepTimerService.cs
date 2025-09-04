@@ -5,7 +5,7 @@ using Android.Media;
 using AndroidX.Core.App;
 
 
-namespace SleepTimer.Platforms.Android
+namespace SleepTimer.Platforms.Android.Services
 {
     public enum ServiceAction
     {
@@ -17,7 +17,7 @@ namespace SleepTimer.Platforms.Android
     public class SleepTimerService : Service, ISleepTimerService
     {
         const int SERVICE_ID = 1001;
-        private readonly AudioManager audioManager = (AudioManager?)global::Android.App.Application.Context.GetSystemService(Context.AudioService)
+        private readonly AudioManager audioManager = (AudioManager?)global::Android.App.Application.Context.GetSystemService(AudioService)
             ?? throw new InvalidOperationException("AudioService not available");
         private readonly AppPreferences appPreferences = ServiceHelper.GetService<AppPreferences>();
         private readonly MainTimer timerLogic = ServiceHelper.GetService<MainTimer>();

@@ -44,7 +44,7 @@ namespace SleepTimer
 
 #if ANDROID
             builder.Services.AddSingleton<IMediaControlService, Platforms.Android.MediaControlService>();
-            builder.Services.AddSingleton<ISleepTimerService, Platforms.Android.SleepTimerService>();
+            builder.Services.AddSingleton<ISleepTimerService, Platforms.Android.Services.SleepTimerService>();
             builder.Services.AddSingleton<IGradualVolumeService, Platforms.Android.GradualVolumeService>();
             builder.Services.AddSingleton<IAudioFocusHelper, Platforms.Android.AudioFocusHelper>();
             //builder.Services.AddSingleton<IAudioFocusService, Platforms.Android.Services.AudioFocusService>();

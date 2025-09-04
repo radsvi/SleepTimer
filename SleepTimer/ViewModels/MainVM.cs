@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Android.Content;
 using Android.OS;
 using SleepTimer.Platforms.Android;
+using SleepTimer.Platforms.Android.Services;
 #endif
 
 
