@@ -41,10 +41,16 @@ namespace SleepTimer.Platforms.Android
             {
                 //var mediaControlService = ServiceHelper.GetService<IMediaControlService>();
                 //mediaControlService.StopPlayback();
+                //var mediaControlService = ServiceHelper.GetService<IMediaControlService>()
+                //    ?? throw new InvalidOperationException("No service provider.");
+                //mediaControlService.StopPlayback();
 
-                RequestFocus();
+                //RequestFocus();
 
-
+                //var mediaControlService = ServiceHelper.GetService<MediaPlaybackBroadcast>();
+                var mediaPlaybackBroadcast = ServiceHelper.GetService<IMediaPlaybackBroadcast>()
+                    ?? throw new InvalidOperationException("No service provider.");
+                mediaPlaybackBroadcast.SendMediaPause();
 
 
             }
@@ -63,19 +69,20 @@ namespace SleepTimer.Platforms.Android
 
             return StartCommandResult.Sticky;
         }
-        async void RequestFocus()
-        {
-            var audioFocusHelper = ServiceHelper.GetService<IAudioFocusHelper>();
 
-            var audioPlayer = new SilentAudioPlayer();
-            audioPlayer.Start();
+        //async void RequestFocus()
+        //{
+        //    var audioFocusHelper = ServiceHelper.GetService<IAudioFocusHelper>();
 
-            audioFocusHelper.RequestAudioFocus();
+        //    var audioPlayer = new SilentAudioPlayer();
+        //    audioPlayer.Start();
 
-            await Task.Delay(15000);
-            audioPlayer.Stop();
-            audioFocusHelper.AbandonAudioFocus();
-        }
+        //    audioFocusHelper.RequestAudioFocus();
+
+        //    await Task.Delay(15000);
+        //    audioPlayer.Stop();
+        //    audioFocusHelper.AbandonAudioFocus();
+        //}
         //private void StartTimer(TimeSpan duration)
         //{
         //    StopTimer(); // reset

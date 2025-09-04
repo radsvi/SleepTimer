@@ -33,7 +33,9 @@
                 <Button Text="start service VM New" Command="{Binding StartSleepTimerCommand}" />
             </StackLayout>-->
             <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,0,0,20">
-                <Button Text="Stop playback" Command="{Binding StopPlaybackCommand}" />
+                <!--<Button Text="Stop playback" Command="{Binding StopPlaybackCommand}" />-->
+                <Button Text="pause broadcast" Command="{Binding SendPauseBroadcastCommand}" />
+                <Button Text="stop broadcast" Command="{Binding SendStopBroadcastCommand}" />
             </StackLayout>
 
             <!-- // Timer is stopped // -->
