@@ -7,6 +7,7 @@ using AndroidX.Core.App;
 
 namespace SleepTimer.Platforms.Android.Services
 {
+    //[Service(Enabled = true, ForegroundServiceType = global::Android.Content.PM.ForegroundService.TypeMediaPlayback)]
     [Service(ForegroundServiceType = global::Android.Content.PM.ForegroundService.TypeMediaPlayback)]
     public class SleepTimerService : Service, ISleepTimerService
     {
