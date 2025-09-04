@@ -29,17 +29,14 @@ namespace SleepTimer.Platforms.Android
             if (intent?.Action == ServiceAction.Start.ToString())
             {
                 var minutes = intent.GetIntExtra("minutes", appPreferences.DefaultDuration);
-                StartTimer(TimeSpan.FromMinutes(minutes));
+                timerLogic.StartTimer(UpdateNotification);
 
                 var notification = BuildNotification("Starting timer.");
                 StartForeground(SERVICE_ID, notification);
             }
             else if (intent?.Action == ServiceAction.Extend.ToString())
             {
-                var logic = ServiceHelper.GetService<ISleepTimerLogic>();
-                _ = logic.OnPostponeAsync();
-
-                Extend();
+                timerLogic.Extend();
             }
             else if (intent?.Action == ServiceAction.Stop.ToString())
             {
@@ -48,14 +45,6 @@ namespace SleepTimer.Platforms.Android
             }
 
             return StartCommandResult.Sticky;
-        }
-        private void StartTimer(TimeSpan duration)
-        {
-            timerLogic.StartTimer(UpdateNotification);
-        }
-        private void Extend()
-        {
-            timerLogic.Extend();
         }
         private void StopTimer()
         {

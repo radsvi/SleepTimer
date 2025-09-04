@@ -123,9 +123,7 @@ namespace SleepTimer.Models
             this.callbackNotificationMessage = callback;
             IsFinished = false;
             IsStarted = true;
-#warning revert EndTime
-            //EndTime = DateTime.Now.AddMinutes(appPreferences.DefaultDuration);
-            EndTime = DateTime.Now.AddSeconds(20);
+            EndTime = DateTime.Now.AddMinutes(appPreferences.DefaultDuration);
             StartingVolume = volumeService.GetVolume();
             Timer.Enabled = true;
 
