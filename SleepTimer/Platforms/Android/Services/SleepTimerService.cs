@@ -25,7 +25,7 @@ namespace SleepTimer.Platforms.Android.Services
                 var minutes = intent.GetIntExtra("minutes", appPreferences.DefaultDuration);
                 timerLogic.StartTimer(UpdateNotification);
 
-                var notification = BuildNotification("Starting timer.");
+                var notification = BuildNotification($"Starting timer. {appPreferences.DefaultDuration} minutes left.");
                 StartForeground(SERVICE_ID, notification);
             }
             else if (intent?.Action == ServiceAction.Extend.ToString())
@@ -45,7 +45,7 @@ namespace SleepTimer.Platforms.Android.Services
             timerLogic.StopTimer();
         }
 
-        private Notification BuildNotification(string remainingTime)
+        private Notification BuildNotification(string message)
         {
 #pragma warning disable CA1416, CA1422
             var channelId = "sleep_timer_channel";
@@ -55,7 +55,7 @@ namespace SleepTimer.Platforms.Android.Services
                 : new Notification.Builder(this);
 
             builder.SetContentTitle("Sleep Timer")
-                   .SetContentText($"{remainingTime} Tap to extend!")
+                   .SetContentText($"{message} Tap to extend!")
                    .SetSmallIcon(global::Android.Resource.Drawable.IcMediaPlay);
 
             // Handle priority for pre-26
