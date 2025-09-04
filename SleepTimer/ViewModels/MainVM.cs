@@ -30,7 +30,7 @@ namespace SleepTimer.ViewModels
             AppPreferences = appPreferences;
             MainTimer = mainTimer;
 
-            MainTimer.PropertyChanged += MainTimer_PropertyChanged;
+            //MainTimer.PropertyChanged += MainTimer_PropertyChanged;
             this.volumeService = volumeService;
             this.mediaService = mediaService;
             this.audioFocusHelper = audioFocusHelper;
@@ -45,13 +45,13 @@ namespace SleepTimer.ViewModels
             MainTimer.Extend();
         }
         #region Methods
-        private void MainTimer_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(MainTimer.IsStarted))
-            {
-                ExtendTimerCommand.NotifyCanExecuteChanged();
-            }
-        }
+        //private void MainTimer_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        //{
+        //    if (e.PropertyName == nameof(MainTimer.IsStarted))
+        //    {
+        //        ExtendTimerCommand.NotifyCanExecuteChanged();
+        //    }
+        //}
         [RelayCommand]
         private void IncreaseVolume()
         {
@@ -85,43 +85,24 @@ namespace SleepTimer.ViewModels
                 Shell.Current.FlyoutIsPresented = false;
             await AppShell.Current.GoToAsync(route);
         }
-        [RelayCommand]
-        void StopPlayback()
-        {
-            //mediaService.StopPlayback();
-            audioFocusHelper.RequestAudioFocus();
-        }
-        [RelayCommand]
-        void StartTimer()
-        {
-            MainTimer.StartTimer();
-        }
-        [RelayCommand]
-        void StopTimer()
-        {
-            MainTimer.StopTimer();
-        }
-        [RelayCommand(CanExecute = nameof(IsStarted))]
-        void ExtendTimer()
-        {
-            MainTimer.Extend();
-        }
+        //[RelayCommand]
+        //void StartTimer()
+        //{
+        //    MainTimer.StartTimer();
+        //}
+        //[RelayCommand]
+        //void StopTimer()
+        //{
+        //    MainTimer.StopTimer();
+        //}
+        //[RelayCommand(CanExecute = nameof(IsStarted))]
+        //void ExtendTimer()
+        //{
+        //    MainTimer.Extend();
+        //}
         bool IsStarted()
         {
             return MainTimer.IsStarted;
-        }
-        [RelayCommand]
-        public void StartVolumeTimer()
-        {
-#if ANDROID
-            var context = Android.App.Application.Context;
-            var intent = new Intent(context, typeof(VolumeAdjustService));
-
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
-                context.StartForegroundService(intent);
-            else
-                context.StartService(intent);
-#endif
         }
         [RelayCommand]
         public void StartSleepTimer()
@@ -149,23 +130,6 @@ namespace SleepTimer.ViewModels
             else
                 context.StartService(intent);
 #endif
-        }
-        [RelayCommand]
-        public void SendPauseBroadcast()
-        {
-            playbackBroadcasts.SendMediaPause();
-        }
-        [RelayCommand]
-        public void SendStopBroadcast()
-        {
-            playbackBroadcasts.SendMediaStop();
-        }
-        [RelayCommand]
-        public async Task CheckVolume()
-        {
-            await App.Current!.Windows[0].Page!.DisplayAlert("Permissions", $"Volume {gradualVolumeService.GetVolume()}", "Close");
-            
-
         }
         #endregion
     }
