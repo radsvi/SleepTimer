@@ -19,22 +19,23 @@ namespace SleepTimer.ViewModels
     {
         public AppPreferences AppPreferences { get; }
         public MainTimer MainTimer { get; }
-        readonly IAudioFocusHelper audioFocusHelper;
         readonly IMediaControlService mediaService;
         readonly IMediaPlaybackBroadcast playbackBroadcasts;
         readonly IGradualVolumeService gradualVolumeService;
         readonly ISleepTimerServiceHelper sleepTimerServiceHelper;
 
-        public MainVM(AppPreferences appPreferences, MainTimer mainTimer, IMediaControlService mediaService,
-            IAudioFocusHelper audioFocusHelper, IMediaPlaybackBroadcast mediaPlaybackBroadcast,
-            IGradualVolumeService gradualVolumeService, ISleepTimerServiceHelper sleepTimerServiceHelper)
+        public MainVM(AppPreferences appPreferences,
+            MainTimer mainTimer,
+            IMediaControlService mediaService,
+            IMediaPlaybackBroadcast mediaPlaybackBroadcast,
+            IGradualVolumeService gradualVolumeService,
+            ISleepTimerServiceHelper sleepTimerServiceHelper)
         {
             AppPreferences = appPreferences;
             MainTimer = mainTimer;
 
             //MainTimer.PropertyChanged += MainTimer_PropertyChanged;
             this.mediaService = mediaService;
-            this.audioFocusHelper = audioFocusHelper;
             this.playbackBroadcasts = mediaPlaybackBroadcast;
             this.gradualVolumeService = gradualVolumeService;
             this.sleepTimerServiceHelper = sleepTimerServiceHelper;
