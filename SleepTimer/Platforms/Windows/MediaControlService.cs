@@ -21,5 +21,10 @@ namespace SleepTimer.Platforms.Windows
             keybd_event(VK_MEDIA_STOP, 0, KEYEVENTF_EXTENDEDKEY, 0);
             keybd_event(VK_MEDIA_STOP, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
         }
+
+        public void CheckNotificationAccess()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
