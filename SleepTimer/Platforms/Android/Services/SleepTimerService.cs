@@ -57,7 +57,7 @@ namespace SleepTimer.Platforms.Android.Services
 
             builder.SetContentTitle("Sleep Timer")
                    .SetContentText($"{message} Tap to extend!")
-                   .SetSmallIcon(Resource.Drawable.sleepzz);
+                   .SetSmallIcon(global::Android.Resource.Drawable.IcMediaPlay);
 
             // Handle priority for pre-26
             if (Build.VERSION.SdkInt < BuildVersionCodes.O)
