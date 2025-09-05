@@ -2,24 +2,24 @@
 {
     public partial class App : Application
     {
-        readonly IMediaControlService mediaControlService;
-        public App(IMediaControlService mediaControlService)
+        readonly IPermissionHelper permissionHelper;
+        public App(IPermissionHelper permissionHelper)
         {
             InitializeComponent();
 
-            this.mediaControlService = mediaControlService;
+            this.permissionHelper = permissionHelper;
         }
         protected override void OnResume()
         {
             base.OnResume();
 
-            mediaControlService.CheckNotificationAccess();
+            permissionHelper.CheckPermissions();
         }
         protected override void OnStart()
         {
             base.OnResume();
 
-            mediaControlService.CheckNotificationAccess();
+            permissionHelper.CheckPermissions();
         }
         protected override Window CreateWindow(IActivationState? activationState)
         {

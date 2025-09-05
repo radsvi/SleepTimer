@@ -14,19 +14,19 @@ namespace SleepTimer.Services
         void StopPlayback();
         //bool HasNotificationAccess();
         //void RequestNotificationAccess();
-        void CheckNotificationAccess();
+        //void CheckNotificationAccess();
     }
-    public class StubMediaControlService : IMediaControlService
-    {
-        public void CheckNotificationAccess()
-        {
-#warning uncomment throw (commented out only for testing visual styles on windows machine because it compiles faster (+hot reload)
-            throw new NotImplementedException();
-        }
-        public void StopPlayback()
-        {
-#warning uncomment throw (commented out only for testing visual styles on windows machine because it compiles faster (+hot reload)
-            throw new NotImplementedException();
-        }
-    }
+//    public class StubMediaControlService : IMediaControlService
+//    {
+//        public void CheckNotificationAccess()
+//        {
+//#warning uncomment throw (commented out only for testing visual styles on windows machine because it compiles faster (+hot reload)
+//            throw new NotImplementedException();
+//        }
+//        public void StopPlayback()
+//        {
+//#warning uncomment throw (commented out only for testing visual styles on windows machine because it compiles faster (+hot reload)
+//            throw new NotImplementedException();
+//        }
+//    }
 }
