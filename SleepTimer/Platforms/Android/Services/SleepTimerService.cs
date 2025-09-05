@@ -70,8 +70,9 @@ namespace SleepTimer.Platforms.Android.Services
                 var channel = new NotificationChannel(
                     channelId,
                     "Sleep Timer",
-                    NotificationImportance.Low
+                    NotificationImportance.High
                 );
+                channel.SetSound(null, null);
 
                 var manager = (NotificationManager?)GetSystemService(NotificationService)
                     ?? throw new InvalidOperationException("NotificationManager not available");
