@@ -64,6 +64,18 @@ namespace SleepTimer
             builder.Logging.AddDebug();
 #endif
 
+            // Enable Exception Logging
+            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+            {
+                System.Diagnostics.Debug.WriteLine($"[Unhandled] {e.ExceptionObject}");
+            };
+
+            TaskScheduler.UnobservedTaskException += (s, e) =>
+            {
+                System.Diagnostics.Debug.WriteLine($"[UnobservedTask] {e.Exception}");
+            };
+
+
             return builder.Build();
         }
     }
