@@ -10,8 +10,6 @@ namespace SleepTimer.Views
             InitializeComponent();
 
             BindingContext = mainVM;
-
-            DrawableExtractor.SaveSystemDrawables();
         }
     }
 }
