@@ -1,23 +1,13 @@
-﻿using Android.App;
-using Android.Content;
-using Android.Media.Session;
-using Android.Service.Notification;
-using Android.Provider;
+﻿using Android.Content;
 using Android.OS;
-using SleepTimer.Platforms.Android.Services;
-using Android;
-using Android.Content.PM;
-using AndroidX.Core.Content;
+using Android.Provider;
+
 
 namespace SleepTimer.Platforms.Android
 {
     public class PermissionHelper : IPermissionHelper
     {
-        private readonly Context context;
-        public PermissionHelper()
-        {
-            context = global::Android.App.Application.Context;
-        }
+        private readonly Context context = global::Android.App.Application.Context;
         private bool HasNotificationListenerAccess()
         {
             var enabledListeners = Settings.Secure.GetString(global::Android.App.Application.Context.ContentResolver, "enabled_notification_listeners");
@@ -42,48 +32,6 @@ namespace SleepTimer.Platforms.Android
             intent.AddFlags(ActivityFlags.NewTask);
             context.StartActivity(intent);
         }
-
-
-
-
-
-
-
-        private bool HasNotificationAccess()
-        {
-            if (global::Android.OS.Build.VERSION.SdkInt >= global::Android.OS.BuildVersionCodes.Tiramisu)
-            {
-                // On Android 13+ check the POST_NOTIFICATIONS permission
-                return ContextCompat.CheckSelfPermission(context, Manifest.Permission.PostNotifications)
-                       == Permission.Granted;
-            }
-
-            // On Android < 13 notifications are enabled by default
-            return true;
-        }
-
-
-        private void RequestNotificationAccess()
-        {
-            Intent intent = new Intent();
-            if (global::Android.OS.Build.VERSION.SdkInt >= global::Android.OS.BuildVersionCodes.O)
-            {
-                // Android 8+ - open app-specific notification settings
-                intent.SetAction(global::Android.Provider.Settings.ActionAppNotificationSettings);
-                intent.PutExtra(global::Android.Provider.Settings.ExtraAppPackage, context.PackageName);
-            }
-            else
-            {
-                // Older versions - open the app's settings page
-                intent.SetAction(global::Android.Provider.Settings.ActionApplicationDetailsSettings);
-                intent.SetData(global::Android.Net.Uri.Parse("package:" + context.PackageName));
-            }
-
-            intent.AddFlags(ActivityFlags.NewTask);
-            context.StartActivity(intent);
-        }
-
-
 
 
         public async void CheckPermissions()

@@ -37,53 +37,5 @@ namespace SleepTimer.Platforms.Android
                 catch {}
             }
         }
-        private static bool HasNotificationAccess()
-        {
-            var context = global::Android.App.Application.Context;
-
-            if (global::Android.OS.Build.VERSION.SdkInt >= global::Android.OS.BuildVersionCodes.Tiramisu)
-            {
-                // On Android 13+ check the POST_NOTIFICATIONS permission
-                return ContextCompat.CheckSelfPermission(context, Manifest.Permission.PostNotifications)
-                       == Permission.Granted;
-            }
-
-            // On Android < 13 notifications are enabled by default
-            return true;
-        }
-
-        /// <summary>
-        /// Sends user to Notification Access settings
-        /// </summary>
-        private static void RequestNotificationAccess()
-        {
-            var context = global::Android.App.Application.Context;
-            Intent intent = new Intent();
-            if (global::Android.OS.Build.VERSION.SdkInt >= global::Android.OS.BuildVersionCodes.O)
-            {
-                // Android 8+ - open app-specific notification settings
-                intent.SetAction(global::Android.Provider.Settings.ActionAppNotificationSettings);
-                intent.PutExtra(global::Android.Provider.Settings.ExtraAppPackage, context.PackageName);
-            }
-            else
-            {
-                // Older versions - open the app's settings page
-                intent.SetAction(global::Android.Provider.Settings.ActionApplicationDetailsSettings);
-                intent.SetData(global::Android.Net.Uri.Parse("package:" + context.PackageName));
-            }
-
-            intent.AddFlags(ActivityFlags.NewTask);
-            context.StartActivity(intent);
-        }
-        public async void CheckNotificationAccess()
-        {
-            if (HasNotificationAccess())
-                return;
-            
-            var answer = await App.Current!.Windows[0].Page!.DisplayAlert("Permissions", "Missing permission to send Stop broadcast.", "Open permission settings", "Close");
-
-            if (answer)
-                RequestNotificationAccess();
-        }
     }
 }
