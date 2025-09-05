@@ -7,8 +7,12 @@ namespace SleepTimer.Platforms.Android
 {
     public class RequestPermissionHelper
     {
-        public static void RequestNotificationPermission(global::Android.App.Activity activity)
+        public static void RequestNotificationPermission()
         {
+            var activity = Platform.CurrentActivity;
+            if (activity == null)
+                return;
+
             int RequestCode = 1001;
             if (ContextCompat.CheckSelfPermission(activity, Manifest.Permission.PostNotifications)
                 != Permission.Granted)

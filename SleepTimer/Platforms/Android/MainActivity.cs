@@ -11,7 +11,13 @@ namespace SleepTimer
         {
             base.OnCreate(savedInstanceState);
 
-            SleepTimer.Platforms.Android.RequestPermissionHelper.RequestNotificationPermission(this);
+            SleepTimer.Platforms.Android.RequestPermissionHelper.RequestNotificationPermission();
+        }
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            SleepTimer.Platforms.Android.RequestPermissionHelper.RequestNotificationPermission();
         }
     }
 }

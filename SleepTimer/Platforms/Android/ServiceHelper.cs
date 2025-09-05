@@ -12,6 +12,9 @@ namespace SleepTimer.Platforms.Android
         //}
         public static T? GetService<T>()
         {
+            //var service = DependencyService.Get<IRequestPermissionHelper>();
+            //service?.RequestNotificationPermission();
+
             var result = Current.GetService<T>();
             return result;
         }
