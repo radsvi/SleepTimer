@@ -57,7 +57,7 @@ namespace SleepTimer.Platforms.Android.Services
 
             builder.SetContentTitle("Sleep Timer")
                    .SetContentText($"{message} Tap to extend!")
-                   .SetSmallIcon(global::Android.Resource.Drawable.IcMediaPlay);
+                   .SetSmallIcon(Resource.Drawable.sleepzz);
 
             // Handle priority for pre-26
             if (Build.VERSION.SdkInt < BuildVersionCodes.O)
@@ -90,6 +90,7 @@ namespace SleepTimer.Platforms.Android.Services
             builder
                 .SetContentIntent(extendPending)
                 //.AddAction(new Notification.Action.Builder(0, ServiceAction.Extend.ToString(), postponePending).Build())
+                //.AddAction(Resource.Drawable.sleepzz, "Press Me", stopPending)
                 .AddAction(new Notification.Action.Builder(0, ServiceAction.Stop.ToString(), stopPending).Build());
 
             var notification = builder.Build();
