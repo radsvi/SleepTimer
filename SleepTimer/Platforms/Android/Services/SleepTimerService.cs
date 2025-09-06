@@ -15,7 +15,17 @@ namespace SleepTimer.Platforms.Android.Services
         private readonly AudioManager audioManager = (AudioManager?)global::Android.App.Application.Context.GetSystemService(AudioService)
             ?? throw new InvalidOperationException("AudioService not available");
         private readonly AppPreferences appPreferences = ServiceHelper.GetService<AppPreferences>();
-        private readonly MainTimer timerLogic = ServiceHelper.GetService<MainTimer>();
+        private readonly MainTimer mainTimer = ServiceHelper.GetService<MainTimer>();
+
+        public SleepTimerService()
+        {
+            //OnTimeFinished += TimeFinished;
+
+            if (mainTimer == null)
+                throw new NullReferenceException(nameof(mainTimer));
+            mainTimer.OnTimeFinished += TimeFinished;
+        }
+        //public event EventHandler OnTimeFinished;
 
         public override IBinder? OnBind(Intent? intent) => null;
 
@@ -24,14 +34,14 @@ namespace SleepTimer.Platforms.Android.Services
             if (intent?.Action == ServiceAction.Start.ToString())
             {
                 var minutes = intent.GetIntExtra("minutes", appPreferences.DefaultDuration);
-                timerLogic.StartTimer(UpdateNotification);
+                mainTimer.StartTimer(UpdateNotification);
 
                 var notification = BuildNotification($"Starting timer. {appPreferences.DefaultDuration} minutes left.");
                 StartForeground(SERVICE_ID, notification);
             }
             else if (intent?.Action == ServiceAction.Extend.ToString())
             {
-                timerLogic.Extend();
+                mainTimer.Extend();
             }
             else if (intent?.Action == ServiceAction.Stop.ToString())
             {
@@ -39,11 +49,17 @@ namespace SleepTimer.Platforms.Android.Services
                 StopSelf();
             }
 
-            return StartCommandResult.Sticky;
+            return StartCommandResult.NotSticky;
         }
         private void StopTimer()
         {
-            timerLogic.StopTimer();
+            mainTimer.StopTimer();
+        }
+        private void TimeFinished(object? sender, EventArgs e)
+        {
+            StopTimer();
+            //StopSelf();
+            
         }
 
         private Notification BuildNotification(string message)

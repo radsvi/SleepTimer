@@ -22,12 +22,11 @@ namespace SleepTimer.Models
             
 
             //Timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            Timer = new System.Timers.Timer();
-            Timer.Elapsed += OnTimedEvent;
-            Timer.Interval = 1000; // seconds
+            
         }
         private Action<string>? callbackNotificationMessage;
-        public System.Timers.Timer Timer { get; private set; }
+        public event EventHandler OnTimeFinished;
+        public System.Timers.Timer? Timer { get; private set; }
         public DateTime? EndTime { get; private set; }
         private bool isStarted;
         public bool IsStarted
@@ -64,6 +63,7 @@ namespace SleepTimer.Models
                 StopTimer();
 
                 //callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.");
+                OnTimeFinished?.Invoke(this, EventArgs.Empty);
             }
             else if (RemainingTime.CompareTo(new TimeSpan(0, 0, 0)) == 0)
             {
@@ -120,6 +120,10 @@ namespace SleepTimer.Models
         //}
         public void StartTimer(Action<string>? callback = null)
         {
+            Timer = new System.Timers.Timer();
+            Timer.Elapsed += OnTimedEvent;
+            Timer.Interval = 1000; // seconds
+
             this.callbackNotificationMessage = callback;
             IsFinished = false;
             IsStarted = true;
@@ -134,11 +138,16 @@ namespace SleepTimer.Models
         }
         public void StopTimer()
         {
+            if (Timer == null)
+                return;
+
             Timer.Enabled = false;
             IsStarted = false;
             EndTime = null;
 
             volumeService.SetVolume(StartingVolume);
+            Timer.Dispose();
+            Timer = null;
 
             //Notifications.Cancel();
         }
