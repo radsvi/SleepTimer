@@ -71,7 +71,8 @@
         
         
         
-        <Button Text="Back" Command="{Binding MainVM.NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.MainPage}" Margin="0,20,0,0" ImageSource="{StaticResource BackNavigationIcon}"/>
+        
+        <!--<Button Text="Back" Command="{Binding MainVM.NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.MainPage}" Margin="0,20,0,0" ImageSource="{StaticResource BackNavigationIcon}"/>-->
 
     </VerticalStackLayout>
 </ContentPage>

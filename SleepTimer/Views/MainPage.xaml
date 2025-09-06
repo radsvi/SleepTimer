@@ -7,6 +7,7 @@
              xmlns:models="clr-namespace:SleepTimer.Models"
              xmlns:viewModels="clr-namespace:SleepTimer.ViewModels"
              x:Class="SleepTimer.Views.MainPage"
+             Shell.NavBarIsVisible="False"
              x:DataType="viewModels:MainVM">
     <ContentPage.Resources>
         <converters:InvertBoolConverter x:Key="InvertBoolConv"/>
