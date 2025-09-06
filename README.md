@@ -1,5 +1,9 @@
 # Sleep Timer
 
+Application that shuts down currently running media after timer elapses.
+
+Also slowly turns volume down before reaching the timer. 
+
 Only works on Android atm.
 
-Motivation for creating this app was to replace other commercially available alternatives, because those didn't have working volume control on newer android devices.
+There are multiple commercially available alternatives, but I couldn't find one that had working volume control on newer android devices.
