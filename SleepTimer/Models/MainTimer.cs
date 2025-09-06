@@ -72,7 +72,7 @@ namespace SleepTimer.Models
 
                 //callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.");
             }
-            else if (RemainingTime.CompareTo(new TimeSpan(0, 0, Constants.FadeOutDuration)) < 0)
+            else if (RemainingTime.CompareTo(new TimeSpan(0, 0, appPreferences.FadeOutDuration)) < 0)
             {
                 GraduallyDecreaseVolume();
 
@@ -159,7 +159,7 @@ namespace SleepTimer.Models
                 return;
 
             //var newVolume = currentVolume - Constants.VolumeStep;
-            int newVolume = (StartingVolume * RemainingTime.Seconds / Constants.FadeOutDuration);
+            int newVolume = (StartingVolume * RemainingTime.Seconds / appPreferences.FadeOutDuration);
             volumeService.SetVolume(newVolume);
         }
     }

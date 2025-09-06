@@ -19,11 +19,30 @@
             <Slider
                 Grid.Column="1"
                 Minimum="0"
-                Maximum="60"
+                Maximum="30"
                 Value="{Binding AppPreferences.ExtensionLength}"
                 VerticalOptions="Center"
                 />
         </Grid>
+        
+        <Label Text="Fade-out duration:" Margin="0,15,0,0" />
+        <Grid
+            ColumnDefinitions="auto,*">
+            <Label
+                Text="{Binding AppPreferences.FadeOutDuration, StringFormat='{0} seconds'}"
+                FontAttributes="Bold"
+                HorizontalOptions="Start"
+                VerticalOptions="Center"
+                Margin="0,0,10,0"/>
+            <Slider
+                Grid.Column="1"
+                Minimum="0"
+                Maximum="180"
+                Value="{Binding AppPreferences.FadeOutDuration}"
+                VerticalOptions="Center"
+                />
+        </Grid>
+        
         <Label Text="Wait time after fade-out:" Margin="0,15,0,0" />
         <Grid
             ColumnDefinitions="auto,*">
