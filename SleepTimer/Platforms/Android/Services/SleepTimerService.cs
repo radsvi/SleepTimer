@@ -58,6 +58,21 @@ namespace SleepTimer.Platforms.Android.Services
         private void TimeFinished(object? sender, EventArgs e)
         {
             StopTimer();
+
+            if (OperatingSystem.IsAndroidVersionAtLeast(33))
+            {
+                StopForeground(StopForegroundFlags.Remove);
+            }
+            else
+            {
+#pragma warning disable CS0618 // Suppress obsolete warning for older versions
+                StopForeground(true);
+#pragma warning restore CS0618
+            }
+
+            var manager = NotificationManagerCompat.From(this);
+            manager.Cancel(SERVICE_ID);
+
             StopSelf();
         }
 #pragma warning disable CA1416
@@ -144,20 +159,6 @@ namespace SleepTimer.Platforms.Android.Services
         {
             base.OnDestroy();
             StopTimer();
-
-            if (OperatingSystem.IsAndroidVersionAtLeast(33))
-            {
-                StopForeground(StopForegroundFlags.Remove);
-            }
-            else
-            {
-#pragma warning disable CS0618 // Suppress obsolete warning for older versions
-                StopForeground(true);
-#pragma warning restore CS0618
-            }
-
-            var manager = NotificationManagerCompat.From(this);
-            manager.Cancel(SERVICE_ID);
         }
     }
 }
