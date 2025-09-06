@@ -4,13 +4,14 @@
              x:Class="SleepTimer.Views.Controls.SwitchControl">
     <ContentView.ControlTemplate>
         <ControlTemplate>
-            <FlexLayout>
+            <FlexLayout
+                Direction="Row" AlignItems="Stretch" JustifyContent="SpaceBetween">
                 <Switch
                     FlexLayout.Shrink="0"
                     IsToggled="{TemplateBinding IsToggled}"
                     x:Name="LinkedSwitch" />
                 <Label
-                    FlexLayout.Shrink="1"
+                    FlexLayout.Grow="1"
                     x:Name="LinkedLabel"
                     VerticalOptions="Center"
                     Text="{TemplateBinding Text}">
