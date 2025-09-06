@@ -58,8 +58,7 @@ namespace SleepTimer.Platforms.Android.Services
         private void TimeFinished(object? sender, EventArgs e)
         {
             StopTimer();
-            //StopSelf();
-            
+            StopSelf();
         }
 
         private Notification BuildNotification(string message)
@@ -73,7 +72,7 @@ namespace SleepTimer.Platforms.Android.Services
 
             builder.SetContentTitle("Sleep Timer")
                    .SetContentText($"{message} Tap to extend!")
-                   .SetSmallIcon(Resource.Drawable.sleepzz);
+                   .SetSmallIcon(global::Android.Resource.Drawable.IcLockIdleAlarm);
 
             // Handle priority for pre-26
             if (Build.VERSION.SdkInt < BuildVersionCodes.O)
@@ -122,8 +121,22 @@ namespace SleepTimer.Platforms.Android.Services
         }
         public override void OnDestroy()
         {
-            StopTimer();
             base.OnDestroy();
+            StopTimer();
+
+            if (OperatingSystem.IsAndroidVersionAtLeast(33))
+            {
+                StopForeground(StopForegroundFlags.Remove);
+            }
+            else
+            {
+#pragma warning disable CS0618 // Suppress obsolete warning for older versions
+                StopForeground(true);
+#pragma warning restore CS0618
+            }
+
+            var manager = NotificationManagerCompat.From(this);
+            manager.Cancel(SERVICE_ID);
         }
     }
 }
