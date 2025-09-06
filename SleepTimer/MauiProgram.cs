@@ -2,6 +2,7 @@
 //using Syncfusion.Maui.Core.Hosting;
 using Plugin.LocalNotification;
 using Plugin.LocalNotification.AndroidOption;
+using SleepTimer.Views.Controls;
 
 namespace SleepTimer
 {
@@ -12,6 +13,14 @@ namespace SleepTimer
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .ConfigureMauiHandlers(handlers =>
+                {
+#if ANDROID
+                    handlers.AddHandler(typeof(NumberPicker), typeof(SleepTimer.Platforms.Android.NumberPickerHandler));
+//#elif IOS
+//                    handlers.AddHandler(typeof(NumberPicker), typeof(NumberPickerHandler));
+#endif
+                })
                 .UseLocalNotification(cfg =>
                 {
                     cfg.AddAndroid(android =>

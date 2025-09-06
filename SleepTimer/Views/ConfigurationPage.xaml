@@ -45,5 +45,8 @@
         <controls:SwitchControl
             IsToggled="{Binding AppPreferences.DisplayVolumeChange, Mode=TwoWay}"
             Text="Show when volume changes" />
+
+        <!--<controls:NumberPicker Minimum="0" Maximum="59" Value="{Binding SelectedSeconds}" />-->
+
     </VerticalStackLayout>
 </ContentPage>
