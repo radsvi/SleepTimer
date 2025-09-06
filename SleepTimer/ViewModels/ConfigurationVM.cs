@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace SleepTimer.ViewModels
 {
-    public partial class ConfigurationVM(AppPreferences appPreferences) : ObservableObject
+    public partial class ConfigurationVM(AppPreferences appPreferences, MainVM mainVM) : ObservableObject
     {
         public AppPreferences AppPreferences { get; } = appPreferences;
+        public MainVM MainVM { get; } = mainVM;
+
     }
 }
