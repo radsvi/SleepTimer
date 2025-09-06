@@ -60,8 +60,29 @@ namespace SleepTimer.Platforms.Android.Services
             StopTimer();
             StopSelf();
         }
+#pragma warning disable CA1416
+        private static NotificationImportance MapToImportance(NotificationLevel level) => level switch
+        {
+            NotificationLevel.Min => NotificationImportance.Min,
+            NotificationLevel.Low => NotificationImportance.Low,
+            NotificationLevel.Default => NotificationImportance.Default,
+            NotificationLevel.High => NotificationImportance.High,
+            NotificationLevel.Max => NotificationImportance.High, // no direct Max
+            _ => NotificationImportance.Default
+        };
+#pragma warning restore CA1416
 
-        private Notification BuildNotification(string message)
+        private static int MapToPriority(NotificationLevel level) => level switch
+        {
+            NotificationLevel.Min => (int)NotificationPriority.Min,
+            NotificationLevel.Low => (int)NotificationPriority.Low,
+            NotificationLevel.Default => (int)NotificationPriority.Default,
+            NotificationLevel.High => (int)NotificationPriority.High,
+            NotificationLevel.Max => (int)NotificationPriority.Max,
+            _ => (int)NotificationPriority.Default
+        };
+
+        private Notification BuildNotification(string message, NotificationLevel notificationLevel = NotificationLevel.High)
         {
 #pragma warning disable CA1416, CA1422
             var channelId = "sleep_timer_channel";
@@ -77,7 +98,7 @@ namespace SleepTimer.Platforms.Android.Services
             // Handle priority for pre-26
             if (Build.VERSION.SdkInt < BuildVersionCodes.O)
             {
-                builder.SetPriority((int)NotificationPriority.Low); // silent but visible
+                builder.SetPriority((int)MapToPriority(notificationLevel)); // silent but visible
             }
             else
             {
@@ -85,7 +106,7 @@ namespace SleepTimer.Platforms.Android.Services
                 var channel = new NotificationChannel(
                     channelId,
                     "Sleep Timer",
-                    NotificationImportance.High
+                    MapToImportance(notificationLevel) //NotificationImportance.High
                 );
                 channel.SetSound(null, null);
 
@@ -113,9 +134,9 @@ namespace SleepTimer.Platforms.Android.Services
             return notification;
 #pragma warning restore CA1416, CA1422
         }
-        private void UpdateNotification(string remainingTime)
+        private void UpdateNotification(string remainingTime, NotificationLevel notificationLevel = NotificationLevel.High)
         {
-            var notification = BuildNotification(remainingTime);
+            var notification = BuildNotification(remainingTime, notificationLevel);
             var manager = NotificationManagerCompat.From(this);
             manager.Notify(1001, notification);
         }

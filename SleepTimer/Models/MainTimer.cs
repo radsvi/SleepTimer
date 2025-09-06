@@ -24,7 +24,7 @@ namespace SleepTimer.Models
             //Timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             
         }
-        private Action<string>? callbackNotificationMessage;
+        private Action<string, NotificationLevel>? callbackNotificationMessage;
         public event EventHandler OnTimeFinished;
         public System.Timers.Timer? Timer { get; private set; }
         public DateTime? EndTime { get; private set; }
@@ -92,25 +92,25 @@ namespace SleepTimer.Models
 
             if (RemainingTime.CompareTo(new TimeSpan(0, 0, -appPreferences.WaitTimeAfterFadeOut)) < 0)
             {
-                callbackNotificationMessage?.Invoke($"Sleep timer finished.");
+                callbackNotificationMessage?.Invoke($"Sleep timer finished.", NotificationLevel.Low);
             }
             else if (RemainingTime.CompareTo(new TimeSpan(0, 0, 0)) == 0)
             {
-                callbackNotificationMessage?.Invoke($"Sleeping. {appPreferences.WaitTimeAfterFadeOut} minutes wait time after fade out.");
+                callbackNotificationMessage?.Invoke($"Sleeping. {appPreferences.WaitTimeAfterFadeOut} minutes wait time after fade out.", NotificationLevel.Low);
             }
             else if (RemainingTime.Minutes == 0 && RemainingTime.Seconds < 10)
             {
                 //await Notifications.Show(new NotificationMessageGoingToSleep());
-                callbackNotificationMessage?.Invoke("Going to sleep.");
+                callbackNotificationMessage?.Invoke("Going to sleep.", NotificationLevel.Low);
             }
             else if (RemainingTime.Minutes == 0 && RemainingTime.Seconds >= 10)
             {
-                callbackNotificationMessage?.Invoke($"{RemainingTime.Seconds} seconds left.");
+                callbackNotificationMessage?.Invoke($"{RemainingTime.Seconds} seconds left.", NotificationLevel.Low);
             }
             else if (RemainingTime.Seconds > 0 && Math.Abs(RemainingTime.Minutes - LastNotificationUpdate) > 0)
             {
                 //await Notifications.Show(new NotificationMessageRemainingTime(RemainingTime.Minutes));
-                callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.");
+                callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.", NotificationLevel.High);
                 LastNotificationUpdate = RemainingTime.Minutes;
             }
         }
@@ -118,7 +118,7 @@ namespace SleepTimer.Models
         //{
         //    await sleepTimerService.OnTimedEvent(source, e);
         //}
-        public void StartTimer(Action<string>? callback = null)
+        public void StartTimer(Action<string, NotificationLevel>? callback = null)
         {
             Timer = new System.Timers.Timer();
             Timer.Elapsed += OnTimedEvent;
