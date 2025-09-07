@@ -8,60 +8,27 @@
              x:DataType="viewModels:ConfigurationVM"
              Title="Configuration Page">
     <VerticalStackLayout Margin="5">
-        <Label Text="Extension length:" Margin="0,15,0,0" />
-        <Grid
-            ColumnDefinitions="auto,*">
-            <Label
-                Text="{Binding AppPreferences.ExtensionLength, StringFormat='{0} minutes'}"
-                FontAttributes="Bold"
-                HorizontalOptions="Start"
-                VerticalOptions="Center"
-                Margin="0,0,10,0"/>
-            <Slider
-                Grid.Column="1"
-                Minimum="0"
-                Maximum="30"
-                Value="{Binding AppPreferences.ExtensionLength}"
-                VerticalOptions="Center"
-                />
-        </Grid>
-        
-        <Label Text="Fade-out duration:" Margin="0,15,0,0" />
-        <Grid
-            ColumnDefinitions="auto,*">
-            <Label
-                Text="{Binding AppPreferences.FadeOutDuration, StringFormat='{}{0:00} seconds'}"
-                FontAttributes="Bold"
-                HorizontalOptions="Start"
-                VerticalOptions="Center"
-                Margin="0,0,10,0"/>
-            <Slider
-                Grid.Column="1"
-                Minimum="0"
-                Maximum="180"
-                Value="{Binding AppPreferences.FadeOutDuration}"
-                VerticalOptions="Center"
-                />
-        </Grid>
-        
-        <Label Text="Standby (Wait time after fade-out):" Margin="0,15,0,0" />
-        <Grid
-            ColumnDefinitions="auto,*">
-            <Label
-                Text="{Binding AppPreferences.WaitTimeAfterFadeOut, StringFormat='{0} seconds'}"
-                FontAttributes="Bold"
-                HorizontalOptions="Start"
-                VerticalOptions="Center"
-                Margin="0,0,10,0"/>
-            <Slider
-                Grid.Column="1"
-                Minimum="0"
-                Maximum="120"
-                Value="{Binding AppPreferences.WaitTimeAfterFadeOut}"
-                VerticalOptions="Center"
-                />
-        </Grid>
-        
+        <controls:SliderControl
+            Description="Extension length:"
+            InlineText="minutes"
+            Value="{Binding AppPreferences.ExtensionLength}"
+            Minimum="0"
+            Maximum="30" />
+
+        <controls:SliderControl
+            Description="Fade-out duration:"
+            InlineText="seconds"
+            Value="{Binding AppPreferences.FadeOutDuration}"
+            Minimum="0"
+            Maximum="180" />
+
+        <controls:SliderControl
+            Description="Standby (Wait time after fade-out):"
+            InlineText="seconds"
+            Value="{Binding AppPreferences.WaitTimeAfterFadeOut}"
+            Minimum="0"
+            Maximum="120" />
+
         <controls:SwitchControl
             IsToggled="{Binding AppPreferences.DisplayVolumeChange, Mode=TwoWay}"
             Text="Show when volume changes" />
