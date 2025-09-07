@@ -11,21 +11,21 @@
         <controls:SliderControl
             Description="Extension length:"
             InlineText="minutes"
-            Value="{Binding AppPreferences.ExtensionLength}"
+            Value="{Binding AppPreferences.ExtensionLength, Mode=TwoWay}"
             Minimum="0"
             Maximum="30" />
 
         <controls:SliderControl
             Description="Fade-out duration:"
             InlineText="seconds"
-            Value="{Binding AppPreferences.FadeOutDuration}"
+            Value="{Binding AppPreferences.FadeOutDuration, Mode=TwoWay}"
             Minimum="0"
             Maximum="180" />
 
         <controls:SliderControl
             Description="Standby (Wait time after fade-out):"
             InlineText="seconds"
-            Value="{Binding AppPreferences.StandByDuration}"
+            Value="{Binding AppPreferences.StandByDuration, Mode=TwoWay}"
             Minimum="0"
             Maximum="120" />
 
