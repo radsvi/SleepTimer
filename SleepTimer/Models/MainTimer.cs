@@ -61,7 +61,7 @@ namespace SleepTimer.Models
 
             RemainingTime = (DateTime)EndTime - e.SignalTime;
 
-            if (RemainingTime.CompareTo(new TimeSpan(0, 0, -appPreferences.WaitTimeAfterFadeOut)) < 0)
+            if (RemainingTime.CompareTo(new TimeSpan(0, 0, -appPreferences.StandByDuration)) < 0)
             {
                 IsFinished = true;
                 mediaService.StopPlayback();
@@ -97,13 +97,13 @@ namespace SleepTimer.Models
             //callback?.Invoke($"Elapsed: {RemainingTime} minute(s)");
             //callback?.Invoke($"{RemainingTime.Minutes} minutes left.");
 
-            if (RemainingTime.CompareTo(new TimeSpan(0, 0, -appPreferences.WaitTimeAfterFadeOut)) < 0)
+            if (RemainingTime.CompareTo(new TimeSpan(0, 0, -appPreferences.StandByDuration)) < 0)
             {
                 callbackNotificationMessage?.Invoke($"Sleep timer finished.", NotificationLevel.Low);
             }
             else if (RemainingTime.CompareTo(new TimeSpan(0, 0, 0)) == 0)
             {
-                callbackNotificationMessage?.Invoke($"Sleeping. {appPreferences.WaitTimeAfterFadeOut} minutes wait time after fade out.", NotificationLevel.Low);
+                callbackNotificationMessage?.Invoke($"Sleeping. {appPreferences.StandByDuration} minutes wait time after fade out.", NotificationLevel.Low);
             }
             else if (RemainingTime.Minutes == 0 && RemainingTime.Seconds < 10)
             {
@@ -168,6 +168,7 @@ namespace SleepTimer.Models
             DateTime dateTime = (DateTime)EndTime;
 
             EndTime = dateTime.AddMinutes(appPreferences.ExtensionLength);
+            InStandby = false;
 
             volumeService.SetVolume(StartingVolume);
         }

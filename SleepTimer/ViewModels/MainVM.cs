@@ -28,12 +28,13 @@ namespace SleepTimer.ViewModels
 
             App.Current!.UserAppTheme = AppTheme.Dark;
             Plugin.LocalNotification.LocalNotificationCenter.Current.NotificationActionTapped += Current_NotificationActionTapped;
-            MainTimer.PropertyChanged += MainTimer_PropertyChanged;
+            AppPreferences.PropertyChanged += PropertyChangedHandler;
+            MainTimer.PropertyChanged += PropertyChangedHandler;
         }
 
-        private void MainTimer_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        private void PropertyChangedHandler(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(MainTimer.InStandby))
+            if (e.PropertyName == nameof(MainTimer.InStandby) || e.PropertyName == nameof(AppPreferences.StandByDuration))
             {
                 OnPropertyChanged(nameof(TextBelowTimer));
             }
@@ -42,7 +43,7 @@ namespace SleepTimer.ViewModels
         {
             get
             {
-                if (MainTimer.InStandby) return $"minutes in standby";
+                if (MainTimer.InStandby) return $"standby ({AppPreferences.StandByDuration} seconds)";
                 else return "minutes remaining";
             }
         }

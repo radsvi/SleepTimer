@@ -25,7 +25,7 @@
         <controls:SliderControl
             Description="Standby (Wait time after fade-out):"
             InlineText="seconds"
-            Value="{Binding AppPreferences.WaitTimeAfterFadeOut}"
+            Value="{Binding AppPreferences.StandByDuration}"
             Minimum="0"
             Maximum="120" />
 
