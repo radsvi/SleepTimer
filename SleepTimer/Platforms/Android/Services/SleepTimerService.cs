@@ -138,7 +138,7 @@ namespace SleepTimer.Platforms.Android.Services
         {
             var notification = BuildNotification(remainingTime, notificationLevel);
             var manager = NotificationManagerCompat.From(this);
-            manager.Notify(1001, notification);
+            manager.Notify(SERVICE_ID, notification);
         }
         public override void OnDestroy()
         {
