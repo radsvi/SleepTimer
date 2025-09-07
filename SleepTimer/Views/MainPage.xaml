@@ -77,10 +77,11 @@
                     VerticalOptions="Center"
                     Margin="0,0,10,0"/> <!--{0:mm\\:ss}-->
                 <Label
-                    Text="minutes remaining"
+                    Text="{Binding TextBelowTimer}"
                     HorizontalOptions="Center"
                     />
             </StackLayout>
+            
             <!--<Grid HeightRequest="250" WidthRequest="250">
                 <controls:RadialSlider x:Name="MySlider"
                    WidthRequest="250"

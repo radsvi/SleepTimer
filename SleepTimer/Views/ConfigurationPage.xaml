@@ -30,7 +30,7 @@
         <Grid
             ColumnDefinitions="auto,*">
             <Label
-                Text="{Binding AppPreferences.FadeOutDuration, StringFormat='{0} seconds'}"
+                Text="{Binding AppPreferences.FadeOutDuration, StringFormat='{}{0:00} seconds'}"
                 FontAttributes="Bold"
                 HorizontalOptions="Start"
                 VerticalOptions="Center"
@@ -44,7 +44,7 @@
                 />
         </Grid>
         
-        <Label Text="Wait time after fade-out:" Margin="0,15,0,0" />
+        <Label Text="Standby (Wait time after fade-out):" Margin="0,15,0,0" />
         <Grid
             ColumnDefinitions="auto,*">
             <Label

@@ -20,17 +20,32 @@ namespace SleepTimer.ViewModels
             IVolumeService volumeService,
             ISleepTimerServiceHelper sleepTimerServiceHelper)
         {
-            AppPreferences = appPreferences;
-            MainTimer = mainTimer;
-
+            this.AppPreferences = appPreferences;
+            this.MainTimer = mainTimer;
             this.mediaService = mediaService;
             this.volumeService = volumeService;
             this.sleepTimerServiceHelper = sleepTimerServiceHelper;
 
             App.Current!.UserAppTheme = AppTheme.Dark;
             Plugin.LocalNotification.LocalNotificationCenter.Current.NotificationActionTapped += Current_NotificationActionTapped;
+            MainTimer.PropertyChanged += MainTimer_PropertyChanged;
         }
 
+        private void MainTimer_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(MainTimer.InStandby))
+            {
+                OnPropertyChanged(nameof(TextBelowTimer));
+            }
+        }
+        public string TextBelowTimer
+        {
+            get
+            {
+                if (MainTimer.InStandby) return $"minutes in standby";
+                else return "minutes remaining";
+            }
+        }
         private void Current_NotificationActionTapped(Plugin.LocalNotification.EventArgs.NotificationActionEventArgs e)
         {
             MainTimer.Extend();

@@ -40,6 +40,12 @@ namespace SleepTimer.Models
             get => isFinished;
             set { isFinished = value; OnPropertyChanged(); }
         }
+        private bool inStandby;
+        public bool InStandby
+        {
+            get => inStandby;
+            set { inStandby = value; OnPropertyChanged(); }
+        }
         public int LastNotificationUpdate { get; private set; } = int.MaxValue;
         private TimeSpan remainingTime = TimeSpan.MinValue;
         public TimeSpan RemainingTime
@@ -65,10 +71,11 @@ namespace SleepTimer.Models
                 //callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.");
                 OnTimeFinished?.Invoke(this, EventArgs.Empty);
             }
-            else if (RemainingTime.CompareTo(new TimeSpan(0, 0, 0)) == 0)
+            else if (RemainingTime.CompareTo(new TimeSpan(0, 0, 0)) <= 0)
             {
                 volumeService.SetVolume(0);
                 mediaService.StopPlayback();
+                InStandby = true;
 
                 //callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.");
             }
@@ -127,6 +134,7 @@ namespace SleepTimer.Models
             this.callbackNotificationMessage = callback;
             IsFinished = false;
             IsStarted = true;
+            InStandby = false;
             EndTime = DateTime.Now.AddMinutes(appPreferences.DefaultDuration);
             StartingVolume = volumeService.GetVolume();
             Timer.Enabled = true;
@@ -144,6 +152,7 @@ namespace SleepTimer.Models
             Timer.Enabled = false;
             IsStarted = false;
             EndTime = null;
+            InStandby = false;
 
             volumeService.SetVolume(StartingVolume);
             Timer.Dispose();
@@ -153,7 +162,8 @@ namespace SleepTimer.Models
         }
         public void Extend()
         {
-            if (EndTime is null) throw new InvalidOperationException();
+            if (EndTime is null)
+                return;
 
             DateTime dateTime = (DateTime)EndTime;
 
