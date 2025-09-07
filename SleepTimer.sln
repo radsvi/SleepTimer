@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36301.6 d17.14
+VisualStudioVersion = 17.14.36301.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SleepTimer", "SleepTimer\SleepTimer.csproj", "{6E278C6E-85AF-46A8-BF40-787215C1A05D}"
 EndProject
@@ -13,6 +13,7 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6E278C6E-85AF-46A8-BF40-787215C1A05D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6E278C6E-85AF-46A8-BF40-787215C1A05D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E278C6E-85AF-46A8-BF40-787215C1A05D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{6E278C6E-85AF-46A8-BF40-787215C1A05D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E278C6E-85AF-46A8-BF40-787215C1A05D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
