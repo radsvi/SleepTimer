@@ -27,7 +27,7 @@ namespace SleepTimer.Models
         private Action<string, NotificationLevel>? callbackNotificationMessage;
         public event EventHandler OnTimeFinished;
         public System.Timers.Timer? Timer { get; private set; }
-        public DateTime? EndTime { get; private set; }
+        public DateTime EndTime { get; private set; } = DateTime.MinValue;
         private bool isStarted;
         public bool IsStarted
         {
@@ -46,20 +46,20 @@ namespace SleepTimer.Models
             get => inStandby;
             set { inStandby = value; OnPropertyChanged(); }
         }
-        public int LastNotificationUpdate { get; private set; } = int.MaxValue;
+        public DateTime LastNotificationUpdate { get; private set; }
         private TimeSpan remainingTime = TimeSpan.MinValue;
         public TimeSpan RemainingTime
         {
             get => remainingTime;
-            set { remainingTime = value; OnPropertyChanged(); }
+            set { remainingTime = value; OnPropertyChanged(); OnPropertyChanged(nameof(DisplayRemainingTime)); }
         }
+        public TimeSpan DisplayRemainingTime { get => (DateTime)EndTime - DateTime.Now; }
         private int StartingVolume { get; set; }
         private void OnTimedEvent(object? source, ElapsedEventArgs e)
         {
-            if (EndTime == null)
-                return;
-
             RemainingTime = (DateTime)EndTime - e.SignalTime;
+            //TimeSpan elapsed = (DateTime)EndTime - e.SignalTime;
+            //var remainingMinutes = (int)Math.Ceiling(elapsed.TotalMinutes);
 
             if (RemainingTime.CompareTo(new TimeSpan(0, 0, -appPreferences.StandByDuration)) < 0)
             {
@@ -68,7 +68,6 @@ namespace SleepTimer.Models
                 volumeService.SetVolume(StartingVolume);
                 StopTimer();
 
-                //callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.");
                 OnTimeFinished?.Invoke(this, EventArgs.Empty);
             }
             else if (RemainingTime.CompareTo(new TimeSpan(0, 0, 0)) <= 0)
@@ -76,27 +75,18 @@ namespace SleepTimer.Models
                 volumeService.SetVolume(0);
                 mediaService.StopPlayback();
                 InStandby = true;
-
-                //callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.");
             }
             else if (RemainingTime.CompareTo(new TimeSpan(0, 0, appPreferences.FadeOutDuration)) < 0)
             {
                 GraduallyDecreaseVolume();
-
-                //callbackNotificationMessage?.Invoke($"{RemainingTime.Seconds} seconds left.");
             }
             else
             {
                 // User can change the volume while the SleepTimer is active, but before the final phase is reached, and the starting volume is still being stored correctly.
                 StartingVolume = volumeService.GetVolume();
-
-                //callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.");
             }
 
             // Notifications:
-            //callback?.Invoke($"Elapsed: {RemainingTime} minute(s)");
-            //callback?.Invoke($"{RemainingTime.Minutes} minutes left.");
-
             if (RemainingTime.CompareTo(new TimeSpan(0, 0, -appPreferences.StandByDuration)) < 0)
             {
                 callbackNotificationMessage?.Invoke($"Sleep timer finished.", NotificationLevel.Low);
@@ -114,9 +104,11 @@ namespace SleepTimer.Models
             {
                 callbackNotificationMessage?.Invoke($"{RemainingTime.Seconds} seconds left.", NotificationLevel.Low);
             }
-            else if (RemainingTime.Seconds <= 1)
+            //else if (RemainingTime.Seconds == 5 || LastNotificationUpdate.AddMinutes(1) >= DateTime.Now)// jeste pridat kdyz je cas delsi (kdyz dam extend)
+#warning jeste pridat podminku kdyz je cas delsi (kdyz dam extend)
+            else if (RemainingTime.Seconds == 5 && DateTime.Now >= LastNotificationUpdate.AddSeconds(50))
             {
-                var highPriorityMinutes = new int[] { 1,2,5,10 }; // minutes where the notification will popup, instead of staying in background
+                var highPriorityMinutes = new int[] { 1, 2, 5, 10 }; // minutes where the notification will popup, instead of staying in background
                 NotificationLevel chosenPriority;
                 if (highPriorityMinutes.Contains(RemainingTime.Minutes))
                     chosenPriority = NotificationLevel.High;
@@ -125,7 +117,7 @@ namespace SleepTimer.Models
 
                 //await Notifications.Show(new NotificationMessageRemainingTime(RemainingTime.Minutes));
                 callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.", chosenPriority);
-                LastNotificationUpdate = RemainingTime.Minutes;
+                LastNotificationUpdate = DateTime.Now;
             }
         }
         //private async void OnTimedEvent(object? source, ElapsedEventArgs e)
@@ -143,11 +135,11 @@ namespace SleepTimer.Models
             IsStarted = true;
             InStandby = false;
             EndTime = DateTime.Now.AddMinutes(appPreferences.DefaultDuration);
+            RemainingTime = (DateTime)EndTime - DateTime.Now;
             StartingVolume = volumeService.GetVolume();
-            Timer.Enabled = true;
+            LastNotificationUpdate = DateTime.Now;
 
-            if (EndTime != null)
-                RemainingTime = (DateTime)EndTime - DateTime.Now;
+            Timer.Enabled = true;
 
             //await Notifications.Show(new NotificationMessageRemainingTime(RemainingTime.Minutes));
         }
@@ -158,7 +150,6 @@ namespace SleepTimer.Models
 
             Timer.Enabled = false;
             IsStarted = false;
-            EndTime = null;
             InStandby = false;
 
             volumeService.SetVolume(StartingVolume);
@@ -169,15 +160,13 @@ namespace SleepTimer.Models
         }
         public void Extend()
         {
-            if (EndTime is null)
-                return;
-
             DateTime dateTime = (DateTime)EndTime;
 
             EndTime = dateTime.AddMinutes(appPreferences.ExtensionLength);
             InStandby = false;
 
             volumeService.SetVolume(StartingVolume);
+            callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.", NotificationLevel.Low);
         }
         private void GraduallyDecreaseVolume()
         {
