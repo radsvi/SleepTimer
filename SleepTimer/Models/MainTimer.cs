@@ -114,10 +114,17 @@ namespace SleepTimer.Models
             {
                 callbackNotificationMessage?.Invoke($"{RemainingTime.Seconds} seconds left.", NotificationLevel.Low);
             }
-            else if (RemainingTime.Seconds > 0 && Math.Abs(RemainingTime.Minutes - LastNotificationUpdate) > 0)
+            else if (RemainingTime.Seconds <= 1)
             {
+                var highPriorityMinutes = new int[] { 1,2,5,10 }; // minutes where the notification will popup, instead of staying in background
+                NotificationLevel chosenPriority;
+                if (highPriorityMinutes.Contains(RemainingTime.Minutes))
+                    chosenPriority = NotificationLevel.High;
+                else
+                    chosenPriority = NotificationLevel.Low;
+
                 //await Notifications.Show(new NotificationMessageRemainingTime(RemainingTime.Minutes));
-                callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.", NotificationLevel.High);
+                callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.", chosenPriority);
                 LastNotificationUpdate = RemainingTime.Minutes;
             }
         }
