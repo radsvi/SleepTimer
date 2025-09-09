@@ -14,8 +14,10 @@ namespace SleepTimer.Platforms.Android.Services
         const int SERVICE_ID = 1001;
         private readonly AudioManager audioManager = (AudioManager?)global::Android.App.Application.Context.GetSystemService(AudioService)
             ?? throw new InvalidOperationException("AudioService not available");
-        private readonly AppPreferences appPreferences = ServiceHelper.GetService<AppPreferences>();
-        private readonly MainTimer mainTimer = ServiceHelper.GetService<MainTimer>();
+        private readonly AppPreferences appPreferences = ServiceHelper.GetService<AppPreferences>() ?? throw new NullReferenceException();
+        private readonly MainTimer mainTimer = ServiceHelper.GetService<MainTimer>() ?? throw new NullReferenceException();
+        private readonly IVolumeService volumeService = ServiceHelper.GetService<IVolumeService>() ?? throw new NullReferenceException();
+        private readonly IMediaControlService mediaService = ServiceHelper.GetService<IMediaControlService>() ?? throw new NullReferenceException();
 
         public SleepTimerService()
         {
@@ -23,6 +25,22 @@ namespace SleepTimer.Platforms.Android.Services
 
             if (mainTimer == null)
                 throw new NullReferenceException(nameof(mainTimer));
+
+
+            var mediaController = new SleepMediaController(this.volumeService, this.mediaService, appPreferences);
+            //var notifier = new SleepTimerNotifier(appPreferences, (msg, level) => Debug.WriteLine($"{level}: {msg}"));
+            var notifier = new SleepTimerNotifier(appPreferences, (msg, level) => UpdateNotification(msg, level));
+                //=> Debug.WriteLine($"{level}: {msg}"));
+            //var notification = BuildNotification($"Starting timer. {appPreferences.DefaultDuration} minutes left.");
+
+            // Wire up events
+            mainTimer.Tick += (s, remaining) =>
+            {
+                notifier.OnTick(remaining);
+                if (remaining.TotalSeconds <= appPreferences.FadeOutDuration)
+                    mediaController.HandleFadeOut(remaining);
+            };
+            //mainTimer.Finished += (s, e) => mediaController.StopPlayback();
             mainTimer.Finished += TimeFinished;
         }
         //public event EventHandler OnTimeFinished;
@@ -34,9 +52,11 @@ namespace SleepTimer.Platforms.Android.Services
             if (intent?.Action == ServiceAction.Start.ToString())
             {
                 var minutes = intent.GetIntExtra("minutes", appPreferences.DefaultDuration);
+#warning UpdateNotification uz mam jinde
                 mainTimer.StartTimer(UpdateNotification);
 
                 var notification = BuildNotification($"Starting timer. {appPreferences.DefaultDuration} minutes left.");
+
                 StartForeground(SERVICE_ID, notification);
             }
             else if (intent?.Action == ServiceAction.Extend.ToString())
