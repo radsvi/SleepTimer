@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SleepTimer.Models
 {
-    public class SleepMediaController(
+    public class MediaController(
         IVolumeService volumeService,
         IMediaControlService mediaService,
         AppPreferences appPreferences)
@@ -31,14 +31,15 @@ namespace SleepTimer.Models
             mediaService.StopPlayback();
         }
         public void SetStartingVolume() => startingVolume = volumeService.GetVolume();
-        private void RestoreVolume()
-        {
-            volumeService.SetVolume(startingVolume);
-        }
-        public void StopPlayback()
+        //private void RestoreVolume()
+        //{
+        //    volumeService.SetVolume(startingVolume);
+        //}
+        public void HandleFinished()
         {
             mediaService.StopPlayback();
-            RestoreVolume();
+            //RestoreVolume();
+            volumeService.SetVolume(startingVolume);
         }
     }
 }

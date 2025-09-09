@@ -28,7 +28,7 @@ namespace SleepTimer.Platforms.Android.Services
                 throw new NullReferenceException(nameof(mainTimer));
 
 
-            var mediaController = new SleepMediaController(this.volumeService, this.mediaService, appPreferences);
+            var mediaController = new MediaController(this.volumeService, this.mediaService, appPreferences);
             //var notifier = new SleepTimerNotifier(appPreferences, (msg, level) => Debug.WriteLine($"{level}: {msg}"));
             var notifier = new TimerNotifier(appPreferences, (msg, level) => UpdateNotification(msg, level));
                 //=> Debug.WriteLine($"{level}: {msg}"));
@@ -52,6 +52,7 @@ namespace SleepTimer.Platforms.Android.Services
             {
                 StopTimer();
                 StopSelf();
+                mediaController.HandleFinished();
             };
         }
 
