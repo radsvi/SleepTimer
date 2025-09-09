@@ -23,7 +23,7 @@ namespace SleepTimer.Models
         public TimeSpan RemainingTime
         {
             get => remainingTime;
-            set { remainingTime = value; OnPropertyChanged(); OnPropertyChanged(nameof(DisplayRemainingTime)); }
+            private set { remainingTime = value; OnPropertyChanged(); OnPropertyChanged(nameof(DisplayRemainingTime)); }
         }
 
         public event EventHandler? Finished;
@@ -37,11 +37,11 @@ namespace SleepTimer.Models
         //    get => isFinished;
         //    set { isFinished = value; OnPropertyChanged(); }
         //}
-        private bool inStandby;
+        private bool inStandby = false;
         public bool InStandby
         {
             get => inStandby;
-            set { inStandby = value; OnPropertyChanged(); }
+            private set { inStandby = value; OnPropertyChanged(); }
         }
         public TimeSpan DisplayRemainingTime { get => (EndTime != null) ? ((DateTime)EndTime - DateTime.Now) : throw new NullReferenceException(nameof(EndTime)); }
 
@@ -55,14 +55,15 @@ namespace SleepTimer.Models
             Timer = new System.Timers.Timer();
             Timer.Interval = 1000; // 1 second
             Timer.Elapsed += OnTick;
-            EndTime = DateTime.Now.AddMinutes(appPreferences.DefaultDuration);
 
+            EndTime = DateTime.Now.AddMinutes(appPreferences.DefaultDuration);
+            InStandby = false;
             IsStarted = true;
             Timer.Start();
 
             //this.callbackNotificationMessage = callback;
             //IsFinished = false;
-            //InStandby = false;
+            
             //EndTime = DateTime.Now.AddMinutes(appPreferences.DefaultDuration);
             //RemainingTime = (DateTime)EndTime - DateTime.Now;
             //StartingVolume = volumeService.GetVolume();
@@ -79,7 +80,7 @@ namespace SleepTimer.Models
 
             IsStarted = false;
             EndTime = null;
-            //InStandby = false;
+            InStandby = false;
 
             //volumeService.SetVolume(StartingVolume);
             
@@ -93,7 +94,7 @@ namespace SleepTimer.Models
 
             EndTime = EndTime.Value.AddMinutes(appPreferences.ExtensionLength);
 
-            //InStandby = false;
+            InStandby = false;
 
             //volumeService.SetVolume(StartingVolume);
             //callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.", NotificationLevel.Low);
@@ -109,7 +110,10 @@ namespace SleepTimer.Models
             if (RemainingTime.TotalSeconds + appPreferences.StandBySeconds <= 0)
                 Finished?.Invoke(this, EventArgs.Empty);
             else if (RemainingTime.TotalSeconds <= 0)
+            {
+                InStandby = true;
                 EnteredStandby?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 }

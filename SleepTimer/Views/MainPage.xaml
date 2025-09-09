@@ -70,14 +70,14 @@
                 HorizontalOptions="Fill"
                 IsVisible="{Binding MainTimer.IsStarted}">
                 <Label
-                    Text="{Binding FrontendDisplay.RemainingTime, StringFormat='{0:mm\\:ss}'}"
+                    Text="{Binding MainPageDisplay.RemainingTime, StringFormat='{0:mm\\:ss}'}"
                     FontSize="120"
                     FontAttributes="Bold"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
                     Margin="0,0,10,0"/> <!--{0:mm\\:ss}-->
                 <Label
-                    Text="{Binding TextBelowTimer}"
+                    Text="{Binding MainPageDisplay.TextBelowTimer}"
                     HorizontalOptions="Center"
                     />
             </StackLayout>
