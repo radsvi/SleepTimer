@@ -17,7 +17,6 @@ namespace SleepTimer.Models
         private int startingVolume;
 
         public void CaptureStartingVolume() => startingVolume = volumeService.GetVolume();
-
         public void HandleFadeOut(TimeSpan remainingTime)
         {
             var currentVolume = volumeService.GetVolume();
@@ -26,18 +25,19 @@ namespace SleepTimer.Models
             int newVolume = (startingVolume * remainingTime.Seconds / appPreferences.FadeOutDuration);
             volumeService.SetVolume(newVolume);
         }
-
         public void EnterStandby()
         {
             volumeService.SetVolume(0);
             mediaService.StopPlayback();
         }
-
+        public void SetStartingVolume()
+        {
+            startingVolume = volumeService.GetVolume();
+        }
         public void RestoreVolume()
         {
             volumeService.SetVolume(startingVolume);
         }
-
         public void StopPlayback()
         {
             mediaService.StopPlayback();

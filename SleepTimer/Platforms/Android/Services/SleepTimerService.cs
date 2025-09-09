@@ -43,6 +43,8 @@ namespace SleepTimer.Platforms.Android.Services
                 mainPageDisplay.OnTick(remaining);
                 if (remaining.TotalSeconds <= appPreferences.FadeOutDuration)
                     mediaController.HandleFadeOut(remaining);
+                else
+                    mediaController.SetStartingVolume(); // refreshes every second in case user changed the volume. Stops updating only after the we are in the fade-out period.
             };
             //mainTimer.Finished += (s, e) => mediaController.StopPlayback();
             mainTimer.Finished += TimeFinished;
