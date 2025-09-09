@@ -14,10 +14,11 @@ namespace SleepTimer.Platforms.Android.Services
         const int SERVICE_ID = 1001;
         private readonly AudioManager audioManager = (AudioManager?)global::Android.App.Application.Context.GetSystemService(AudioService)
             ?? throw new InvalidOperationException("AudioService not available");
-        private readonly AppPreferences appPreferences = ServiceHelper.GetService<AppPreferences>() ?? throw new NullReferenceException();
-        private readonly MainTimer mainTimer = ServiceHelper.GetService<MainTimer>() ?? throw new NullReferenceException();
-        private readonly IVolumeService volumeService = ServiceHelper.GetService<IVolumeService>() ?? throw new NullReferenceException();
-        private readonly IMediaControlService mediaService = ServiceHelper.GetService<IMediaControlService>() ?? throw new NullReferenceException();
+        private readonly AppPreferences appPreferences = ServiceHelper.GetService<AppPreferences>() ?? throw new NullReferenceException(nameof(appPreferences));
+        private readonly MainTimer mainTimer = ServiceHelper.GetService<MainTimer>() ?? throw new NullReferenceException(nameof(mainTimer));
+        private readonly MainPageDisplay mainPageDisplay = ServiceHelper.GetService<MainPageDisplay>() ?? throw new NullReferenceException(nameof(mainPageDisplay));
+        private readonly IVolumeService volumeService = ServiceHelper.GetService<IVolumeService>() ?? throw new NullReferenceException(nameof(volumeService));
+        private readonly IMediaControlService mediaService = ServiceHelper.GetService<IMediaControlService>() ?? throw new NullReferenceException(nameof(mediaService));
 
         public SleepTimerService()
         {
@@ -33,10 +34,13 @@ namespace SleepTimer.Platforms.Android.Services
                 //=> Debug.WriteLine($"{level}: {msg}"));
             //var notification = BuildNotification($"Starting timer. {appPreferences.DefaultDuration} minutes left.");
 
+            mainPageDisplay.SetStartTime(appPreferences.DefaultDuration);
+
             // Wire up events
             mainTimer.Tick += (s, remaining) =>
             {
                 notifier.OnTick(remaining);
+                mainPageDisplay.OnTick(remaining);
                 if (remaining.TotalSeconds <= appPreferences.FadeOutDuration)
                     mediaController.HandleFadeOut(remaining);
             };

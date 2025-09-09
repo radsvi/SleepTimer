@@ -10,6 +10,7 @@ namespace SleepTimer.ViewModels
     {
         public AppPreferences AppPreferences { get; }
         public MainTimer MainTimer { get; }
+        public MainPageDisplay FrontendDisplay { get; }
         readonly IMediaControlService mediaService;
         readonly IVolumeService volumeService;
         readonly ISleepTimerServiceHelper sleepTimerServiceHelper;
@@ -18,12 +19,15 @@ namespace SleepTimer.ViewModels
 
         public MainVM(AppPreferences appPreferences,
             MainTimer mainTimer,
+            MainPageDisplay frontendDisplay,
             IMediaControlService mediaService,
             IVolumeService volumeService,
-            ISleepTimerServiceHelper sleepTimerServiceHelper)
+            ISleepTimerServiceHelper sleepTimerServiceHelper
+            )
         {
             this.AppPreferences = appPreferences;
             this.MainTimer = mainTimer;
+            this.FrontendDisplay = frontendDisplay;
             this.mediaService = mediaService;
             this.volumeService = volumeService;
             this.sleepTimerServiceHelper = sleepTimerServiceHelper;
@@ -32,8 +36,6 @@ namespace SleepTimer.ViewModels
             Plugin.LocalNotification.LocalNotificationCenter.Current.NotificationActionTapped += Current_NotificationActionTapped;
             AppPreferences.PropertyChanged += PropertyChangedHandler;
             MainTimer.PropertyChanged += PropertyChangedHandler;
-
-
         }
 
         private void PropertyChangedHandler(object? sender, PropertyChangedEventArgs e)

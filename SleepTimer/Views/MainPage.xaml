@@ -70,7 +70,7 @@
                 HorizontalOptions="Fill"
                 IsVisible="{Binding MainTimer.IsStarted}">
                 <Label
-                    Text="{Binding MainTimer.DisplayRemainingTime, StringFormat='{0:mm\\:ss}'}"
+                    Text="{Binding FrontendDisplay.RemainingTime, StringFormat='{0:mm\\:ss}'}"
                     FontSize="120"
                     FontAttributes="Bold"
                     HorizontalOptions="Center"

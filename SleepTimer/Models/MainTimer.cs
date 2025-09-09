@@ -53,8 +53,9 @@ namespace SleepTimer.Models
         public void StartTimer(Action<string, NotificationLevel>? callback = null)
         {
             Timer = new System.Timers.Timer();
+            Timer.Interval = 1000; // 1 second
             Timer.Elapsed += OnTick;
-            Timer.Interval = 1000; // seconds
+            EndTime = DateTime.Now.AddMinutes(appPreferences.DefaultDuration);
 
             IsStarted = true;
             Timer.Start();
@@ -66,7 +67,7 @@ namespace SleepTimer.Models
             //RemainingTime = (DateTime)EndTime - DateTime.Now;
             //StartingVolume = volumeService.GetVolume();
             //LastNotificationUpdate = DateTime.Now;
-            
+
 
             //await Notifications.Show(new NotificationMessageRemainingTime(RemainingTime.Minutes));
         }
