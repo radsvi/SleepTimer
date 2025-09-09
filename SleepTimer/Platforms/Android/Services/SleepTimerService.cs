@@ -30,7 +30,7 @@ namespace SleepTimer.Platforms.Android.Services
 
             var mediaController = new SleepMediaController(this.volumeService, this.mediaService, appPreferences);
             //var notifier = new SleepTimerNotifier(appPreferences, (msg, level) => Debug.WriteLine($"{level}: {msg}"));
-            var notifier = new SleepTimerNotifier(appPreferences, (msg, level) => UpdateNotification(msg, level));
+            var notifier = new TimerNotifier(appPreferences, (msg, level) => UpdateNotification(msg, level));
                 //=> Debug.WriteLine($"{level}: {msg}"));
             //var notification = BuildNotification($"Starting timer. {appPreferences.DefaultDuration} minutes left.");
 
@@ -123,6 +123,7 @@ namespace SleepTimer.Platforms.Android.Services
             if (Build.VERSION.SdkInt < BuildVersionCodes.O)
             {
                 builder.SetPriority((int)MapToPriority(notificationLevel)); // silent but visible
+                //System.Diagnostics.Debug.WriteLine("notification: " + MapToPriority(notificationLevel));
             }
             else
             {
@@ -133,7 +134,7 @@ namespace SleepTimer.Platforms.Android.Services
                     MapToImportance(notificationLevel) //NotificationImportance.High
                 );
                 channel.SetSound(null, null);
-
+                //System.Diagnostics.Debug.WriteLine("notification: " + MapToImportance(notificationLevel));
                 var manager = (NotificationManager?)GetSystemService(NotificationService)
                     ?? throw new InvalidOperationException("NotificationManager not available");
                 manager.CreateNotificationChannel(channel);
