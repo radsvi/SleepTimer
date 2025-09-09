@@ -14,6 +14,8 @@ namespace SleepTimer.ViewModels
         readonly IVolumeService volumeService;
         readonly ISleepTimerServiceHelper sleepTimerServiceHelper;
 
+
+
         public MainVM(AppPreferences appPreferences,
             MainTimer mainTimer,
             IMediaControlService mediaService,
@@ -30,6 +32,20 @@ namespace SleepTimer.ViewModels
             Plugin.LocalNotification.LocalNotificationCenter.Current.NotificationActionTapped += Current_NotificationActionTapped;
             AppPreferences.PropertyChanged += PropertyChangedHandler;
             MainTimer.PropertyChanged += PropertyChangedHandler;
+
+
+            var mediaController = new SleepMediaController(volumeService, this.mediaService, AppPreferences);
+            var notifier = new SleepTimerNotifier(AppPreferences, (msg, level) => Debug.WriteLine($"{level}: {msg}"));
+
+            // Wire up events
+            MainTimer.Tick += (s, remaining) =>
+            {
+                notifier.OnTick(remaining);
+                if (remaining.TotalSeconds <= AppPreferences.FadeOutDuration)
+                    mediaController.HandleFadeOut(remaining);
+            };
+
+            MainTimer.Finished += (s, e) => mediaController.StopPlayback();
         }
 
         private void PropertyChangedHandler(object? sender, PropertyChangedEventArgs e)
