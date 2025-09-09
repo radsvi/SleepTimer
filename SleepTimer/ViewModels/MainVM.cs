@@ -40,7 +40,7 @@ namespace SleepTimer.ViewModels
 
         private void PropertyChangedHandler(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(MainTimer.InStandby) || e.PropertyName == nameof(AppPreferences.StandByDuration))
+            if (e.PropertyName == nameof(MainTimer.InStandby) || e.PropertyName == nameof(AppPreferences.StandBySeconds))
             {
                 OnPropertyChanged(nameof(TextBelowTimer));
             }
@@ -49,7 +49,7 @@ namespace SleepTimer.ViewModels
         {
             get
             {
-                if (MainTimer.InStandby) return $"standby ({AppPreferences.StandByDuration} seconds)";
+                if (MainTimer.InStandby) return $"standby ({AppPreferences.StandBySeconds} seconds)";
                 else return "minutes remaining";
             }
         }

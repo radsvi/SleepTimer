@@ -106,8 +106,10 @@ namespace SleepTimer.Models
             RemainingTime = (DateTime)EndTime - e.SignalTime;
             Tick?.Invoke(this, RemainingTime);
 
-            if (RemainingTime.TotalSeconds <= 0)
+            if (RemainingTime.TotalSeconds + appPreferences.StandBySeconds <= 0)
                 Finished?.Invoke(this, EventArgs.Empty);
+            else if (RemainingTime.TotalSeconds <= 0)
+                EnteredStandby?.Invoke(this, EventArgs.Empty);
         }
     }
 }

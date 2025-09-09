@@ -47,8 +47,14 @@ namespace SleepTimer.Platforms.Android.Services
                     mediaController.SetStartingVolume(); // refreshes every second in case user changed the volume. Stops updating only after the we are in the fade-out period.
             };
             //mainTimer.Finished += (s, e) => mediaController.StopPlayback();
-            mainTimer.Finished += TimeFinished;
+            mainTimer.EnteredStandby += (s, e) => mediaController.EnterStandby();
+            mainTimer.Finished += (s, e) =>
+            {
+                StopTimer();
+                StopSelf();
+            };
         }
+
         //public event EventHandler OnTimeFinished;
 
         public override IBinder? OnBind(Intent? intent) => null;
@@ -80,11 +86,6 @@ namespace SleepTimer.Platforms.Android.Services
         private void StopTimer()
         {
             mainTimer.StopTimer();
-        }
-        private void TimeFinished(object? sender, EventArgs e)
-        {
-            StopTimer();
-            StopSelf();
         }
 #pragma warning disable CA1416
         private static NotificationImportance MapToImportance(NotificationLevel level) => level switch
