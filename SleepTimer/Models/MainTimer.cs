@@ -30,6 +30,21 @@ namespace SleepTimer.Models
         public event EventHandler? EnteredStandby;
         public event EventHandler<TimeSpan>? Tick;
 
+
+        //private bool isFinished;
+        //public bool IsFinished
+        //{
+        //    get => isFinished;
+        //    set { isFinished = value; OnPropertyChanged(); }
+        //}
+        private bool inStandby;
+        public bool InStandby
+        {
+            get => inStandby;
+            set { inStandby = value; OnPropertyChanged(); }
+        }
+        public TimeSpan DisplayRemainingTime { get => (EndTime != null) ? ((DateTime)EndTime - DateTime.Now) : throw new NullReferenceException(nameof(EndTime)); }
+
         public MainTimer(AppPreferences appPreferences)
         {
             this.appPreferences = appPreferences;
@@ -93,50 +108,5 @@ namespace SleepTimer.Models
             if (RemainingTime.TotalSeconds <= 0)
                 Finished?.Invoke(this, EventArgs.Empty);
         }
-
-#warning smazat Unchanged region
-        #region Unchanged
-
-
-
-        private Action<string, NotificationLevel>? callbackNotificationMessage;
-        public event EventHandler OnTimeFinished;
-
-
-
-        private bool isFinished;
-        public bool IsFinished
-        {
-            get => isFinished;
-            set { isFinished = value; OnPropertyChanged(); }
-        }
-        private bool inStandby;
-        public bool InStandby
-        {
-            get => inStandby;
-            set { inStandby = value; OnPropertyChanged(); }
-        }
-        public DateTime LastNotificationUpdate { get; private set; }
-
-        public TimeSpan DisplayRemainingTime { get => (DateTime)EndTime - DateTime.Now; }
-        private int StartingVolume { get; set; }
-        
-        //private async void OnTimedEvent(object? source, ElapsedEventArgs e)
-        //{
-        //    await sleepTimerService.OnTimedEvent(source, e);
-        //}
-
-
-        private void GraduallyDecreaseVolume()
-        {
-            var currentVolume = volumeService.GetVolume();
-            if (currentVolume <= 1)
-                return;
-
-            //var newVolume = currentVolume - Constants.VolumeStep;
-            int newVolume = (StartingVolume * RemainingTime.Seconds / appPreferences.FadeOutDuration);
-            volumeService.SetVolume(newVolume);
-        } 
-        #endregion
     }
 }

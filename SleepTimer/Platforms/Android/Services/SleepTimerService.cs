@@ -23,7 +23,7 @@ namespace SleepTimer.Platforms.Android.Services
 
             if (mainTimer == null)
                 throw new NullReferenceException(nameof(mainTimer));
-            mainTimer.OnTimeFinished += TimeFinished;
+            mainTimer.Finished += TimeFinished;
         }
         //public event EventHandler OnTimeFinished;
 
