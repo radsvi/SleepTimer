@@ -88,27 +88,6 @@ namespace SleepTimer.Platforms.Android.Services
         {
             mainTimer.StopTimer();
         }
-#pragma warning disable CA1416
-        private static NotificationImportance MapToImportance(NotificationLevel level) => level switch
-        {
-            NotificationLevel.Min => NotificationImportance.Min,
-            NotificationLevel.Low => NotificationImportance.Low,
-            NotificationLevel.Default => NotificationImportance.Default,
-            NotificationLevel.High => NotificationImportance.High,
-            NotificationLevel.Max => NotificationImportance.High, // no direct Max
-            _ => NotificationImportance.Default
-        };
-#pragma warning restore CA1416
-
-        private static int MapToPriority(NotificationLevel level) => level switch
-        {
-            NotificationLevel.Min => (int)NotificationPriority.Min,
-            NotificationLevel.Low => (int)NotificationPriority.Low,
-            NotificationLevel.Default => (int)NotificationPriority.Default,
-            NotificationLevel.High => (int)NotificationPriority.High,
-            NotificationLevel.Max => (int)NotificationPriority.Max,
-            _ => (int)NotificationPriority.Default
-        };
 
         private Notification BuildNotification(string message, NotificationLevel notificationLevel = NotificationLevel.High)
         {
@@ -126,7 +105,7 @@ namespace SleepTimer.Platforms.Android.Services
             // Handle priority for pre-26
             if (Build.VERSION.SdkInt < BuildVersionCodes.O)
             {
-                builder.SetPriority((int)MapToPriority(notificationLevel)); // silent but visible
+                builder.SetPriority((int)NotificationLevelHelper.MapToPriority(notificationLevel)); // silent but visible
                 //System.Diagnostics.Debug.WriteLine("notification: " + MapToPriority(notificationLevel));
             }
             else
@@ -135,7 +114,7 @@ namespace SleepTimer.Platforms.Android.Services
                 var channel = new NotificationChannel(
                     channelId,
                     "Sleep Timer",
-                    MapToImportance(notificationLevel) //NotificationImportance.High
+                    NotificationLevelHelper.MapToImportance(notificationLevel) //NotificationImportance.High
                 );
                 channel.SetSound(null, null);
                 //System.Diagnostics.Debug.WriteLine("notification: " + MapToImportance(notificationLevel));
