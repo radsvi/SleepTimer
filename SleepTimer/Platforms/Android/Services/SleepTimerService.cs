@@ -12,8 +12,7 @@ namespace SleepTimer.Platforms.Android.Services
     public class SleepTimerService : Service, ISleepTimerService
     {
         const int SERVICE_ID = 1001;
-        private readonly AudioManager audioManager = (AudioManager?)global::Android.App.Application.Context.GetSystemService(AudioService)
-            ?? throw new InvalidOperationException("AudioService not available");
+        //private readonly AudioManager audioManager = (AudioManager?)global::Android.App.Application.Context.GetSystemService(AudioService) ?? throw new NullReferenceException(nameof(audioManager));
         private readonly AppPreferences appPreferences = ServiceHelper.GetService<AppPreferences>() ?? throw new NullReferenceException(nameof(appPreferences));
         private readonly MainTimer mainTimer = ServiceHelper.GetService<MainTimer>() ?? throw new NullReferenceException(nameof(mainTimer));
         private readonly MainPageDisplay mainPageDisplay = ServiceHelper.GetService<MainPageDisplay>() ?? throw new NullReferenceException(nameof(mainPageDisplay));
@@ -22,17 +21,12 @@ namespace SleepTimer.Platforms.Android.Services
 
         public SleepTimerService()
         {
-            //OnTimeFinished += TimeFinished;
-
             if (mainTimer == null)
                 throw new NullReferenceException(nameof(mainTimer));
 
 
             var mediaController = new MediaController(this.volumeService, this.mediaService, appPreferences);
-            //var notifier = new SleepTimerNotifier(appPreferences, (msg, level) => Debug.WriteLine($"{level}: {msg}"));
             var notifier = new TimerNotifier(appPreferences, (msg, level) => UpdateNotification(msg, level));
-            //=> Debug.WriteLine($"{level}: {msg}"));
-            //var notification = BuildNotification($"Starting timer. {appPreferences.TimerDurationSeconds} minutes left.");
 
             mainPageDisplay.SetStartTime(appPreferences.TimerDurationSeconds);
 
@@ -55,8 +49,6 @@ namespace SleepTimer.Platforms.Android.Services
                 mediaController.HandleFinished();
             };
         }
-
-        //public event EventHandler OnTimeFinished;
 
         public override IBinder? OnBind(Intent? intent) => null;
 
@@ -133,8 +125,6 @@ namespace SleepTimer.Platforms.Android.Services
 
             builder
                 .SetContentIntent(extendPending)
-                //.AddAction(new Notification.Action.Builder(0, ServiceAction.Extend.ToString(), postponePending).Build())
-                //.AddAction(Resource.Drawable.sleepzz, "Press Me", stopPending)
                 .AddAction(new Notification.Action.Builder(0, ServiceAction.Stop.ToString(), stopPending).Build());
 
             var notification = builder.Build();
