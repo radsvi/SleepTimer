@@ -11,7 +11,7 @@ namespace SleepTimer.Models
     {
         private readonly AppPreferences appPreferences;
 
-        public System.Timers.Timer? Timer { get; private set; }
+        public System.Timers.Timer? timer;
         public DateTime? EndTime { get; private set; } = DateTime.MinValue;
         private bool isStarted;
         public bool IsStarted
@@ -30,13 +30,6 @@ namespace SleepTimer.Models
         public event EventHandler? EnteredStandby;
         public event EventHandler<TimeSpan>? Tick;
 
-
-        //private bool isFinished;
-        //public bool IsFinished
-        //{
-        //    get => isFinished;
-        //    set { isFinished = value; OnPropertyChanged(); }
-        //}
         private bool inStandby = false;
         public bool InStandby
         {
@@ -52,40 +45,24 @@ namespace SleepTimer.Models
 
         public void StartTimer(Action<string, NotificationLevel>? callback = null)
         {
-            Timer = new System.Timers.Timer();
-            Timer.Interval = 1000; // 1 second
-            Timer.Elapsed += OnTick;
+            timer = new System.Timers.Timer();
+            timer.Interval = 1000; // 1 second
+            timer.Elapsed += OnTick;
 
             EndTime = DateTime.Now.AddMinutes(appPreferences.DefaultDuration);
             InStandby = false;
             IsStarted = true;
-            Timer.Start();
-
-            //this.callbackNotificationMessage = callback;
-            //IsFinished = false;
-            
-            //EndTime = DateTime.Now.AddMinutes(appPreferences.DefaultDuration);
-            //RemainingTime = (DateTime)EndTime - DateTime.Now;
-            //StartingVolume = volumeService.GetVolume();
-            //LastNotificationUpdate = DateTime.Now;
-
-
-            //await Notifications.Show(new NotificationMessageRemainingTime(RemainingTime.Minutes));
+            timer.Start();
         }
         public void StopTimer()
         {
-            Timer?.Stop();
-            Timer?.Dispose();
-            Timer = null;
+            timer?.Stop();
+            timer?.Dispose();
+            timer = null;
 
             IsStarted = false;
             EndTime = null;
             InStandby = false;
-
-            //volumeService.SetVolume(StartingVolume);
-            
-
-            //Notifications.Cancel();
         }
         public void Extend()
         {
@@ -95,9 +72,6 @@ namespace SleepTimer.Models
             EndTime = EndTime.Value.AddMinutes(appPreferences.ExtensionLength);
 
             InStandby = false;
-
-            //volumeService.SetVolume(StartingVolume);
-            //callbackNotificationMessage?.Invoke($"{RemainingTime.Minutes} minutes left.", NotificationLevel.Low);
         }
         private void OnTick(object? source, ElapsedEventArgs e)
         {
