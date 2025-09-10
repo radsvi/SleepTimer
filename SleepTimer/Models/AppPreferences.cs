@@ -13,10 +13,10 @@ namespace SleepTimer.Models
             get => Preferences.Default.Get(nameof(DefaultDuration), 15);
             set { Preferences.Set(nameof(DefaultDuration), value); OnPropertyChanged(); }
         }
-        public int FadeOutDuration
+        public int FadeOutSeconds
         {
-            get => Preferences.Default.Get(nameof(FadeOutDuration), 120);
-            set { Preferences.Set(nameof(FadeOutDuration), value); OnPropertyChanged(); }
+            get => Preferences.Default.Get(nameof(FadeOutSeconds), 120);
+            set { Preferences.Set(nameof(FadeOutSeconds), value); OnPropertyChanged(); }
         }
         public int ExtensionLength
         {

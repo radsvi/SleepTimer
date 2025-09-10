@@ -18,7 +18,7 @@
         <controls:SliderControl
             Description="Fade-out duration:"
             InlineText="seconds"
-            Value="{Binding AppPreferences.FadeOutDuration, Mode=TwoWay}"
+            Value="{Binding AppPreferences.FadeOutSeconds, Mode=TwoWay}"
             Minimum="0"
             Maximum="180" />
 

@@ -10,7 +10,7 @@ namespace SleepTimer.Models
     public static class Constants
     {
         //public const int VolumeStep = 1;
-        //public const int FadeOutDuration = 60;
+        //public const int FadeOutSeconds = 60;
         //public const int ExtensionPeriod = 60;
     }
 }

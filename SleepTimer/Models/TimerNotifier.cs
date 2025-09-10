@@ -24,7 +24,7 @@ namespace SleepTimer.Models
                 notify("Sleep timer in stand by.", NotificationLevel.Low);
             else if (remainingTime.TotalSeconds < 10)
                 notify("Going to sleep.", NotificationLevel.Low);
-            else if (remainingTime.TotalSeconds < appPreferences.FadeOutDuration)
+            else if (remainingTime.TotalSeconds < appPreferences.FadeOutSeconds)
                 notify($"{remainingTime.Seconds} seconds left.", NotificationLevel.Low); 
             else if (remainingTime.Seconds > 55 && remainingTime < nextNotificationTime)
             {

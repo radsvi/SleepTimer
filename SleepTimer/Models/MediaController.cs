@@ -22,7 +22,7 @@ namespace SleepTimer.Models
             var currentVolume = volumeService.GetVolume();
             if (currentVolume <= 1) return;
 
-            int newVolume = (startingVolume * remainingTime.Seconds / appPreferences.FadeOutDuration);
+            int newVolume = (startingVolume * remainingTime.Seconds / appPreferences.FadeOutSeconds);
             volumeService.SetVolume(newVolume);
         }
         public void EnterStandby()
