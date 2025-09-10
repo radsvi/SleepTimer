@@ -11,8 +11,6 @@ namespace SleepTimer.ViewModels
         public AppPreferences AppPreferences { get; }
         public MainTimer MainTimer { get; }
         public MainPageDisplay MainPageDisplay { get; }
-        readonly IMediaControlService mediaService;
-        readonly IVolumeService volumeService;
         readonly ISleepTimerServiceHelper sleepTimerServiceHelper;
 
 
@@ -20,16 +18,12 @@ namespace SleepTimer.ViewModels
         public MainVM(AppPreferences appPreferences,
             MainTimer mainTimer,
             MainPageDisplay mainPageDisplay,
-            IMediaControlService mediaService,
-            IVolumeService volumeService,
             ISleepTimerServiceHelper sleepTimerServiceHelper
             )
         {
             this.AppPreferences = appPreferences;
             this.MainTimer = mainTimer;
             this.MainPageDisplay = mainPageDisplay;
-            this.mediaService = mediaService;
-            this.volumeService = volumeService;
             this.sleepTimerServiceHelper = sleepTimerServiceHelper;
 
             App.Current!.UserAppTheme = AppTheme.Dark;
