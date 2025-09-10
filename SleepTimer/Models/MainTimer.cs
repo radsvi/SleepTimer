@@ -49,7 +49,7 @@ namespace SleepTimer.Models
             timer.Interval = 1000; // 1 second
             timer.Elapsed += OnTick;
 
-            EndTime = DateTime.Now.AddMinutes(appPreferences.DefaultDuration);
+            EndTime = DateTime.Now.AddMinutes(appPreferences.TimerDurationSeconds);
             InStandby = false;
             IsStarted = true;
             timer.Start();

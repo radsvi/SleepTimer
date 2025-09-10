@@ -8,10 +8,10 @@ namespace SleepTimer.Models
 {
     public partial class AppPreferences : ObservableObject
     {
-        public int DefaultDuration
+        public int TimerDurationSeconds
         {
-            get => Preferences.Default.Get(nameof(DefaultDuration), 15);
-            set { Preferences.Set(nameof(DefaultDuration), value); OnPropertyChanged(); }
+            get => Preferences.Default.Get(nameof(TimerDurationSeconds), 15);
+            set { Preferences.Set(nameof(TimerDurationSeconds), value); OnPropertyChanged(); }
         }
         public int FadeOutSeconds
         {

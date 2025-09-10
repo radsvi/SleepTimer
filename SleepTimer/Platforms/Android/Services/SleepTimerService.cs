@@ -31,10 +31,10 @@ namespace SleepTimer.Platforms.Android.Services
             var mediaController = new MediaController(this.volumeService, this.mediaService, appPreferences);
             //var notifier = new SleepTimerNotifier(appPreferences, (msg, level) => Debug.WriteLine($"{level}: {msg}"));
             var notifier = new TimerNotifier(appPreferences, (msg, level) => UpdateNotification(msg, level));
-                //=> Debug.WriteLine($"{level}: {msg}"));
-            //var notification = BuildNotification($"Starting timer. {appPreferences.DefaultDuration} minutes left.");
+            //=> Debug.WriteLine($"{level}: {msg}"));
+            //var notification = BuildNotification($"Starting timer. {appPreferences.TimerDurationSeconds} minutes left.");
 
-            mainPageDisplay.SetStartTime(appPreferences.DefaultDuration);
+            mainPageDisplay.SetStartTime(appPreferences.TimerDurationSeconds);
 
             // Wire up events
             mainTimer.Tick += (s, remaining) =>
@@ -64,11 +64,11 @@ namespace SleepTimer.Platforms.Android.Services
         {
             if (intent?.Action == ServiceAction.Start.ToString())
             {
-                var minutes = intent.GetIntExtra("minutes", appPreferences.DefaultDuration);
+                var minutes = intent.GetIntExtra("minutes", appPreferences.TimerDurationSeconds);
 #warning UpdateNotification uz mam jinde
                 mainTimer.StartTimer(UpdateNotification);
 
-                var notification = BuildNotification($"Starting timer. {appPreferences.DefaultDuration} minutes left.");
+                var notification = BuildNotification($"Starting timer. {appPreferences.TimerDurationSeconds} minutes left.");
 
                 StartForeground(SERVICE_ID, notification);
             }
