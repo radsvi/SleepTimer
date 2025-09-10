@@ -57,6 +57,7 @@ namespace SleepTimer
             builder.Services.AddSingleton<IVolumeService, Platforms.Android.VolumeService>();
             builder.Services.AddSingleton<ISleepTimerServiceHelper, Platforms.Android.Services.SleepTimerServiceHelper>();
             builder.Services.AddSingleton<IPermissionHelper, Platforms.Android.PermissionHelper>();
+            builder.Services.AddSingleton<INotificationManager, Platforms.Android.NotificationManager>();
 #elif WINDOWS
             builder.Services.AddSingleton<IMediaControlService, Platforms.Windows.MediaControlService>();
 

@@ -13,11 +13,12 @@ namespace SleepTimer.Platforms.Android.Services
     {
         const int SERVICE_ID = 1001;
         //private readonly AudioManager audioManager = (AudioManager?)global::Android.App.Application.Context.GetSystemService(AudioService) ?? throw new NullReferenceException(nameof(audioManager));
-        private readonly AppPreferences appPreferences = ServiceHelper.GetService<AppPreferences>() ?? throw new NullReferenceException(nameof(appPreferences));
-        private readonly MainTimer mainTimer = ServiceHelper.GetService<MainTimer>() ?? throw new NullReferenceException(nameof(mainTimer));
-        private readonly MainPageDisplay mainPageDisplay = ServiceHelper.GetService<MainPageDisplay>() ?? throw new NullReferenceException(nameof(mainPageDisplay));
-        private readonly IVolumeService volumeService = ServiceHelper.GetService<IVolumeService>() ?? throw new NullReferenceException(nameof(volumeService));
-        private readonly IMediaControlService mediaService = ServiceHelper.GetService<IMediaControlService>() ?? throw new NullReferenceException(nameof(mediaService));
+        private readonly AppPreferences appPreferences = ServiceHelper.GetService<AppPreferences>();
+        private readonly MainTimer mainTimer = ServiceHelper.GetService<MainTimer>();
+        private readonly MainPageDisplay mainPageDisplay = ServiceHelper.GetService<MainPageDisplay>();
+        private readonly IVolumeService volumeService = ServiceHelper.GetService<IVolumeService>();
+        private readonly IMediaControlService mediaService = ServiceHelper.GetService<IMediaControlService>();
+        private readonly SleepTimerOrchestrator orchestrator = ServiceHelper.GetService<SleepTimerOrchestrator>();
 
         public SleepTimerService()
         {
@@ -110,7 +111,7 @@ namespace SleepTimer.Platforms.Android.Services
                 );
                 channel.SetSound(null, null);
                 //System.Diagnostics.Debug.WriteLine("notification: " + MapToImportance(notificationLevel));
-                var manager = (NotificationManager?)GetSystemService(NotificationService)
+                var manager = (global::Android.App.NotificationManager?)base.GetSystemService(NotificationService)
                     ?? throw new InvalidOperationException("NotificationManager not available");
                 manager.CreateNotificationChannel(channel);
             }

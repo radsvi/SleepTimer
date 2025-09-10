@@ -10,12 +10,12 @@ namespace SleepTimer.Platforms.Android
         //{
         //    return MauiApplication.Current.Services.GetRequiredService<T>();
         //}
-        public static T? GetService<T>()
+        public static T GetService<T>([CallerMemberName] string? propertyName = null)
         {
             //var service = DependencyService.Get<IRequestPermissionHelper>();
             //service?.RequestNotificationPermission();
 
-            var result = Current.GetService<T>();
+            var result = Current.GetService<T>() ?? throw new NullReferenceException(nameof(propertyName));
             return result;
         }
 
