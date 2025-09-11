@@ -1,19 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Android.App;
+using Android.Content;
+using Android.OS;
+using Android.Media;
+using AndroidX.Core.App;
 
-namespace SleepTimer.Models
+namespace SleepTimer.Platforms.Android
 {
     public class SleepTimerOrchestrator
     {
-        private readonly MainTimer timer;
+        private readonly MainTimer mainTimer;
         private readonly MediaController mediaController;
         private readonly TimerNotifier notifier;
         private readonly MainPageDisplay mainPageDisplay;
         private readonly INotificationManager notificationManager;
         private readonly AppPreferences appPreferences;
+
+        public event EventHandler? TimerStoppedOrFinished;
 
         public SleepTimerOrchestrator(
             MainTimer timer,
@@ -23,7 +25,7 @@ namespace SleepTimer.Models
             MainPageDisplay display,
             INotificationManager notificationManager)
         {
-            this.timer = timer;
+            this.mainTimer = timer;
             this.appPreferences = preferences;
             this.mediaController = new MediaController(volumeService, mediaService, preferences);
             this.notifier = new TimerNotifier(preferences, (msg, level) => notificationManager.Update(msg, level));
@@ -37,7 +39,7 @@ namespace SleepTimer.Models
         {
             mainPageDisplay.SetStartTime(appPreferences.TimerDurationSeconds);
 
-            timer.Tick += (s, remaining) =>
+            mainTimer.Tick += (s, remaining) =>
             {
                 notifier.OnTick(remaining);
                 mainPageDisplay.OnTick(remaining);
@@ -45,14 +47,15 @@ namespace SleepTimer.Models
                 if (remaining.TotalSeconds <= appPreferences.FadeOutSeconds)
                     mediaController.HandleFadeOut(remaining);
                 else
-                    mediaController.SetStartingVolume();
+                    mediaController.SetStartingVolume(); // refreshes every second in case user changed the volume. Stops updating only after the we are in the fade-out period.
             };
 
-            timer.EnteredStandby += (s, e) => mediaController.EnterStandby();
-            timer.Finished += (s, e) =>
+            mainTimer.EnteredStandby += (s, e) => mediaController.EnterStandby();
+            mainTimer.Finished += (s, e) =>
             {
-                timer.StopTimer();
+                mainTimer.StopTimer();
                 mediaController.HandleFinished();
+                TimerStoppedOrFinished?.Invoke(this, EventArgs.Empty);
             };
         }
 
@@ -60,22 +63,23 @@ namespace SleepTimer.Models
         {
             if (intent?.Action == ServiceAction.Start.ToString())
             {
-                timer.StartTimer(notificationManager.Update);
+                mainTimer.StartTimer(notificationManager.Update);
                 notificationManager.Show($"Starting timer. {appPreferences.TimerDurationSeconds} minutes left.");
             }
             else if (intent?.Action == ServiceAction.Extend.ToString())
             {
-                timer.Extend();
+                mainTimer.Extend();
             }
             else if (intent?.Action == ServiceAction.Stop.ToString())
             {
-                timer.StopTimer();
+                mainTimer.StopTimer();
             }
         }
 
         public void Cleanup()
         {
-            timer.StopTimer();
+            mainTimer.StopTimer();
+            TimerStoppedOrFinished?.Invoke(this, EventArgs.Empty);
         }
     }
 }

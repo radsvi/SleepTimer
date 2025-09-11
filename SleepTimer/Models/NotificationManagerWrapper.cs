@@ -8,6 +8,8 @@ namespace SleepTimer.Models
 {
     public interface INotificationManager
     {
-#warning dodelat
+        void Show(string message, NotificationLevel level = NotificationLevel.High);
+        void Update(string message, NotificationLevel level = NotificationLevel.High);
+        void Clear();
     }
 }
