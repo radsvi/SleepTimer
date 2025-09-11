@@ -59,6 +59,11 @@ namespace SleepTimer
             builder.Services.AddSingleton<IPermissionHelper, Platforms.Android.PermissionHelper>();
             //builder.Services.AddSingleton<INotificationManagerWrapper, Platforms.Android.NotificationManagerWrapper>();
             builder.Services.AddSingleton<Platforms.Android.NotificationManagerWrapper>();
+            //builder.Services.AddSingleton<Platforms.Android.NotificationManagerWrapper>(sp =>
+            //{
+            //    var service = sp.GetRequiredService<ISleepTimerService>();
+            //    return new Platforms.Android.NotificationManagerWrapper(service);
+            //});
             builder.Services.AddSingleton<Platforms.Android.SleepTimerOrchestrator>();
             builder.Services.AddSingleton<MediaController>();
 #elif WINDOWS

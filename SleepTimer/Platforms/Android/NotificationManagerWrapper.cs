@@ -10,10 +10,10 @@ namespace SleepTimer.Platforms.Android
 {
     public class NotificationManagerWrapper //: INotificationManagerWrapper
     {
-        private readonly SleepTimerService context;
-        //private readonly Context context;
+        //private readonly SleepTimerService context;
+        private readonly Context context;
 
-        public NotificationManagerWrapper(SleepTimerService context)
+        public NotificationManagerWrapper(Context context)
         {
             this.context = context;
         }
