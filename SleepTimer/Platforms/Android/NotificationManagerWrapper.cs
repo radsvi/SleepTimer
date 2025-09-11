@@ -4,14 +4,15 @@ using Android.OS;
 using Android.Media;
 using AndroidX.Core.App;
 
+using SleepTimer.Platforms.Android.Services;
+
 namespace SleepTimer.Platforms.Android
 {
-    public class NotificationManager : INotificationManager
+    public class NotificationManagerWrapper : INotificationManager
     {
         private readonly Context context;
-        const int SERVICE_ID = 1001;
 
-        public NotificationManager(Context context)
+        public NotificationManagerWrapper(Context context)
         {
             this.context = context;
         }
@@ -19,24 +20,20 @@ namespace SleepTimer.Platforms.Android
         public void Show(string message, NotificationLevel level = NotificationLevel.High)
         {
             var notification = BuildNotification(message, level);
-            (context as Service)?.StartForeground(SERVICE_ID, notification);
+            (context as Service)?.StartForeground(Constants.SERVICE_ID, notification);
         }
 
         public void Update(string message, NotificationLevel level = NotificationLevel.High)
         {
             var notification = BuildNotification(message, level);
-            NotificationManagerCompat.From(context).Notify(SERVICE_ID, notification);
-        }
-        private void UpdateNotification(string remainingTime, NotificationLevel notificationLevel = NotificationLevel.High)
-        {
-            var notification = BuildNotification(remainingTime, notificationLevel);
-            var manager = NotificationManagerCompat.From(this);
-            manager.Notify(SERVICE_ID, notification);
+            var manager = NotificationManagerCompat.From(context) ?? throw new NullReferenceException();
+            manager.Notify(Constants.SERVICE_ID, notification);
         }
 
         public void Clear()
         {
-            NotificationManagerCompat.From(context).Cancel(SERVICE_ID);
+            var manager = NotificationManagerCompat.From(context) ?? throw new NullReferenceException();
+            manager.Cancel(Constants.SERVICE_ID);
         }
 
         private Notification BuildNotification(string message, NotificationLevel notificationLevel = NotificationLevel.High)
@@ -45,8 +42,8 @@ namespace SleepTimer.Platforms.Android
             var channelId = "sleep_timer_channel";
 
             var builder = Build.VERSION.SdkInt >= BuildVersionCodes.O
-                ? new Notification.Builder(this, channelId)
-                : new Notification.Builder(this);
+                ? new Notification.Builder(context, channelId)
+                : new Notification.Builder(context);
 
             builder.SetContentTitle("Sleep Timer")
                    .SetContentText($"{message} Tap to extend!")
@@ -67,19 +64,18 @@ namespace SleepTimer.Platforms.Android
                     NotificationLevelHelper.MapToImportance(notificationLevel) //NotificationImportance.High
                 );
                 channel.SetSound(null, null);
-                //System.Diagnostics.Debug.WriteLine("notification: " + MapToImportance(notificationLevel));
-                var manager = (global::Android.App.NotificationManager?)base.GetSystemService(NotificationService)
-                    ?? throw new InvalidOperationException("NotificationManager not available");
+                NotificationManager manager = (NotificationManager?)context.GetSystemService(Context.NotificationService)
+                    ?? throw new InvalidOperationException();
                 manager.CreateNotificationChannel(channel);
             }
 
-            var extendIntent = new Intent(this, typeof(SleepTimerService));
+            var extendIntent = new Intent(context, typeof(SleepTimerService));
             extendIntent.SetAction(ServiceAction.Extend.ToString());
-            var extendPending = PendingIntent.GetService(this, 1, extendIntent, PendingIntentFlags.Immutable);
+            var extendPending = PendingIntent.GetService(context, 1, extendIntent, PendingIntentFlags.Immutable);
 
-            var stopIntent = new Intent(this, typeof(SleepTimerService));
+            var stopIntent = new Intent(context, typeof(SleepTimerService));
             stopIntent.SetAction(ServiceAction.Stop.ToString());
-            var stopPending = PendingIntent.GetService(this, 2, stopIntent, PendingIntentFlags.Immutable);
+            var stopPending = PendingIntent.GetService(context, 2, stopIntent, PendingIntentFlags.Immutable);
 
             builder
                 .SetContentIntent(extendPending)

@@ -12,5 +12,6 @@ namespace SleepTimer.Models
         //public const int VolumeStep = 1;
         //public const int FadeOutSeconds = 60;
         //public const int ExtensionPeriod = 60;
+        public const int SERVICE_ID = 1001;
     }
 }
