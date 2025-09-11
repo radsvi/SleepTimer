@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace SleepTimer.Models
 {
-    public interface INotificationManager
-    {
-        void Show(string message, NotificationLevel level = NotificationLevel.High);
-        void Update(string message, NotificationLevel level = NotificationLevel.High);
-        void Clear();
-    }
+    //public interface INotificationManagerWrapper
+    //{
+    //    void Show(string message, NotificationLevel level = NotificationLevel.High);
+    //    void Update(string message, NotificationLevel level = NotificationLevel.High);
+    //    void Clear();
+    //}
 }

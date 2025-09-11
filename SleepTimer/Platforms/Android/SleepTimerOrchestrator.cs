@@ -12,7 +12,7 @@ namespace SleepTimer.Platforms.Android
         private readonly MediaController mediaController;
         private readonly TimerNotifier notifier;
         private readonly MainPageDisplay mainPageDisplay;
-        private readonly INotificationManager notificationManager;
+        private readonly NotificationManagerWrapper notificationManagerWrapper;
         private readonly AppPreferences appPreferences;
 
         public event EventHandler? TimerStoppedOrFinished;
@@ -20,17 +20,22 @@ namespace SleepTimer.Platforms.Android
         public SleepTimerOrchestrator(
             MainTimer timer,
             AppPreferences preferences,
-            IVolumeService volumeService,
-            IMediaControlService mediaService,
+            //IVolumeService volumeService,
+            //IMediaControlService mediaService,
+            MediaController mediaController,
             MainPageDisplay display,
-            INotificationManager notificationManager)
+            NotificationManagerWrapper notificationManagerWrapper)
         {
             this.mainTimer = timer;
             this.appPreferences = preferences;
-            this.mediaController = new MediaController(volumeService, mediaService, preferences);
-            this.notifier = new TimerNotifier(preferences, (msg, level) => notificationManager.Update(msg, level));
+            this.mediaController = mediaController;
             this.mainPageDisplay = display;
-            this.notificationManager = notificationManager;
+            this.notificationManagerWrapper = notificationManagerWrapper;
+
+            this.notifier = new TimerNotifier(preferences, (msg, level) => notificationManagerWrapper.Update(msg, level));
+
+            //this.mediaController = new MediaController(volumeService, mediaService, preferences);
+            //this.notifier = new TimerNotifier(preferences, (msg, level) => notificationManager.Update(msg, level));
 
             WireUpEvents();
         }
@@ -63,8 +68,8 @@ namespace SleepTimer.Platforms.Android
         {
             if (intent?.Action == ServiceAction.Start.ToString())
             {
-                mainTimer.StartTimer(notificationManager.Update);
-                notificationManager.Show($"Starting timer. {appPreferences.TimerDurationSeconds} minutes left.");
+                mainTimer.StartTimer(notificationManagerWrapper.Update);
+                notificationManagerWrapper.Show($"Starting timer. {appPreferences.TimerDurationSeconds} minutes left.");
             }
             else if (intent?.Action == ServiceAction.Extend.ToString())
             {

@@ -8,11 +8,11 @@ using SleepTimer.Platforms.Android.Services;
 
 namespace SleepTimer.Platforms.Android
 {
-    public class NotificationManagerWrapper : INotificationManager
+    public class NotificationManagerWrapper //: INotificationManagerWrapper
     {
-        private readonly Context context;
+        private readonly SleepTimerService context;
 
-        public NotificationManagerWrapper(Context context)
+        public NotificationManagerWrapper(SleepTimerService context)
         {
             this.context = context;
         }

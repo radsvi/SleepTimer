@@ -21,6 +21,6 @@ namespace SleepTimer.Platforms.Android
 
         public static IServiceProvider Current =>
             IPlatformApplication.Current?.Services
-            ?? throw new InvalidOperationException("No service provider.");
+            ?? throw new NullReferenceException("No service provider.");
     }
 }

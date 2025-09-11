@@ -57,7 +57,10 @@ namespace SleepTimer
             builder.Services.AddSingleton<IVolumeService, Platforms.Android.VolumeService>();
             builder.Services.AddSingleton<ISleepTimerServiceHelper, Platforms.Android.Services.SleepTimerServiceHelper>();
             builder.Services.AddSingleton<IPermissionHelper, Platforms.Android.PermissionHelper>();
-            builder.Services.AddSingleton<INotificationManager, Platforms.Android.NotificationManagerWrapper>();
+            //builder.Services.AddSingleton<INotificationManagerWrapper, Platforms.Android.NotificationManagerWrapper>();
+            builder.Services.AddSingleton<Platforms.Android.NotificationManagerWrapper>();
+            builder.Services.AddSingleton<Platforms.Android.SleepTimerOrchestrator>();
+            builder.Services.AddSingleton<MediaController>();
 #elif WINDOWS
             builder.Services.AddSingleton<IMediaControlService, Platforms.Windows.MediaControlService>();
 
@@ -82,6 +85,11 @@ namespace SleepTimer
             {
                 System.Diagnostics.Debug.WriteLine($"[UnobservedTask] {e.Exception}");
             };
+
+            //foreach (var s in builder.Services)
+            //{
+            //    Debug.WriteLine($"TADY {s.ServiceType} -> {s.ImplementationType}");
+            //}
 
 
             return builder.Build();

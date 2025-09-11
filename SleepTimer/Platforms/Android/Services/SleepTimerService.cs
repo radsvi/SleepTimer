@@ -17,6 +17,10 @@ namespace SleepTimer.Platforms.Android.Services
         public SleepTimerService()
         {
             //var notifier = new TimerNotifier(appPreferences, (msg, level) => UpdateNotification(msg, level));
+
+            //notificationManager = new NotificationManagerWrapper(this, SERVICE_ID);
+            //orchestrator = new SleepTimerOrchestrator(mainTimer, appPreferences, volumeService, mediaService, mainPageDisplay, notificationManager);
+
             orchestrator = ServiceHelper.GetService<SleepTimerOrchestrator>();
 
             orchestrator.TimerStoppedOrFinished += (s, e) =>
