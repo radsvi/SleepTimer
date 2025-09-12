@@ -78,6 +78,7 @@ namespace SleepTimer.Platforms.Android
             else if (intent?.Action == ServiceAction.Stop.ToString())
             {
                 mainTimer.StopTimer();
+                TimerStoppedOrFinished?.Invoke(this, EventArgs.Empty);
             }
         }
 
