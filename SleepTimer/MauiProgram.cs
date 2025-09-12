@@ -66,12 +66,6 @@ namespace SleepTimer
             //});
             builder.Services.AddSingleton<Platforms.Android.SleepTimerOrchestrator>();
             builder.Services.AddSingleton<MediaController>();
-            builder.Services.AddSingleton<TimerNotifier>(sp =>
-            {
-                var prefs = sp.GetRequiredService<AppPreferences>();
-                var notificationManager = sp.GetRequiredService<Platforms.Android.NotificationManagerWrapper>();
-                return new TimerNotifier(prefs, (msg, level) => notificationManager.Update(msg, level));
-            });
 #elif WINDOWS
             builder.Services.AddSingleton<IMediaControlService, Platforms.Windows.MediaControlService>();
 
