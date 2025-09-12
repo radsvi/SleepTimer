@@ -31,7 +31,10 @@ namespace SleepTimer.Platforms.Android
         //}
         public async void SetVolume(int targetVolume)
         {
-            if (targetVolume == GetVolume())
+            // Note: 100% volume equals to value 16 on Android
+            if (targetVolume == GetVolume()
+                || targetVolume > 16
+                || targetVolume < 0)
                 return;
 
             var action = targetVolume < GetVolume() ? Adjust.Lower : Adjust.Raise;

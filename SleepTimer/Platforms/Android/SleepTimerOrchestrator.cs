@@ -44,6 +44,11 @@ namespace SleepTimer.Platforms.Android
         {
             mainPageDisplay.SetStartTime(appPreferences.TimerDurationSeconds);
 
+            mainTimer.Started += (s, starting) =>
+            {
+                notifier.OnStart(starting);
+                mediaController.SetStartingVolume();
+            };
             mainTimer.Tick += (s, remaining) =>
             {
                 notifier.OnTick(remaining);

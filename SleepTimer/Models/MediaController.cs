@@ -22,7 +22,8 @@ namespace SleepTimer.Models
             var currentVolume = volumeService.GetVolume();
             if (currentVolume <= 1) return;
 
-            int newVolume = (startingVolume * remainingTime.Seconds / appPreferences.FadeOutSeconds);
+            // Note: 100% volume equals to value 16 on Android
+            int newVolume = (startingVolume * (int)remainingTime.TotalSeconds / appPreferences.FadeOutSeconds);
             volumeService.SetVolume(newVolume);
         }
         public void EnterStandby()
@@ -30,7 +31,11 @@ namespace SleepTimer.Models
             volumeService.SetVolume(0);
             mediaService.StopPlayback();
         }
-        public void SetStartingVolume() => startingVolume = volumeService.GetVolume();
+        public void SetStartingVolume()
+        {
+            startingVolume = volumeService.GetVolume();
+        }
+
         //private void RestoreVolume()
         //{
         //    volumeService.SetVolume(startingVolume);

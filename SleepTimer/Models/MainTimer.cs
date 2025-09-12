@@ -26,6 +26,7 @@ namespace SleepTimer.Models
             private set { remainingTime = value; OnPropertyChanged(); OnPropertyChanged(nameof(DisplayRemainingTime)); }
         }
 
+        public event EventHandler<TimeSpan>? Started;
         public event EventHandler? Finished;
         public event EventHandler? EnteredStandby;
         public event EventHandler<TimeSpan>? Tick;
@@ -53,6 +54,7 @@ namespace SleepTimer.Models
             InStandby = false;
             IsStarted = true;
             timer.Start();
+            Started?.Invoke(this, new TimeSpan(0,0, appPreferences.TimerDurationSeconds));
         }
         public void StopTimer()
         {

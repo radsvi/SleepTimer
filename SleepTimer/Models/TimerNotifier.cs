@@ -9,7 +9,7 @@ namespace SleepTimer.Models
     public class TimerNotifier
     {
         private readonly AppPreferences appPreferences;
-        private TimeSpan nextNotificationTime = TimeSpan.MaxValue;
+        private TimeSpan nextNotificationTime = TimeSpan.MinValue;
         private readonly Action<string, NotificationLevel> notify;
 
         public TimerNotifier(AppPreferences appPreferences, Action<string, NotificationLevel> notify)
@@ -17,7 +17,10 @@ namespace SleepTimer.Models
             this.appPreferences = appPreferences;
             this.notify = notify;
         }
-
+        public void OnStart(TimeSpan startingTime) // this is needed when we start the timer and its already in fade-out time.
+        {
+            nextNotificationTime = startingTime;
+        }
         public void OnTick(TimeSpan remainingTime)
         {
             if (remainingTime.TotalSeconds <= 0)
@@ -25,7 +28,7 @@ namespace SleepTimer.Models
             else if (remainingTime.TotalSeconds < 10)
                 notify("Going to sleep.", NotificationLevel.Low);
             else if (remainingTime.TotalSeconds < appPreferences.FadeOutSeconds)
-                notify($"{remainingTime.Seconds} seconds left.", NotificationLevel.Low); 
+                notify($"{(int)remainingTime.TotalSeconds} seconds left.", NotificationLevel.Low); 
             else if (remainingTime.Seconds > 55 && remainingTime < NextNotification(nextNotificationTime)
                 || remainingTime > nextNotificationTime)
             {
