@@ -32,9 +32,10 @@ namespace SleepTimer.Platforms.Android.Services
             //var mediaService = ServiceHelper.GetService<IMediaControlService>();
             var mediaController = ServiceHelper.GetService<MediaController>();
             var mainPageDisplay = ServiceHelper.GetService<MainPageDisplay>();
+            var notifier = ServiceHelper.GetService<TimerNotifier>();
             
             var notificationManager = new NotificationManagerWrapper(this);
-            orchestrator = new SleepTimerOrchestrator(mainTimer, appPreferences, mediaController, mainPageDisplay, notificationManager);
+            orchestrator = new SleepTimerOrchestrator(mainTimer, appPreferences, notifier, mediaController, mainPageDisplay, notificationManager);
 
 
 

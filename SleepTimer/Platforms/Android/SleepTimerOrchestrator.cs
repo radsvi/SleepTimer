@@ -22,6 +22,7 @@ namespace SleepTimer.Platforms.Android
             AppPreferences preferences,
             //IVolumeService volumeService,
             //IMediaControlService mediaService,
+            TimerNotifier notifier,
             MediaController mediaController,
             MainPageDisplay display,
             NotificationManagerWrapper notificationManagerWrapper)
@@ -32,7 +33,8 @@ namespace SleepTimer.Platforms.Android
             this.mainPageDisplay = display;
             this.notificationManagerWrapper = notificationManagerWrapper;
 
-            this.notifier = new TimerNotifier(preferences, (msg, level) => notificationManagerWrapper.Update(msg, level));
+            //this.notifier = new TimerNotifier(preferences, (msg, level) => notificationManagerWrapper.Update(msg, level));
+            this.notifier = notifier;
 
             //this.mediaController = new MediaController(volumeService, mediaService, preferences);
             //this.notifier = new TimerNotifier(preferences, (msg, level) => notificationManager.Update(msg, level));
