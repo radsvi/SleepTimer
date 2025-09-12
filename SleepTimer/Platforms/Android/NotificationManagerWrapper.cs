@@ -80,7 +80,8 @@ namespace SleepTimer.Platforms.Android
 
             builder
                 .SetContentIntent(extendPending)
-                .AddAction(new Notification.Action.Builder(0, ServiceAction.Stop.ToString(), stopPending).Build());
+                .AddAction(new Notification.Action.Builder(0, ServiceAction.Stop.ToString(), stopPending).Build())
+                .AddAction(new Notification.Action.Builder(0, ServiceAction.Extend.ToString(), extendPending).Build());
 
             var notification = builder.Build();
 
