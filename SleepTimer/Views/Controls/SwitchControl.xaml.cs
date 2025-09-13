@@ -6,7 +6,7 @@ public partial class SwitchControl : ContentView
 	{
 		InitializeComponent();
 
-        this.ControlTemplate = this.ControlTemplate;
+        this.ControlTemplate = this.ControlTemplate; // Re-apply to ensure Template is loaded
         this.Loaded += OnControlLoaded;
     }
 
@@ -26,7 +26,7 @@ public partial class SwitchControl : ContentView
 	public static readonly BindableProperty TextProperty =
 		BindableProperty.Create(nameof(Text), typeof(string), typeof(SwitchControl), string.Empty);
 
-    private void OnControlLoaded(object sender, EventArgs e)
+    private void OnControlLoaded(object? sender, EventArgs e)
     {
         if (this.GetTemplateChild("LinkedLabel") is Label label &&
             this.GetTemplateChild("LinkedSwitch") is Microsoft.Maui.Controls.Switch switchElement)

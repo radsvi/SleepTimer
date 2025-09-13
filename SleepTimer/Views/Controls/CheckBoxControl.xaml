@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SleepTimer.Views.Controls.CheckBoxControl">
+    <ContentView.ControlTemplate>
+        <ControlTemplate>
+            <FlexLayout>
+                <CheckBox
+                IsChecked="{TemplateBinding IsChecked}"
+                x:Name="LinkedCheckBox" />
+                <Label
+                x:Name="LinkedLabel"
+                Text="{TemplateBinding Text}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer />
+                    </Label.GestureRecognizers>
+                </Label>
+            </FlexLayout>
+        </ControlTemplate>
+    </ContentView.ControlTemplate>
+</ContentView>

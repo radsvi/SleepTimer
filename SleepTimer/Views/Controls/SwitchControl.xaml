@@ -4,22 +4,25 @@
              x:Class="SleepTimer.Views.Controls.SwitchControl">
     <ContentView.ControlTemplate>
         <ControlTemplate>
-            <FlexLayout
-                Direction="Row" AlignItems="Stretch" JustifyContent="SpaceBetween">
-                <Switch
-                    FlexLayout.Shrink="0"
-                    IsToggled="{TemplateBinding IsToggled}"
-                    x:Name="LinkedSwitch" />
-                <Label
-                    FlexLayout.Grow="1"
-                    x:Name="LinkedLabel"
-                    VerticalOptions="Center"
-                    Text="{TemplateBinding Text}">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer />
-                    </Label.GestureRecognizers>
-                </Label>
-            </FlexLayout>
+            <VerticalStackLayout>
+                <FlexLayout
+                    Direction="Row" AlignItems="Stretch" JustifyContent="SpaceBetween">
+                    <Switch
+                        FlexLayout.Shrink="0"
+                        IsToggled="{TemplateBinding IsToggled}"
+                        x:Name="LinkedSwitch" />
+                    <Label
+                        FlexLayout.Grow="1"
+                        x:Name="LinkedLabel"
+                        VerticalOptions="Center"
+                        Text="{TemplateBinding Text}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </FlexLayout>
+                <BoxView Style="{StaticResource Separator}" />
+            </VerticalStackLayout>
         </ControlTemplate>
     </ContentView.ControlTemplate>
 </ContentView>
