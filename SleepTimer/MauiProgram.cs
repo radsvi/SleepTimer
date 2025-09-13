@@ -39,6 +39,7 @@ namespace SleepTimer
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("MaterialSymbolsOutlined_28pt-Regular.ttf", "MaterialIcons");
                 });
 
             builder.Services.AddSingleton<ConfigurationPage>();

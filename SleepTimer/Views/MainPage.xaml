@@ -22,7 +22,9 @@
             >
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,0,0,20">
-                <Button Text="Config" Command="{Binding NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.ConfigurationPage}" />
+                <Button FontFamily="MaterialIcons" Text="&#xe8b8;" FontSize="32"
+                        TextColor="{StaticResource SecondaryDarkText}" BackgroundColor="{StaticResource OffBlack}"
+                        Command="{Binding NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.ConfigurationPage}" />
                 <!--<Button Text="Extend" Command="{Binding ExtendTimerCommand}" />-->
             </StackLayout>
             <!--<StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,0,0,20">
@@ -97,8 +99,10 @@
         <Grid
             AbsoluteLayout.LayoutBounds="0,1,1,0.1"
             AbsoluteLayout.LayoutFlags="All">
-            <Button Text="Start timer" Command="{Binding StartSleepTimerCommand}" IsVisible="{Binding MainTimer.IsStarted, Converter={StaticResource InvertBoolConv}}" />
-            <Button Text="Stop timer" Command="{Binding StopSleepTimerCommand}" IsVisible="{Binding MainTimer.IsStarted}" />
+            <Button Text="Start timer" Command="{Binding StartSleepTimerCommand}" IsVisible="{Binding MainTimer.IsStarted, Converter={StaticResource InvertBoolConv}}"
+                    ImageSource="{StaticResource StartTimerIcon}" />
+            <Button Text="Stop timer" Command="{Binding StopSleepTimerCommand}" IsVisible="{Binding MainTimer.IsStarted}"
+                    ImageSource="{StaticResource StopTimerIcon}" />
         </Grid>
 
     </AbsoluteLayout>

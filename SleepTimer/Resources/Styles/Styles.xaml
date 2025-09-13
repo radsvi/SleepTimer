@@ -449,4 +449,21 @@
         <Setter Property="SelectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
     </Style>
 
+
+    <!-- // Button images // -->
+    <x:Double x:Key="FontSizeSmall">14</x:Double>
+    <x:Double x:Key="FontSizeMedium">24</x:Double>
+    <FontImageSource
+        x:Key="StartTimerIcon"
+        FontFamily="MaterialIcons"
+        Glyph="&#xf4ba;"
+        Size="{StaticResource FontSizeMedium}"
+        Color="{AppThemeBinding Light={StaticResource ButtonText}, Dark={StaticResource ButtonTextDark}}" />
+    <FontImageSource
+        x:Key="StopTimerIcon"
+        FontFamily="MaterialIcons"
+        Glyph="&#xe426;"
+        Size="{StaticResource FontSizeMedium}"
+        Color="{AppThemeBinding Light={StaticResource ButtonText}, Dark={StaticResource ButtonTextDark}}" />
+
 </ResourceDictionary>

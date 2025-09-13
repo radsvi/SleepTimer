@@ -45,15 +45,7 @@
 	<PropertyGroup Condition="'$(TargetFramework)' == 'net9.0-windows10.0.19041.0'">
 		<IsBuildable>false</IsBuildable>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-		<AndroidFastDeploymentAotAssemblies>false</AndroidFastDeploymentAotAssemblies>
-		<AndroidFastDeploymentAssemblies>false</AndroidFastDeploymentAssemblies>
-		<AndroidFastDeploymentDex>false</AndroidFastDeploymentDex>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
-	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-	</PropertyGroup>
+
 
 	<ItemGroup>
 		<!-- App Icon -->
