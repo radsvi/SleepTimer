@@ -35,11 +35,10 @@ namespace SleepTimer.Models
         {
             startingVolume = volumeService.GetVolume();
         }
-
-        //private void RestoreVolume()
-        //{
-        //    volumeService.SetVolume(startingVolume);
-        //}
+        public void RestoreVolume()
+        {
+            volumeService.SetVolume(startingVolume);
+        }
         public void HandleFinished()
         {
             mediaService.StopPlayback();

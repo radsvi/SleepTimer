@@ -79,6 +79,7 @@ namespace SleepTimer.Platforms.Android
             else if (intent?.Action == ServiceAction.Extend.ToString())
             {
                 mainTimer.Extend();
+                mediaController.RestoreVolume();
             }
             else if (intent?.Action == ServiceAction.Stop.ToString())
             {
