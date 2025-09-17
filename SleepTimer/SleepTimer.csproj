@@ -86,6 +86,9 @@
 	  <MauiXaml Update="Views\Controls\CheckBoxControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Controls\GroupBoxControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Controls\SliderControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
