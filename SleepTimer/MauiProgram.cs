@@ -50,6 +50,7 @@ namespace SleepTimer
             builder.Services.AddSingleton<AppPreferences>();
             builder.Services.AddSingleton<MainTimer>();
             builder.Services.AddSingleton<MainPageDisplay>();
+            builder.Services.AddSingleton<LogsHandler>();
 
 
 #if ANDROID

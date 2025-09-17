@@ -14,6 +14,7 @@ namespace SleepTimer.Platforms.Android
         private readonly MainPageDisplay mainPageDisplay;
         private readonly NotificationManagerWrapper notificationManagerWrapper;
         private readonly AppPreferences appPreferences;
+        private readonly LogsHandler logsHandler;
 
         public event EventHandler? TimerStoppedOrFinished;
 
