@@ -38,17 +38,43 @@ namespace SleepTimer.Models
             get => Preferences.Default.Get(nameof(LogWhenTimerFinishes), false);
             set { Preferences.Set(nameof(LogWhenTimerFinishes), value); OnPropertyChanged(); }
         }
-        public List<LogEntry> LogEntries
+        //public ObservableCollection<LogEntry> LogEntries
+        //{
+        //    get
+        //    {
+        //        string serialized = Preferences.Default.Get(nameof(LogEntries) + "_Serialized", string.Empty);
+        //        return JsonConvert.DeserializeObject<ObservableCollection<LogEntry>>(serialized)!;
+        //    }
+        //    set
+        //    {
+        //        Preferences.Set(nameof(LogEntries) + "_Serialized", JsonConvert.SerializeObject(value));
+        //        OnPropertyChanged();
+        //    }
+        //}
+        public ObservableCollection<LogEntry> LogEntries
         {
             get
             {
-                string serialized = Preferences.Default.Get(nameof(LogEntries), string.Empty);
-                return JsonConvert.DeserializeObject<List<LogEntry>>(serialized)!;
+                string serialized = Preferences.Default.Get(nameof(LogEntries) + "_Serialized", string.Empty);
+                return JsonConvert.DeserializeObject<ObservableCollection<LogEntry>>(serialized)!;
             }
             set
             {
                 string savedLevelList = JsonConvert.SerializeObject(value);
-                Preferences.Set(nameof(LogEntries), savedLevelList);
+                Preferences.Set(nameof(LogEntries) + "_Serialized", savedLevelList);
+            }
+        }
+        private List<LogEntry> logEntriesTest = [];
+        public List<LogEntry> LogEntriesTest
+        {
+            get { return logEntriesTest; }
+            private set
+            {
+                if (value != logEntriesTest)
+                {
+                    logEntriesTest = value;
+                    OnPropertyChanged();
+                }
             }
         }
     }

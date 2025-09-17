@@ -2,8 +2,10 @@ namespace SleepTimer.Views;
 
 public partial class SleepLogsPage : ContentPage
 {
-	public SleepLogsPage()
+	public SleepLogsPage(SleepLogsVM sleepLogsVM)
 	{
 		InitializeComponent();
+
+		BindingContext = sleepLogsVM;
 	}
 }

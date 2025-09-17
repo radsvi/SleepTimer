@@ -54,6 +54,7 @@ namespace SleepTimer.Platforms.Android
             };
             mainTimer.Tick += (s, remaining) =>
             {
+                logsHandler.AddEntry($"Timer ticked [remaining {remaining}]");
                 notifier.OnTick(remaining);
                 mainPageDisplay.OnTick(remaining);
 
@@ -69,7 +70,7 @@ namespace SleepTimer.Platforms.Android
                 mainTimer.StopTimer();
                 mediaController.HandleFinished();
                 TimerStoppedOrFinished?.Invoke(this, EventArgs.Empty);
-                logsHandler.AddEntry();
+                logsHandler.AddEntry("Timer finished");
             };
         }
 

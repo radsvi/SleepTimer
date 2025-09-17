@@ -7,9 +7,14 @@ using System.Threading.Tasks;
 
 namespace SleepTimer.Models
 {
-    public class LogsHandler(AppPreferences appPreferences)
+    public class LogsHandler
     {
-        private readonly AppPreferences appPreferences = appPreferences;
+        private readonly AppPreferences appPreferences;
+
+        public LogsHandler(AppPreferences appPreferences)
+        {
+            this.appPreferences = appPreferences;
+        }
 
         public void AddEntry(string message)
         {
@@ -19,6 +24,7 @@ namespace SleepTimer.Models
             appPreferences.LogEntries ??= [];
 
             appPreferences.LogEntries.Add(new LogEntry(DateTime.Now, message));
+            appPreferences.LogEntriesTest.Add(new LogEntry(DateTime.Now, message));
         }
     }
 }
