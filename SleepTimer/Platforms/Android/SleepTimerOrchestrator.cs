@@ -25,13 +25,15 @@ namespace SleepTimer.Platforms.Android
             //IMediaControlService mediaService,
             MediaController mediaController,
             MainPageDisplay display,
-            NotificationManagerWrapper notificationManagerWrapper)
+            NotificationManagerWrapper notificationManagerWrapper,
+            LogsHandler logsHandler)
         {
             this.mainTimer = timer;
             this.appPreferences = preferences;
             this.mediaController = mediaController;
             this.mainPageDisplay = display;
             this.notificationManagerWrapper = notificationManagerWrapper;
+            this.logsHandler = logsHandler;
 
             this.notifier = new TimerNotifier(preferences, (msg, level) => notificationManagerWrapper.Update(msg, level));
 
@@ -67,6 +69,7 @@ namespace SleepTimer.Platforms.Android
                 mainTimer.StopTimer();
                 mediaController.HandleFinished();
                 TimerStoppedOrFinished?.Invoke(this, EventArgs.Empty);
+                logsHandler.AddEntry();
             };
         }
 

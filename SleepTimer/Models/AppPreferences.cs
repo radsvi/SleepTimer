@@ -38,5 +38,18 @@ namespace SleepTimer.Models
             get => Preferences.Default.Get(nameof(LogWhenTimerFinishes), false);
             set { Preferences.Set(nameof(LogWhenTimerFinishes), value); OnPropertyChanged(); }
         }
+        public List<LogEntry> LogEntries
+        {
+            get
+            {
+                string serialized = Preferences.Default.Get(nameof(LogEntries), string.Empty);
+                return JsonConvert.DeserializeObject<List<LogEntry>>(serialized)!;
+            }
+            set
+            {
+                string savedLevelList = JsonConvert.SerializeObject(value);
+                Preferences.Set(nameof(LogEntries), savedLevelList);
+            }
+        }
     }
 }

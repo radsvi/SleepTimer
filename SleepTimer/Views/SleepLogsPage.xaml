@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:SleepTimer.Models"
              x:Class="SleepTimer.Views.SleepLogsPage"
              Title="Sleep Logs">
     <VerticalStackLayout>
         <Label Text="testing..." />
         <CollectionView SelectionMode="None" ItemsSource="{Binding TubesItemsSource}" HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Never" VerticalOptions="Center">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:TubeData">
+                <DataTemplate x:DataType="models:AppPreferences">
                     <Grid Style="{StaticResource TubeGrid}" Padding="0,20,0,0">
                         
                     </Grid>
