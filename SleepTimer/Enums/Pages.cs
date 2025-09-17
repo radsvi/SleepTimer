@@ -9,6 +9,7 @@ namespace SleepTimer.Enums
     public enum Pages
     {
         MainPage,
-        ConfigurationPage
+        ConfigurationPage,
+        SleepLogsPage
     }
 }

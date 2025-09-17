@@ -7,6 +7,7 @@
             InitializeComponent();
 
             Routing.RegisterRoute(nameof(ConfigurationPage), typeof(ConfigurationPage));
+            Routing.RegisterRoute(nameof(SleepLogsPage), typeof(SleepLogsPage));
         }
     }
 }

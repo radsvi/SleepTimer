@@ -33,5 +33,10 @@ namespace SleepTimer.Models
             get => Preferences.Default.Get(nameof(DisplayVolumeChange), false);
             set { Preferences.Set(nameof(DisplayVolumeChange), value); OnPropertyChanged(); }
         }
+        public bool LogWhenTimerFinishes
+        {
+            get => Preferences.Default.Get(nameof(LogWhenTimerFinishes), false);
+            set { Preferences.Set(nameof(LogWhenTimerFinishes), value); OnPropertyChanged(); }
+        }
     }
 }

@@ -32,8 +32,19 @@
         <controls:SwitchControl
             IsToggled="{Binding AppPreferences.DisplayVolumeChange, Mode=TwoWay}"
             Text="Show volume changes" />
-        
-        
+
+
+
+
+        <controls:SwitchControl
+            IsToggled="{Binding AppPreferences.LogWhenTimerFinishes, Mode=TwoWay}"
+            Text="Log when timer finishes" />
+
+        <Button
+            IsVisible="{Binding AppPreferences.LogWhenTimerFinishes}"
+            Text="Show logs"
+            Command="{Binding MainVM.NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.SleepLogsPage}" />
+
 
 
         <!--<controls:NumberPicker Minimum="0" Maximum="59" Value="{Binding SelectedSeconds}" />-->
