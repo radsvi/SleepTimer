@@ -27,20 +27,12 @@
                         Command="{Binding NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.ConfigurationPage}" />
                 <!--<Button Text="Extend" Command="{Binding ExtendTimerCommand}" />-->
             </StackLayout>
-            <!--<StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,0,0,20">
-                <Button Text="start service" Clicked="OnStartServiceClicked" />
-                <Button Text="stop service" Clicked="OnStopServiceClicked" />
-                <Button Text="reduce volume" Clicked="OnSetVolumeClicked" />
+
+            <!-- // Conditionally displayed only in DEBUG mode // -->
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="0,30,0,20" IsVisible="{Binding DebugProperties.DisplayShortTimer}">
+                <Button Text="Make Timer Shorter" Command="{Binding DebugProperties.MakeTimeShorterCommand}" />
+                <Button Text="Make Timer Longer" Command="{Binding DebugProperties.MakeTimeLongerCommand}" />
             </StackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,0,0,20">
-                <Button Text="start service VM" Command="{Binding StartVolumeTimerCommand}" />
-                <Button Text="start service VM New" Command="{Binding StartSleepTimerCommand}" />
-            </StackLayout>-->
-            <!--<StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,0,0,20">
-                <Button Text="Pause broadcast" Command="{Binding SendPauseBroadcastCommand}" />
-                <Button Text="Stop broadcast" Command="{Binding SendStopBroadcastCommand}" />
-                <Button Text="Check volume" Command="{Binding CheckVolumeCommand}" />
-            </StackLayout>-->
 
             <!-- // Timer is stopped // -->
             <StackLayout
@@ -83,7 +75,9 @@
                     HorizontalOptions="Center"
                     />
             </StackLayout>
-            
+
+
+
             <!--<Grid HeightRequest="250" WidthRequest="250">
                 <controls:RadialSlider x:Name="MySlider"
                    WidthRequest="250"

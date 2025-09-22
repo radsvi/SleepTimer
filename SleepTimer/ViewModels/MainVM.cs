@@ -11,6 +11,7 @@ namespace SleepTimer.ViewModels
         public AppPreferences AppPreferences { get; }
         public MainTimer MainTimer { get; }
         public MainPageDisplay MainPageDisplay { get; }
+        public DebugProperties DebugProperties { get; }
         readonly ISleepTimerServiceHelper sleepTimerServiceHelper;
 
 
@@ -18,13 +19,15 @@ namespace SleepTimer.ViewModels
         public MainVM(AppPreferences appPreferences,
             MainTimer mainTimer,
             MainPageDisplay mainPageDisplay,
-            ISleepTimerServiceHelper sleepTimerServiceHelper
+            ISleepTimerServiceHelper sleepTimerServiceHelper,
+            DebugProperties debugProperties
             )
         {
             this.AppPreferences = appPreferences;
             this.MainTimer = mainTimer;
             this.MainPageDisplay = mainPageDisplay;
             this.sleepTimerServiceHelper = sleepTimerServiceHelper;
+            this.DebugProperties = debugProperties;
 
             App.Current!.UserAppTheme = AppTheme.Dark;
             Plugin.LocalNotification.LocalNotificationCenter.Current.NotificationActionTapped += Current_NotificationActionTapped;

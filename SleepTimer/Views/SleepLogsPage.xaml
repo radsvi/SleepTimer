@@ -9,7 +9,7 @@
     <VerticalStackLayout Margin="5">
         <Button Text="Clear Logs" Command="{Binding LogsHandler.ClearCommand}" />
 
-        <CollectionView SelectionMode="None" ItemsSource="{Binding AppPreferences.LogEntries}" EmptyView="No log entries yet">
+        <CollectionView SelectionMode="None" ItemsSource="{Binding AppPreferences.LogEntries}" EmptyView="No log entries">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:LogEntry">
                     <HorizontalStackLayout>
