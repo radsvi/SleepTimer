@@ -21,7 +21,7 @@ namespace SleepTimer.Models
             if (appPreferences.LogWhenTimerFinishes == false)
                 return;
             
-            appPreferences.LogEntries ??= [];
+            //appPreferences.LogEntries ??= [];
 
             appPreferences.LogEntries.Add(new LogEntry(DateTime.Now, message));
             appPreferences.LogEntriesTest.Add(new LogEntry(DateTime.Now, message));
