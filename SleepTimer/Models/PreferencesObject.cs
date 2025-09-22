@@ -6,105 +6,70 @@ using System.Threading.Tasks;
 
 namespace SleepTimer.Models
 {
-    //public class PreferencesObject<T>
-    //{
-    //    private readonly string propertyName;
-
-    //    public PreferencesObject([CallerMemberName] string propertyName = null)
-    //    {
-    //        this.propertyName = propertyName;
-
-    //        string serialized = Preferences.Default.Get(this.propertyName, string.Empty);
-    //        //if (!string.IsNullOrWhiteSpace(serialized))
-    //        if (serialized != string.Empty)
-    //        {
-    //            var items = JsonConvert.DeserializeObject<List<T>>(serialized);
-    //            if (items != null)
-    //            {
-    //                foreach (var item in items)
-    //                    Add(item);
-    //            }
-    //        }
-
-    //        CollectionChanged += (s, e) => Save();
-    //    }
-
-    //    private void Save()
-    //    {
-    //        string serialized = JsonConvert.SerializeObject(this.ToList());
-    //        Preferences.Default.Set(propertyName, serialized);
-    //    }
-    //}
-
-
-    public class PersistedProperty<T>
+    public class PreferencesObject<T>
     {
-        private readonly string _key;
-        private T _value;
-
-        public PersistedProperty(
-            T defaultValue = default!,
-            [CallerMemberName] string propertyName = "",
-            string? key = null)
-        {
-            _key = key ?? propertyName;
-
-            // Load from preferences
-            if (Preferences.Default.ContainsKey(_key))
-            {
-                if (typeof(T).IsPrimitive || typeof(T) == typeof(string) || typeof(T) == typeof(decimal))
-                {
-                    // For primitive types, store directly
-                    object? stored = Preferences.Default.Get(_key, defaultValue?.ToString() ?? string.Empty);
-                    _value = (T)Convert.ChangeType(stored, typeof(T));
-                }
-                else
-                {
-                    // For complex types, use JSON
-                    string serialized = Preferences.Default.Get(_key, string.Empty);
-                    if (!string.IsNullOrWhiteSpace(serialized))
-                    {
-                        _value = JsonConvert.DeserializeObject<T>(serialized) ?? defaultValue;
-                    }
-                    else
-                    {
-                        _value = defaultValue;
-                    }
-                }
-            }
-            else
-            {
-                _value = defaultValue;
-            }
-        }
-
+        private readonly string key;
+        private T value;
         public T Value
         {
-            get => _value;
+            get => value;
             set
             {
-                if (!Equals(_value, value))
+                if (!Equals(this.value, value))
                 {
-                    _value = value;
+                    this.value = value;
                     Save();
                 }
             }
         }
+        public static implicit operator T(PreferencesObject<T> p) => p.Value;
 
-        private void Save()
+        public PreferencesObject(
+            T defaultValue = default!,
+            [CallerMemberName] string propertyName = "",
+            string? key = null)
         {
-            if (typeof(T).IsPrimitive || typeof(T) == typeof(string) || typeof(T) == typeof(decimal))
+            this.key = key ?? propertyName;
+
+            if (Preferences.Default.ContainsKey(this.key))
             {
-                Preferences.Default.Set(_key, _value?.ToString() ?? string.Empty);
+                if (PreferencesObject<T>.IsNativeType())
+                {
+                    value = Preferences.Default.Get(this.key, defaultValue);
+                }
+                else
+                {
+                    string serialized = Preferences.Default.Get(this.key, string.Empty);
+                    value = string.IsNullOrWhiteSpace(serialized)
+                        ? defaultValue
+                        : JsonConvert.DeserializeObject<T>(serialized) ?? defaultValue;
+                }
             }
             else
             {
-                string serialized = JsonConvert.SerializeObject(_value);
-                Preferences.Default.Set(_key, serialized);
+                value = defaultValue;
             }
         }
 
-        // Implicit cast so you can use it as T
-        public static implicit operator T(PersistedProperty<T> p) => p.Value;
+
+
+        private void Save()
+        {
+            if (IsNativeType())
+            {
+                Preferences.Default.Set(key, value?.ToString() ?? string.Empty);
+            }
+            else
+            {
+                string serialized = JsonConvert.SerializeObject(value);
+                Preferences.Default.Set(key, serialized);
+            }
+        }
+
+
+        private static bool IsNativeType()
+        {
+            return typeof(T).IsPrimitive || typeof(T) == typeof(string) || typeof(T) == typeof(decimal);
+        }
     }
 }

@@ -47,7 +47,7 @@
                 HorizontalOptions="Fill"
                 IsVisible="{Binding MainTimer.IsStarted, Converter={StaticResource InvertBoolConv}}">
                 <Label
-                    Text="{Binding AppPreferences.TimerDurationSeconds}"
+                    Text="{Binding AppPreferences.TimerDurationMinutes}"
                     FontSize="120"
                     FontAttributes="Bold"
                     HorizontalOptions="Center"
@@ -62,7 +62,7 @@
                     Grid.Column="1"
                     Minimum="1"
                     Maximum="60"
-                    Value="{Binding AppPreferences.TimerDurationSeconds}"
+                    Value="{Binding AppPreferences.TimerDurationMinutes}"
                     VerticalOptions="Center"
                     />
             </StackLayout>

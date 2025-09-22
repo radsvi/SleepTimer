@@ -50,11 +50,11 @@ namespace SleepTimer.Models
             timer.Interval = 1000; // 1 second
             timer.Elapsed += OnTick;
 
-            EndTime = DateTime.Now.AddMinutes(appPreferences.TimerDurationSeconds);
+            EndTime = DateTime.Now.AddMinutes(appPreferences.TimerDurationMinutes);
             InStandby = false;
             IsStarted = true;
             timer.Start();
-            Started?.Invoke(this, new TimeSpan(0,0, appPreferences.TimerDurationSeconds));
+            Started?.Invoke(this, new TimeSpan(0,0, appPreferences.TimerDurationMinutes));
         }
         public void StopTimer()
         {

@@ -24,7 +24,6 @@ namespace SleepTimer.Models
             //appPreferences.LogEntries ??= [];
 
             appPreferences.LogEntries.Add(new LogEntry(DateTime.Now, message));
-            appPreferences.LogEntriesTest.Add(new LogEntry(DateTime.Now, message));
         }
     }
 }

@@ -45,7 +45,7 @@ namespace SleepTimer.Platforms.Android
 
         private void WireUpEvents()
         {
-            mainPageDisplay.SetStartTime(appPreferences.TimerDurationSeconds);
+            mainPageDisplay.SetStartTime(appPreferences.TimerDurationMinutes);
 
             mainTimer.Started += (s, starting) =>
             {
@@ -79,7 +79,7 @@ namespace SleepTimer.Platforms.Android
             if (intent?.Action == ServiceAction.Start.ToString())
             {
                 mainTimer.StartTimer(notificationManagerWrapper.Update);
-                notificationManagerWrapper.Show($"Starting timer. {appPreferences.TimerDurationSeconds} minutes left.");
+                notificationManagerWrapper.Show($"Starting timer. {appPreferences.TimerDurationMinutes} minutes left.");
             }
             else if (intent?.Action == ServiceAction.Extend.ToString())
             {
