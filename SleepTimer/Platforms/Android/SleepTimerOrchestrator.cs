@@ -54,7 +54,7 @@ namespace SleepTimer.Platforms.Android
             };
             mainTimer.Tick += (s, remaining) =>
             {
-                logsHandler.AddEntry($"Timer ticked [remaining {remaining}]");
+                //logsHandler.AddEntry($"Timer ticked [remaining {remaining}]");
                 notifier.OnTick(remaining);
                 mainPageDisplay.OnTick(remaining);
 
@@ -64,7 +64,11 @@ namespace SleepTimer.Platforms.Android
                     mediaController.SetStartingVolume(); // refreshes every second in case user changed the volume. Stops updating only after the we are in the fade-out period.
             };
 
-            mainTimer.EnteredStandby += (s, e) => mediaController.EnterStandby();
+            mainTimer.EnteredStandby += (s, e) =>
+            {
+                logsHandler.AddEntry($"Entering standby");
+                mediaController.EnterStandby();
+            };
             mainTimer.Finished += (s, e) =>
             {
                 mainTimer.StopTimer();

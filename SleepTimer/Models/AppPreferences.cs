@@ -23,7 +23,7 @@ namespace SleepTimer.Models
         private PreferencesObject<bool> displayVolumeChange = new(false);
         public bool DisplayVolumeChange { get => displayVolumeChange.Value; set => SetProperty(ref displayVolumeChange, value); }
 
-        private PreferencesObject<bool> logWhenTimerFinishes = new(false);
+        private PreferencesObject<bool> logWhenTimerFinishes = new(true);
         public bool LogWhenTimerFinishes { get => logWhenTimerFinishes.Value; set => SetProperty(ref logWhenTimerFinishes, value); }
 
 

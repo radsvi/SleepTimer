@@ -8,34 +8,15 @@
              Title="Sleep Logs">
     <VerticalStackLayout>
 
-        <Label Text="Regular logs:" />
-        <!-- AppPreferences.LogEntries | LogEntriesTest -->
-        <CollectionView SelectionMode="None" ItemsSource="{Binding AppPreferences.LogEntries}">
+        <CollectionView SelectionMode="None" ItemsSource="{Binding AppPreferences.LogEntries}" >
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:LogEntry">
                     <HorizontalStackLayout>
-                        <Label Text="{Binding Date}" />
+                        <Label Text="{Binding Date}" Margin="0,0,3,0" />
                         <Label Text="{Binding Text}" />
                     </HorizontalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
-        
-        
-        
-        
-        
-        <!--<Label Text="Testing logs:" />
-        <CollectionView SelectionMode="None" ItemsSource="{Binding AppPreferences.LogEntriesTest}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:LogEntry">
-                    <HorizontalStackLayout>
-                        <Label Text="{Binding Date}" />
-                        <Label Text="{Binding Text}" />
-                    </HorizontalStackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>-->
     </VerticalStackLayout>
 </ContentPage>
