@@ -8,13 +8,13 @@ namespace SleepTimer.Models
 {
     public class PreferencesObservableCollection<T> : ObservableCollection<T>
     {
-        private readonly string propertyName;
+        private readonly string key;
 
         public PreferencesObservableCollection([CallerMemberName] string propertyName = null)
         {
-            this.propertyName = propertyName;
+            this.key = propertyName;
 
-            string serialized = Preferences.Default.Get(this.propertyName, string.Empty);
+            string serialized = Preferences.Default.Get(this.key, string.Empty);
             //if (!string.IsNullOrWhiteSpace(serialized))
             if (serialized != string.Empty)
             {
@@ -32,7 +32,7 @@ namespace SleepTimer.Models
         private void Save()
         {
             string serialized = JsonConvert.SerializeObject(this.ToList());
-            Preferences.Default.Set(propertyName, serialized);
+            Preferences.Default.Set(key, serialized);
         }
     }
 }

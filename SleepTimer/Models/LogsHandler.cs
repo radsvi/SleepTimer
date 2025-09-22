@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SleepTimer.Models
 {
-    public class LogsHandler
+    public partial class LogsHandler : ObservableObject
     {
         private readonly AppPreferences appPreferences;
 
@@ -23,7 +23,13 @@ namespace SleepTimer.Models
             
             //appPreferences.LogEntries ??= [];
 
-            appPreferences.LogEntries.Add(new LogEntry(DateTime.Now, message));
+            appPreferences.LogEntries.AddFirst(new LogEntry(DateTime.Now, message));
+        }
+        [RelayCommand]
+        public void Clear()
+        {
+            appPreferences.LogEntries.Clear();
+            OnPropertyChanged(nameof(appPreferences.LogEntries));
         }
     }
 }

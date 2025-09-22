@@ -9,9 +9,13 @@ namespace SleepTimer.ViewModels
     public partial class SleepLogsVM : ObservableObject
     {
         public AppPreferences AppPreferences { get; }
-        public SleepLogsVM(AppPreferences appPreferences)
+        public LogsHandler LogsHandler { get; }
+        public SleepLogsVM(AppPreferences appPreferences, LogsHandler logsHandler)
         {
             AppPreferences = appPreferences;
+            LogsHandler = logsHandler;
         }
+
+
     }
 }

@@ -85,7 +85,7 @@ namespace SleepTimer.Models
 
             if (RemainingTime.TotalSeconds + appPreferences.StandBySeconds <= 0)
                 Finished?.Invoke(this, EventArgs.Empty);
-            else if (RemainingTime.TotalSeconds <= 0)
+            else if (RemainingTime.TotalSeconds <= 0 && InStandby == false)
             {
                 InStandby = true;
                 EnteredStandby?.Invoke(this, EventArgs.Empty);

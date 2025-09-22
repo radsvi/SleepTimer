@@ -21,5 +21,18 @@ namespace SleepTimer.ViewModels
             }
             return false;
         }
+        protected bool SetProperty<T>(
+            ref PreferencesObservableCollection<T> store,
+            PreferencesObservableCollection<T> value,
+            [CallerMemberName] string propertyName = null!)
+        {
+            if (!ReferenceEquals(store, value))
+            {
+                store = value;
+                OnPropertyChanged(propertyName);
+                return true;
+            }
+            return false;
+        }
     }
 }
