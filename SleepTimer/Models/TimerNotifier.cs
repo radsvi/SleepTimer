@@ -11,6 +11,7 @@ namespace SleepTimer.Models
         private readonly AppPreferences appPreferences;
         private TimeSpan nextNotificationTime = TimeSpan.MinValue;
         private readonly Action<string, NotificationLevel> notify;
+        private int tickCounter = 0;
 
         public TimerNotifier(AppPreferences appPreferences, Action<string, NotificationLevel> notify)
         {
@@ -28,9 +29,8 @@ namespace SleepTimer.Models
             else if (remainingTime.TotalSeconds < 10)
                 notify("Going to sleep.", NotificationLevel.Low);
             else if (remainingTime.TotalSeconds < appPreferences.FadeOutSeconds)
-                notify($"{(int)remainingTime.TotalSeconds} seconds left.", NotificationLevel.Low); 
-            else if (remainingTime.Seconds > 55 && remainingTime < NextNotification(nextNotificationTime)
-                || remainingTime > nextNotificationTime)
+                notify($"{(int)remainingTime.TotalSeconds} seconds left.", NotificationLevel.Low);
+            else if (tickCounter % 60 == 0 || remainingTime > nextNotificationTime)
             {
                 int roundUpMinutes = (int)Math.Ceiling(remainingTime.TotalMinutes);
                 NotificationLevel chosenPriority;
@@ -40,10 +40,10 @@ namespace SleepTimer.Models
                     chosenPriority = NotificationLevel.Low;
 
                 notify($"{roundUpMinutes} minutes left.", chosenPriority);
-                //nextNotificationTime = NextNotification(remainingTime);
                 nextNotificationTime = remainingTime;
             }
+
+            tickCounter++;
         }
-        private static TimeSpan NextNotification(TimeSpan time) => time.Add(new TimeSpan(0, 0, -55));
     }
 }
