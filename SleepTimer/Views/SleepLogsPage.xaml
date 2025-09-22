@@ -6,28 +6,19 @@
              x:Class="SleepTimer.Views.SleepLogsPage"
              x:DataType="viewModels:SleepLogsVM"
              Title="Sleep Logs">
-    <AbsoluteLayout Margin="5">
-        <VerticalStackLayout
-            AbsoluteLayout.LayoutBounds="0,0,1,300"
-            AbsoluteLayout.LayoutFlags="WidthProportional"
-            >
-            <CollectionView SelectionMode="None" ItemsSource="{Binding AppPreferences.LogEntries}" >
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:LogEntry">
-                        <HorizontalStackLayout>
-                            <Label Text="{Binding Date}" Margin="0,0,3,0" />
-                            <Label Text="{Binding Text}" />
-                        </HorizontalStackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </VerticalStackLayout>
+    <VerticalStackLayout Margin="5">
+        <Button Text="Clear Logs" Command="{Binding LogsHandler.ClearCommand}" />
 
-        <Grid
-            AbsoluteLayout.LayoutBounds="0,1,1,0.06"
-            AbsoluteLayout.LayoutFlags="All">
-            <Button Text="Clear Logs" Command="{Binding LogsHandler.ClearCommand}" />
-        </Grid>
-        
-    </AbsoluteLayout>
+        <CollectionView SelectionMode="None" ItemsSource="{Binding AppPreferences.LogEntries}" EmptyView="No log entries yet">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:LogEntry">
+                    <HorizontalStackLayout>
+                        <Label Text="{Binding Date}" Margin="0,0,3,0" />
+                        <Label Text="{Binding Text}" />
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+
 </ContentPage>
