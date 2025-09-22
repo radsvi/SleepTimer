@@ -6,59 +6,30 @@ using System.Threading.Tasks;
 
 namespace SleepTimer.Models
 {
-    public partial class AppPreferences : ObservableObject
+    public partial class AppPreferences : AppPreferencesBase
     {
-        //public int TimerDurationSeconds
-        //{
-        //    get => Preferences.Default.Get(nameof(TimerDurationSeconds), 15);
-        //    set { Preferences.Set(nameof(TimerDurationSeconds), value); OnPropertyChanged(); }
-        //}
-        public PreferencesObject<int> TimerDurationMinutes { get; set; } = new(15);
-        //public int FadeOutSeconds
-        //{
-        //    get => Preferences.Default.Get(nameof(FadeOutSeconds), 120);
-        //    set { Preferences.Set(nameof(FadeOutSeconds), value); OnPropertyChanged(); }
-        //}
-        public PreferencesObject<int> FadeOutSeconds { get; set; } = new(120);
-        //public int ExtensionLength
-        //{
-        //    get => Preferences.Default.Get(nameof(ExtensionLength), 5);
-        //    set { Preferences.Set(nameof(ExtensionLength), value); OnPropertyChanged(); }
-        //}
-        public PreferencesObject<int> ExtensionLength { get; set; } = new(5);
-        //public int StandBySeconds // WaitTimeAfterFadeOut
-        //{
-        //    get => Preferences.Default.Get(nameof(StandBySeconds), 60);
-        //    set { Preferences.Set(nameof(StandBySeconds), value); OnPropertyChanged(); }
-        //}
-        public PreferencesObject<int> StandBySeconds { get; set; } = new(60);
-        //public bool DisplayVolumeChange
-        //{
-        //    get => Preferences.Default.Get(nameof(DisplayVolumeChange), false);
-        //    set { Preferences.Set(nameof(DisplayVolumeChange), value); OnPropertyChanged(); }
-        //}
-        public PreferencesObject<bool> DisplayVolumeChange { get; set; } = new(false);
-        //public bool LogWhenTimerFinishes
-        //{
-        //    get => Preferences.Default.Get(nameof(LogWhenTimerFinishes), false);
-        //    set { Preferences.Set(nameof(LogWhenTimerFinishes), value); OnPropertyChanged(); }
-        //}
-        public PreferencesObject<bool> LogWhenTimerFinishes { get; set; } = new(false);
-        public PreferencesObservableCollection<LogEntry> LogEntries { get; set; } = [];
+        private PreferencesObject<int> timerDurationMinutes = new(15);
+        public int TimerDurationMinutes { get => timerDurationMinutes.Value; set => SetProperty(ref timerDurationMinutes, value); }
+
+        private PreferencesObject<int> fadeOutSeconds = new(120);
+        public int FadeOutSeconds { get => fadeOutSeconds.Value; set => SetProperty(ref fadeOutSeconds, value); }
+
+        private PreferencesObject<int> extensionLength = new(5);
+        public int ExtensionLength { get => extensionLength.Value; set => SetProperty(ref extensionLength, value); }
+
+        private PreferencesObject<int> standBySeconds = new(60);
+        public int StandBySeconds { get => standBySeconds.Value; set => SetProperty(ref standBySeconds, value); }
+
+        private PreferencesObject<bool> displayVolumeChange = new(false);
+        public bool DisplayVolumeChange { get => displayVolumeChange.Value; set => SetProperty(ref displayVolumeChange, value); }
+
+        private PreferencesObject<bool> logWhenTimerFinishes = new(false);
+        public bool LogWhenTimerFinishes { get => logWhenTimerFinishes.Value; set => SetProperty(ref logWhenTimerFinishes, value); }
 
 
-        //private List<LogEntry> logEntriesTest = [];
-        //public List<LogEntry> LogEntriesTest
-        //{
-        //    get { return logEntriesTest; }
-        //    private set
-        //    {
-        //        if (value != logEntriesTest)
-        //        {
-        //            logEntriesTest = value;
-        //            OnPropertyChanged();
-        //        }
-        //    }
-        //}
+        private PreferencesObservableCollection<LogEntry> logEntries = [];
+        public PreferencesObservableCollection<LogEntry> LogEntries { get => logEntries; set => logEntries = value; }
+
+
     }
 }

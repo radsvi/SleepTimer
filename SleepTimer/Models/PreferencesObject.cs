@@ -8,7 +8,7 @@ namespace SleepTimer.Models
 {
     public class PreferencesObject<T>
     {
-        private readonly string key;
+        private readonly string propertyName;
         private T value;
         public T Value
         {
@@ -26,50 +26,19 @@ namespace SleepTimer.Models
 
         public PreferencesObject(
             T defaultValue = default!,
-            [CallerMemberName] string propertyName = "",
-            string? key = null)
+            [CallerMemberName] string propertyName = "")
         {
-            this.key = key ?? propertyName;
+            this.propertyName = propertyName;
 
-            if (Preferences.Default.ContainsKey(this.key))
-            {
-                if (PreferencesObject<T>.IsNativeType())
-                {
-                    value = Preferences.Default.Get(this.key, defaultValue);
-                }
-                else
-                {
-                    string serialized = Preferences.Default.Get(this.key, string.Empty);
-                    value = string.IsNullOrWhiteSpace(serialized)
-                        ? defaultValue
-                        : JsonConvert.DeserializeObject<T>(serialized) ?? defaultValue;
-                }
-            }
-            else
-            {
-                value = defaultValue;
-            }
+            string serialized = Preferences.Default.Get(this.propertyName, string.Empty);
+            value = string.IsNullOrWhiteSpace(serialized)
+                    ? defaultValue
+                    : JsonConvert.DeserializeObject<T>(serialized) ?? defaultValue;
         }
-
-
-
-        private void Save()
-        {
-            if (IsNativeType())
-            {
-                Preferences.Default.Set(key, value?.ToString() ?? string.Empty);
-            }
-            else
-            {
-                string serialized = JsonConvert.SerializeObject(value);
-                Preferences.Default.Set(key, serialized);
-            }
-        }
-
-
-        private static bool IsNativeType()
-        {
-            return typeof(T).IsPrimitive || typeof(T) == typeof(string) || typeof(T) == typeof(decimal);
-        }
+        private void Save() => Preferences.Default.Set(propertyName, JsonConvert.SerializeObject(value));
+        //private static bool IsNativeType()
+        //{
+        //    return typeof(T).IsPrimitive || typeof(T) == typeof(string) || typeof(T) == typeof(decimal);
+        //}
     }
 }
