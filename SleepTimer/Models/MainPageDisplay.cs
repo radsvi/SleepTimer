@@ -39,7 +39,12 @@ namespace SleepTimer.Models
         }
         public void OnTick(TimeSpan remainingTime)
         {
-            RemainingTime = remainingTime;
+            //RemainingTime = remainingTime;
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                RemainingTime = remainingTime;
+            });
         }
     }
 }

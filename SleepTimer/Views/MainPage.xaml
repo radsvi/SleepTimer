@@ -72,7 +72,7 @@
 
             <!-- // Conditionally displayed only in DEBUG mode // -->
             <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="0,30,0,20" IsVisible="{Binding DebugProperties.DisplayShortTimer}">
-                <Button Text="Set timer to 0" Command="{Binding DebugProperties.MakeTimeShorterCommand}" />
+                <Button Text="[DBG] Set timer to 0" Command="{Binding DebugProperties.MakeTimeShorterCommand}" />
             </StackLayout>
 
             <!--<Grid HeightRequest="250" WidthRequest="250">

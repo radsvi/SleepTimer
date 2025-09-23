@@ -12,18 +12,17 @@ namespace SleepTimer.Models
         private readonly AppPreferences appPreferences;
 
         public System.Timers.Timer? timer;
-        public DateTime? EndTime { get; private set; } = DateTime.MinValue;
         private bool isStarted;
         public bool IsStarted
         {
             get => isStarted;
             set { isStarted = value; OnPropertyChanged(); }
         }
-        private TimeSpan remainingTime = TimeSpan.MinValue;
-        public TimeSpan RemainingTime
+        private TimeSpan? remainingTime = TimeSpan.MinValue;
+        public TimeSpan? RemainingTime
         {
             get => remainingTime;
-            private set { remainingTime = value; OnPropertyChanged(); OnPropertyChanged(nameof(DisplayRemainingTime)); }
+            private set { remainingTime = value; OnPropertyChanged(); }
         }
 
         public event EventHandler<TimeSpan>? Started;
@@ -37,7 +36,6 @@ namespace SleepTimer.Models
             get => inStandby;
             private set { inStandby = value; OnPropertyChanged(); }
         }
-        public TimeSpan DisplayRemainingTime { get => (EndTime != null) ? ((DateTime)EndTime - DateTime.Now) : throw new NullReferenceException(nameof(EndTime)); }
 
         public MainTimer(AppPreferences appPreferences)
         {
@@ -50,7 +48,7 @@ namespace SleepTimer.Models
             timer.Interval = 1000; // 1 second
             timer.Elapsed += OnTick;
 
-            EndTime = DateTime.Now.AddMinutes(appPreferences.TimerDurationMinutes);
+            RemainingTime = new TimeSpan(0, appPreferences.TimerDurationMinutes, 0);
             InStandby = false;
             IsStarted = true;
             timer.Start();
@@ -63,29 +61,29 @@ namespace SleepTimer.Models
             timer = null;
 
             IsStarted = false;
-            EndTime = null;
+            RemainingTime = null;
             InStandby = false;
         }
         public void Extend()
         {
-            if (EndTime == null)
+            if (RemainingTime == null)
                 return;
 
-            EndTime = EndTime.Value.AddMinutes(appPreferences.ExtensionLength);
+            RemainingTime = RemainingTime.Value.Add(new TimeSpan(appPreferences.ExtensionLength));
 
             InStandby = false;
         }
         private void OnTick(object? source, ElapsedEventArgs e)
         {
-            if (EndTime == null)
+            if (RemainingTime == null)
                 return;
 
-            RemainingTime = (DateTime)EndTime - e.SignalTime;
-            Tick?.Invoke(this, RemainingTime);
+            RemainingTime = RemainingTime.Value.Subtract(TimeSpan.FromSeconds(1));
+            Tick?.Invoke(this, RemainingTime.Value);
 
-            if (RemainingTime.TotalSeconds + appPreferences.StandBySeconds <= 0)
+            if (RemainingTime.Value.TotalSeconds + appPreferences.StandBySeconds <= 0)
                 Finished?.Invoke(this, EventArgs.Empty);
-            else if (RemainingTime.TotalSeconds <= 0 && InStandby == false)
+            else if (RemainingTime.Value.TotalSeconds <= 0 && InStandby == false)
             {
                 InStandby = true;
                 EnteredStandby?.Invoke(this, EventArgs.Empty);
