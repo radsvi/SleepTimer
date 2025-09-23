@@ -1,5 +1,5 @@
 # Sleep Timer
 
-App allows setting up a simple timer that runs down and stops all running media players. Additionally, before the media is stopped, the volume is slowly lowered.
+App starts a timer. When the time reaches zero, it stops all running media players. Additionally, before the media is stopped, there is a fade-out period where the volume is slowly lowered down to zero.
 
 Only works on Android atm.
