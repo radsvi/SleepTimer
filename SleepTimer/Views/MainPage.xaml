@@ -17,7 +17,7 @@
         Margin="5"
         >
         <StackLayout
-            AbsoluteLayout.LayoutBounds="0,0,1,300"
+            AbsoluteLayout.LayoutBounds="0,0,1,AutoSize"
             AbsoluteLayout.LayoutFlags="WidthProportional"
             >
 
@@ -26,12 +26,6 @@
                         TextColor="{StaticResource SecondaryDarkText}" BackgroundColor="{StaticResource OffBlack}"
                         Command="{Binding NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.ConfigurationPage}" />
                 <!--<Button Text="Extend" Command="{Binding ExtendTimerCommand}" />-->
-            </StackLayout>
-
-            <!-- // Conditionally displayed only in DEBUG mode // -->
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="0,30,0,20" IsVisible="{Binding DebugProperties.DisplayShortTimer}">
-                <Button Text="Make Timer Shorter" Command="{Binding DebugProperties.MakeTimeShorterCommand}" />
-                <Button Text="Make Timer Longer" Command="{Binding DebugProperties.MakeTimeLongerCommand}" />
             </StackLayout>
 
             <!-- // Timer is stopped // -->
@@ -76,7 +70,10 @@
                     />
             </StackLayout>
 
-
+            <!-- // Conditionally displayed only in DEBUG mode // -->
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="0,30,0,20" IsVisible="{Binding DebugProperties.DisplayShortTimer}">
+                <Button Text="Set timer to 0" Command="{Binding DebugProperties.MakeTimeShorterCommand}" />
+            </StackLayout>
 
             <!--<Grid HeightRequest="250" WidthRequest="250">
                 <controls:RadialSlider x:Name="MySlider"

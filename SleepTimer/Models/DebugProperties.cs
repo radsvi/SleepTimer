@@ -27,11 +27,5 @@ namespace SleepTimer.Models
         {
             appPreferences.TimerDurationMinutes = 0;
         }
-        [RelayCommand]
-        void MakeTimeLonger()
-        {
-            appPreferences.TimerDurationMinutes = 5;
-        }
-
     }
 }
