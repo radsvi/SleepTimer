@@ -94,6 +94,7 @@ namespace SleepTimer.Platforms.Android
             {
                 mainTimer.StopTimer();
                 TimerStoppedOrFinished?.Invoke(this, EventArgs.Empty);
+                mediaController.RestoreVolume();
             }
         }
 
