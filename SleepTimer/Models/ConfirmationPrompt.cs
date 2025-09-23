@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace SleepTimer.Models
 {
-    public class QuestionPrompt
+    public interface IConfirmationPrompt
+    {
+        Task<bool> Show(string title, string message, string accept, string cancel);
+    }
+    public class ConfirmationPrompt : IConfirmationPrompt
     {
         public async Task<bool> Show(string title, string message, string accept, string cancel)
         {

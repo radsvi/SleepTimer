@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace SleepTimer.Models
 {
-    public partial class LogsHandler(AppPreferences appPreferences, QuestionPrompt questionPrompt) : ObservableObject
+    public partial class LogsHandler(AppPreferences appPreferences, IConfirmationPrompt questionPrompt) : ObservableObject
     {
         private readonly AppPreferences appPreferences = appPreferences;
-        private readonly QuestionPrompt prompt = questionPrompt;
+        private readonly IConfirmationPrompt prompt = questionPrompt;
 
         public void AddEntry(string message)
         {
