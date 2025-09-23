@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace SleepTimer.Models
 {
-    public partial class LogsHandler(AppPreferences appPreferences) : ObservableObject
+    public partial class LogsHandler(AppPreferences appPreferences, QuestionPrompt questionPrompt) : ObservableObject
     {
         private readonly AppPreferences appPreferences = appPreferences;
+        private readonly QuestionPrompt prompt = questionPrompt;
 
         public void AddEntry(string message)
         {
@@ -19,8 +20,12 @@ namespace SleepTimer.Models
             appPreferences.LogEntries.AddFirst(new LogEntry(DateTime.Now, message));
         }
         [RelayCommand]
-        public void Clear()
+        public async Task Clear()
         {
+            var answer = await prompt.Show("Delete log?", "Do you want to delete all logs?", "OK", "Cancel");
+            if (answer == false)
+                return;
+
             appPreferences.LogEntries.Clear();
         }
     }
