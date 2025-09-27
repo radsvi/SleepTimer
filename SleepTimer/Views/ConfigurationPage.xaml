@@ -11,7 +11,7 @@
         <controls:SliderControl
             Description="Extension length:"
             InlineText="minutes"
-            Value="{Binding AppPreferences.ExtensionLength, Mode=TwoWay}"
+            Value="{Binding AppPreferences.ExtensionLengthMinutes, Mode=TwoWay}"
             Minimum="0"
             Maximum="30" />
 

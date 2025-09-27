@@ -14,8 +14,8 @@ namespace SleepTimer.Models
         private PreferencesObject<int> fadeOutSeconds = new(120);
         public int FadeOutSeconds { get => fadeOutSeconds.Value; set => SetProperty(ref fadeOutSeconds, value); }
 
-        private PreferencesObject<int> extensionLength = new(5);
-        public int ExtensionLength { get => extensionLength.Value; set => SetProperty(ref extensionLength, value); }
+        private PreferencesObject<int> extensionLengthMinutes = new(5);
+        public int ExtensionLengthMinutes { get => extensionLengthMinutes.Value; set => SetProperty(ref extensionLengthMinutes, value); }
 
         private PreferencesObject<int> standBySeconds = new(60);
         public int StandBySeconds { get => standBySeconds.Value; set => SetProperty(ref standBySeconds, value); }

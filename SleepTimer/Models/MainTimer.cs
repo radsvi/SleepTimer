@@ -69,7 +69,7 @@ namespace SleepTimer.Models
             if (RemainingTime == null)
                 return;
 
-            RemainingTime = RemainingTime.Value.Add(new TimeSpan(appPreferences.ExtensionLength));
+            RemainingTime = RemainingTime.Value.Add(new TimeSpan(0, appPreferences.ExtensionLengthMinutes, 0));
 
             InStandby = false;
         }
