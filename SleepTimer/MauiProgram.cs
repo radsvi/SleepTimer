@@ -83,7 +83,6 @@ namespace SleepTimer
 
 #if DEBUG
             builder.Logging.AddDebug();
-#endif
 
             // Enable Exception Logging
             AppDomain.CurrentDomain.UnhandledException += (s, e) =>
@@ -95,6 +94,9 @@ namespace SleepTimer
             {
                 System.Diagnostics.Debug.WriteLine($"[UnobservedTask] {e.Exception}");
             };
+#endif
+
+
 
             //foreach (var s in builder.Services)
             //{
