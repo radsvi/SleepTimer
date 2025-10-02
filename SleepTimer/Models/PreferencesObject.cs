@@ -31,9 +31,22 @@ namespace SleepTimer.Models
             this.propertyName = propertyName;
 
             string serialized = Preferences.Default.Get(this.propertyName, string.Empty);
-            value = string.IsNullOrWhiteSpace(serialized)
-                    ? defaultValue
-                    : JsonConvert.DeserializeObject<T>(serialized) ?? defaultValue;
+
+            if ((string.IsNullOrWhiteSpace(serialized)))
+            {
+                value = defaultValue;
+            }
+            else
+            {
+                try
+                {
+                    value = JsonConvert.DeserializeObject<T>(serialized) ?? defaultValue;
+                }
+                catch (JsonReaderException)
+                {
+                    value = defaultValue;
+                }
+            }
         }
         private void Save() => Preferences.Default.Set(propertyName, JsonConvert.SerializeObject(value));
         //private static bool IsNativeType()
