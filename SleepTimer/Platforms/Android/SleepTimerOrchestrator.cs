@@ -47,35 +47,10 @@ namespace SleepTimer.Platforms.Android
         {
             mainPageDisplay.SetStartTime(appPreferences.TimerDurationMinutes);
 
-            mainTimer.Started += (s, starting) =>
-            {
-                notifier.OnStart(starting);
-                mediaController.SetStartingVolume();
-            };
-            mainTimer.Tick += (s, remaining) =>
-            {
-                //logsHandler.AddEntry($"Timer ticked [remaining {remaining.TotalSeconds}]");
-                notifier.OnTick(remaining);
-                mainPageDisplay.OnTick(remaining);
-
-                if (remaining.TotalSeconds <= appPreferences.FadeOutSeconds)
-                    mediaController.HandleFadeOut(remaining);
-                else
-                    mediaController.SetStartingVolume(); // refreshes every second in case user changed the volume. Stops updating only after the we are in the fade-out period.
-            };
-
-            mainTimer.EnteredStandby += (s, e) =>
-            {
-                mediaController.EnterStandby();
-                logsHandler.AddEntry("Entering standby");
-            };
-            mainTimer.Finished += (s, e) =>
-            {
-                TimerStoppedOrFinished?.Invoke(this, EventArgs.Empty);
-                logsHandler.AddEntry("Timer finished");
-                mediaController.HandleFinished();
-                mainTimer.StopTimer();
-            };
+            mainTimer.Started += OnStarted;
+            mainTimer.Tick += OnTick;
+            mainTimer.EnteredStandby += OnEnterStandby;
+            mainTimer.Finished += OnFinished;
         }
 
         public void HandleIntent(Intent? intent)
@@ -102,6 +77,38 @@ namespace SleepTimer.Platforms.Android
         {
             mainTimer.StopTimer();
             //TimerStoppedOrFinished?.Invoke(this, EventArgs.Empty);
+            mainTimer.Started -= OnStarted;
+            mainTimer.Tick -= OnTick;
+            mainTimer.EnteredStandby -= OnEnterStandby;
+            mainTimer.Finished -= OnFinished;
+        }
+        private void OnStarted(object? s,TimeSpan starting)
+        {
+            notifier.OnStart(starting);
+            mediaController.SetStartingVolume();
+        }
+        private void OnTick(object? s, TimeSpan remaining)
+        {
+            //logsHandler.AddEntry($"Timer ticked [remaining {remaining.TotalSeconds}]");
+            notifier.OnTick(remaining);
+            mainPageDisplay.OnTick(remaining);
+
+            if (remaining.TotalSeconds <= appPreferences.FadeOutSeconds)
+                mediaController.HandleFadeOut(remaining);
+            else
+                mediaController.SetStartingVolume(); // refreshes every second in case user changed the volume. Stops updating only after the we are in the fade-out period.
+        }
+        private void OnEnterStandby(object? s, EventArgs e)
+        {
+            mediaController.EnterStandby();
+            logsHandler.AddEntry("Entering standby");
+        }
+        private void OnFinished(object? s, EventArgs e)
+        {
+            TimerStoppedOrFinished?.Invoke(this, EventArgs.Empty);
+            logsHandler.AddEntry("Timer finished");
+            mediaController.HandleFinished();
+            mainTimer.StopTimer();
         }
     }
 }
