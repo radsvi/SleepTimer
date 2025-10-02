@@ -71,10 +71,10 @@ namespace SleepTimer.Platforms.Android
             };
             mainTimer.Finished += (s, e) =>
             {
-                mainTimer.StopTimer();
-                mediaController.HandleFinished();
                 TimerStoppedOrFinished?.Invoke(this, EventArgs.Empty);
                 logsHandler.AddEntry("Timer finished");
+                mediaController.HandleFinished();
+                mainTimer.StopTimer();
             };
         }
 
@@ -101,7 +101,7 @@ namespace SleepTimer.Platforms.Android
         public void Cleanup()
         {
             mainTimer.StopTimer();
-            TimerStoppedOrFinished?.Invoke(this, EventArgs.Empty);
+            //TimerStoppedOrFinished?.Invoke(this, EventArgs.Empty);
         }
     }
 }

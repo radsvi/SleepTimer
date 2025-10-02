@@ -13,6 +13,7 @@ namespace SleepTimer.Platforms.Android.Services
     {
         //private readonly AudioManager audioManager = (AudioManager?)global::Android.App.Application.Context.GetSystemService(AudioService) ?? throw new NullReferenceException(nameof(audioManager));
         private readonly SleepTimerOrchestrator orchestrator;
+        private readonly NotificationManagerWrapper notificationManager;
 
         public SleepTimerService()
         {
@@ -34,7 +35,7 @@ namespace SleepTimer.Platforms.Android.Services
             var mainPageDisplay = ServiceHelper.GetService<MainPageDisplay>();
             var logsHandler = ServiceHelper.GetService<LogsHandler>();
             
-            var notificationManager = new NotificationManagerWrapper(this);
+            notificationManager = new NotificationManagerWrapper(this);
             orchestrator = new SleepTimerOrchestrator(mainTimer, appPreferences, mediaController, mainPageDisplay, notificationManager, logsHandler);
 
 
@@ -58,7 +59,8 @@ namespace SleepTimer.Platforms.Android.Services
 
         public override void OnDestroy()
         {
-            base.OnDestroy();
+            orchestrator.Cleanup();
+            notificationManager.Clear();
 
             if (OperatingSystem.IsAndroidVersionAtLeast(33))
             {
@@ -73,6 +75,8 @@ namespace SleepTimer.Platforms.Android.Services
 
             var manager = NotificationManagerCompat.From(this);
             manager?.Cancel(Constants.SERVICE_ID);
+
+            base.OnDestroy();
         }
     }
 }
