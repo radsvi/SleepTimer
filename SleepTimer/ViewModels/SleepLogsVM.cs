@@ -15,7 +15,5 @@ namespace SleepTimer.ViewModels
             AppPreferences = appPreferences;
             LogsHandler = logsHandler;
         }
-
-
     }
 }
