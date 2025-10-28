@@ -29,6 +29,7 @@ namespace SleepTimer.Models
         public event EventHandler? Finished;
         public event EventHandler? EnteredStandby;
         public event EventHandler<TimeSpan>? Tick;
+        public event EventHandler? Extended;
 
         private bool inStandby = false;
         public bool InStandby
@@ -72,6 +73,7 @@ namespace SleepTimer.Models
             RemainingTime = RemainingTime.Value.Add(new TimeSpan(0, appPreferences.ExtensionLengthMinutes, 0));
 
             InStandby = false;
+            Extended?.Invoke(this, EventArgs.Empty);
         }
         private void OnTick(object? source, ElapsedEventArgs e)
         {

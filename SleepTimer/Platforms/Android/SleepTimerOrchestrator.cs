@@ -51,6 +51,7 @@ namespace SleepTimer.Platforms.Android
             mainTimer.Tick += OnTick;
             mainTimer.EnteredStandby += OnEnterStandby;
             mainTimer.Finished += OnFinished;
+            mainTimer.Extended += OnExtended;
         }
 
         public void HandleIntent(Intent? intent)
@@ -81,11 +82,13 @@ namespace SleepTimer.Platforms.Android
             mainTimer.Tick -= OnTick;
             mainTimer.EnteredStandby -= OnEnterStandby;
             mainTimer.Finished -= OnFinished;
+            mainTimer.Extended -= OnExtended;
         }
         private void OnStarted(object? s,TimeSpan starting)
         {
             notifier.OnStart(starting);
             mediaController.SetStartingVolume();
+            logsHandler.AddEntry("Timer started");
         }
         private void OnTick(object? s, TimeSpan remaining)
         {
@@ -97,6 +100,10 @@ namespace SleepTimer.Platforms.Android
                 mediaController.HandleFadeOut(remaining);
             else
                 mediaController.SetStartingVolume(); // refreshes every second in case user changed the volume. Stops updating only after the we are in the fade-out period.
+        }
+        private void OnExtended(object? sender, EventArgs e)
+        {
+            logsHandler.AddEntry($"Timer extended by {appPreferences.ExtensionLengthMinutes} minutes");
         }
         private void OnEnterStandby(object? s, EventArgs e)
         {
