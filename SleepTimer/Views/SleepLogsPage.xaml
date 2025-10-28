@@ -7,13 +7,17 @@
              x:DataType="viewModels:SleepLogsVM"
              Title="Sleep Logs">
     <AbsoluteLayout Margin="5">
-        <Button
-            AbsoluteLayout.LayoutBounds="0,0,1,AutoSize" AbsoluteLayout.LayoutFlags="WidthProportional"
-            Text="Clear Logs" Command="{Binding LogsHandler.ClearCommand}" />
+        <Grid
+            AbsoluteLayout.LayoutBounds="0,0,1,AutoSize"
+            AbsoluteLayout.LayoutFlags="WidthProportional"
+            ColumnDefinitions="*,*,*">
+            <Button Text="{Binding AppPreferences.LogFilter, StringFormat='Display: {0}'}" Command="{Binding LogsHandler.SelectFilterCommand}" Grid.Column="0" Grid.ColumnSpan="2" Margin="3" />
+            <Button Text="Delete Logs" Command="{Binding LogsHandler.ClearCommand}" Grid.Column="2" Margin="3" />
+        </Grid>
 
         <CollectionView
             AbsoluteLayout.LayoutBounds="0,55,1,1" AbsoluteLayout.LayoutFlags="SizeProportional"
-            SelectionMode="None" ItemsSource="{Binding AppPreferences.LogEntries}" EmptyView="No log entries">
+            SelectionMode="None" ItemsSource="{Binding LogsHandler.DisplayEntries}" EmptyView="No log entries">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:LogEntry">
                     <HorizontalStackLayout Margin="5,0">

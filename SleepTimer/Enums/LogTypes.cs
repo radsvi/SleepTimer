@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace SleepTimer.Enums
 {
-    public enum LogEntries
+    public enum LogTypes
     {
+        All,
         Started,
         Extended,
-        EnteringStandby,
-        TimerFinished
+        Standby,
+        Finished
     }
 }

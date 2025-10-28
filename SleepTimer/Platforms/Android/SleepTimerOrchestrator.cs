@@ -113,7 +113,7 @@ namespace SleepTimer.Platforms.Android
         private void OnFinished(object? s, EventArgs e)
         {
             TimerStoppedOrFinished?.Invoke(this, EventArgs.Empty);
-            logsHandler.AddEntry(new LogEntryEnteringStandby());
+            logsHandler.AddEntry(new LogEntryTimerFinished());
             mediaController.HandleFinished();
             mainTimer.StopTimer();
         }

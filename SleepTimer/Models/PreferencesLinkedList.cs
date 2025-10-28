@@ -45,6 +45,11 @@ namespace SleepTimer.Models
             OnPropertyChanged(nameof(Count));
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
+        //public void SaveChanges()
+        //{
+        //    Save();
+        //    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        //}
 
         public IEnumerator<T> GetEnumerator()
         {
