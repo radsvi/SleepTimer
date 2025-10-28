@@ -88,7 +88,7 @@ namespace SleepTimer.Platforms.Android
         {
             notifier.OnStart(starting);
             mediaController.SetStartingVolume();
-            logsHandler.AddEntry("Timer started");
+            logsHandler.AddEntry(new LogEntryStarted());
         }
         private void OnTick(object? s, TimeSpan remaining)
         {
@@ -103,17 +103,17 @@ namespace SleepTimer.Platforms.Android
         }
         private void OnExtended(object? sender, EventArgs e)
         {
-            logsHandler.AddEntry($"Timer extended by {appPreferences.ExtensionLengthMinutes} minutes");
+            logsHandler.AddEntry(new LogEntryExtended());
         }
         private void OnEnterStandby(object? s, EventArgs e)
         {
             mediaController.EnterStandby();
-            logsHandler.AddEntry("Entering standby");
+            logsHandler.AddEntry(new LogEntryEnteringStandby());
         }
         private void OnFinished(object? s, EventArgs e)
         {
             TimerStoppedOrFinished?.Invoke(this, EventArgs.Empty);
-            logsHandler.AddEntry("Timer finished");
+            logsHandler.AddEntry(new LogEntryEnteringStandby());
             mediaController.HandleFinished();
             mainTimer.StopTimer();
         }

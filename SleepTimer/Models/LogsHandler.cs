@@ -12,12 +12,12 @@ namespace SleepTimer.Models
         private readonly AppPreferences appPreferences = appPreferences;
         private readonly IConfirmationPrompt prompt = questionPrompt;
 
-        public void AddEntry(string message)
+        public void AddEntry(LogEntry entry)
         {
             if (appPreferences.LogWhenTimerFinishes == false)
                 return;
             
-            appPreferences.LogEntries.AddFirst(new LogEntry(DateTime.Now, message));
+            appPreferences.LogEntries.AddFirst(entry);
         }
         [RelayCommand]
         public async Task Clear()
