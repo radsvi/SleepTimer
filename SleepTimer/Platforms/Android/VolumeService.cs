@@ -12,6 +12,7 @@ namespace SleepTimer.Platforms.Android
         private readonly AudioManager audioManager = (AudioManager?)global::Android.App.Application.Context.GetSystemService(Context.AudioService)
             ?? throw new InvalidOperationException("AudioService not available");
         private readonly AppPreferences appPreferences = ServiceHelper.GetService<AppPreferences>();
+        private CancellationTokenSource? cts;
         //public void LowerVolume()
         //{
         //    int targetVolume = 0;
@@ -31,7 +32,11 @@ namespace SleepTimer.Platforms.Android
         //}
         public async void SetVolume(int targetVolume)
         {
-            // Note: 100% volume equals to value 16 on Android
+            cts?.Cancel(); // cancel previous operation
+            cts = new CancellationTokenSource();
+            var token = cts.Token;
+
+            // Note: 100% volume equals to value 16 on Android (or 15? Looks like it depends on Android version)
             if (targetVolume == GetVolume()
                 || targetVolume > 16
                 || targetVolume < 0)
@@ -50,6 +55,9 @@ namespace SleepTimer.Platforms.Android
                 i++;
                 if (i >= 100)
                     throw new InvalidOperationException("Couldn't set the volume.");
+
+                if (token.IsCancellationRequested)
+                    break;
             }
         }
         private bool LoopCondition(Adjust action, int targetVolume)
