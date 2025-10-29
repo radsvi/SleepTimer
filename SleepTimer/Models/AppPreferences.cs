@@ -26,7 +26,7 @@ namespace SleepTimer.Models
         private PreferencesObject<bool> logWhenTimerFinishes = new(true);
         public bool LogWhenTimerFinishes { get => logWhenTimerFinishes.Value; set => SetProperty(ref logWhenTimerFinishes, value); }
 
-        private PreferencesObject<LogTypes> logFilter = new(LogTypes.Finished);
+        private PreferencesObject<LogTypes> logFilter = new(LogTypes.All);
         public LogTypes LogFilter { get => logFilter.Value; set => SetProperty(ref logFilter, value); }
 
 
