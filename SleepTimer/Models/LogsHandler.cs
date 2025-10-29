@@ -19,7 +19,7 @@ namespace SleepTimer.Models
             prompt = questionPrompt;
             DisplayEntries = new();
             //UpdateLegacyLogs();
-            FilterEntries();
+            RefreshEntries();
         }
 
         public void AddEntry(LogEntry entry)
@@ -51,9 +51,9 @@ namespace SleepTimer.Models
             if (System.Enum.TryParse(action, true, out LogTypes filterType))
                 appPreferences.LogFilter = filterType;
 
-            FilterEntries();
+            RefreshEntries();
         }
-        private void FilterEntries()
+        public void RefreshEntries()
         {
             DisplayEntries.Clear();
 
@@ -116,6 +116,8 @@ namespace SleepTimer.Models
                 return;
 
             appPreferences.LogEntries.Clear();
+
+            RefreshEntries();
         }
     }
 }

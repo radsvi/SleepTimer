@@ -8,4 +8,11 @@ public partial class SleepLogsPage : ContentPage
 
 		BindingContext = sleepLogsVM;
 	}
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+		if (BindingContext is SleepLogsVM vm)
+            vm.OnAppearing();
+    }
 }

@@ -15,5 +15,10 @@ namespace SleepTimer.ViewModels
             AppPreferences = appPreferences;
             LogsHandler = logsHandler;
         }
+
+        public void OnAppearing()
+        {
+            LogsHandler.RefreshEntries();
+        }
     }
 }
