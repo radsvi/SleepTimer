@@ -32,35 +32,15 @@
             <StackLayout
                 HorizontalOptions="Fill"
                 IsVisible="{Binding MainTimer.IsStarted, Converter={StaticResource InvertBoolConv}}">
-                <Label
-                    Text="{Binding AppPreferences.TimerDurationMinutes}"
-                    FontSize="120"
-                    FontAttributes="Bold"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
-                    Margin="0,0,10,0"/> <!--{0:mm\\:ss}-->
-                <Label
-                    Text="minutes"
-                    HorizontalOptions="Center"
-                    />
-
-                <Grid HeightRequest="250" WidthRequest="250">
-                    <controls:RadialSlider x:Name="MySlider"
-                        WidthRequest="250"
-                        HeightRequest="250"
-                        Minimum="0"
-                        Maximum="100"
-                        Value="40" />
-                </Grid>
-
-                <Slider
-                    Margin="0,15,0,0"
+                
+                <controls:RadialSlider
+                    Margin="0,30,0,0"
                     Grid.Column="1"
-                    Minimum="1"
+                    WidthRequest="330"
+                    HeightRequest="330"
+                    Minimum="0"
                     Maximum="60"
-                    Value="{Binding AppPreferences.TimerDurationMinutes}"
-                    VerticalOptions="Center"
-                    />
+                    Value="{Binding AppPreferences.TimerDurationMinutes}" />
             </StackLayout>
             
             <!-- // Timer is active // -->
@@ -84,16 +64,6 @@
             <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Margin="0,30,0,20" IsVisible="{Binding DebugProperties.DisplayShortTimer}">
                 <Button Text="[DBG] Set timer to 0" Command="{Binding DebugProperties.MakeTimeShorterCommand}" />
             </StackLayout>
-
-            <!--<Grid HeightRequest="250" WidthRequest="250">
-                <controls:RadialSlider x:Name="MySlider"
-                   WidthRequest="250"
-                   HeightRequest="250"
-                   Minimum="0"
-                   Maximum="100"
-                   Value="40" />
-            </Grid>-->
-            
 
         </StackLayout>
 
