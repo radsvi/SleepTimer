@@ -66,11 +66,14 @@ namespace SleepTimer.Views.Controls
             var dx = touch.X - center.X;
             var dy = touch.Y - center.Y;
 
-            var angle = Math.Atan2(dy, dx) * 180.0 / Math.PI; // -180..180
-            if (angle < 0) angle += 360.0;
+            //var angle = Math.Atan2(dy, dx) * 180.0 / Math.PI; // -180..180
+            var angle = Math.Atan2(dx, -dy) * 180.0 / Math.PI;
+            if (angle < 0)
+                angle += 360.0;
 
             var range = Maximum - Minimum;
-            if (range <= 0) return;
+            if (range <= 0)
+                return;
 
             Value = Minimum + (angle / 360.0) * range;
         }
@@ -94,12 +97,12 @@ namespace SleepTimer.Views.Controls
 
             // Progress arc
             double sweep = ((_slider.Value - _slider.Minimum) / (_slider.Maximum - _slider.Minimum)) * 360.0;
-            //canvas.StrokeColor = Colors.DodgerBlue;
-            //canvas.StrokeSize = 12;
-            //canvas.DrawArc(cx - r, cy - r, r * 2, r * 2, -90, (float)sweep, false, false);
+            canvas.StrokeColor = Colors.DodgerBlue;
+            canvas.StrokeSize = 12;
+            canvas.DrawArc(cx - r, cy - r, r * 2, r * 2, -270F, -(float)sweep -270F, true, false);
 
             // Thumb
-            double rad = (sweep) * Math.PI / 180.0;
+            double rad = (sweep - 90.0) * Math.PI / 180.0;
             float tx = cx + (float)(r * Math.Cos(rad));
             float ty = cy + (float)(r * Math.Sin(rad));
             canvas.FillColor = Colors.Red;
@@ -110,7 +113,8 @@ namespace SleepTimer.Views.Controls
             canvas.FontColor = Colors.LightGray;
             //canvas.FontSize = 30;
             canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 4);
-            canvas.DrawString(_slider.Value.ToString("N0"), dirtyRect, HorizontalAlignment.Center, VerticalAlignment.Center);
+            //canvas.DrawString(_slider.Value.ToString("N0"), dirtyRect, HorizontalAlignment.Center, VerticalAlignment.Center);
+            canvas.DrawString(sweep.ToString("N0"), dirtyRect, HorizontalAlignment.Center, VerticalAlignment.Center);
 
             canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 12);
             var lowerRect = new Rect(
