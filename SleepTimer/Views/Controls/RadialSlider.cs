@@ -110,7 +110,7 @@ namespace SleepTimer.Views.Controls
             canvas.FontColor = Colors.LightGray;
             //canvas.FontSize = 30;
             canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 4);
-            canvas.DrawString(sweep.ToString("N0"), dirtyRect, HorizontalAlignment.Center, VerticalAlignment.Center);
+            canvas.DrawString(_slider.Value.ToString("N0"), dirtyRect, HorizontalAlignment.Center, VerticalAlignment.Center);
 
             canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 12);
             var lowerRect = new Rect(
