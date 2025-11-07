@@ -8,6 +8,9 @@ namespace SleepTimer.Views.Controls
 {
     public class RadialSlider : GraphicsView
     {
+        //private bool _isTouching = false;
+        public bool IsTouching { get; set; } = false;
+
         public static readonly BindableProperty ValueProperty =
             BindableProperty.Create(nameof(Value), typeof(double), typeof(RadialSlider), 0.0, propertyChanged: (b, o, n) => ((RadialSlider)b).Invalidate());
 
@@ -47,17 +50,22 @@ namespace SleepTimer.Views.Controls
 
         private void OnStartInteraction(object? sender, TouchEventArgs e)
         {
+            IsTouching = true;
             UpdateValueFromPoint(e.Touches[0]);
+            Invalidate(); // force redraw
         }
 
         private void OnDragInteraction(object? sender, TouchEventArgs e)
         {
             UpdateValueFromPoint(e.Touches[0]);
+            Invalidate();
         }
 
         private void OnEndInteraction(object? sender, TouchEventArgs e)
         {
+            IsTouching = false;
             UpdateValueFromPoint(e.Touches[0]);
+            Invalidate();
         }
 
         private void UpdateValueFromPoint(Point touch)
@@ -105,16 +113,20 @@ namespace SleepTimer.Views.Controls
             double rad = (sweep - 90.0) * Math.PI / 180.0;
             float tx = cx + (float)(r * Math.Cos(rad));
             float ty = cy + (float)(r * Math.Sin(rad));
-            canvas.FillColor = Colors.Red;
+            canvas.FillColor = Colors.DodgerBlue;
             canvas.FillCircle(tx, ty, 15);
+            // Thumb on touching
+            if (_slider.IsTouching)
+            {
+                canvas.FillColor = Colors.DodgerBlue.WithAlpha(0.5f);
+                canvas.FillCircle(tx, ty, 25);
+            }
 
             // Value
-
             canvas.FontColor = Colors.LightGray;
             //canvas.FontSize = 30;
             canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 4);
-            //canvas.DrawString(_slider.Value.ToString("N0"), dirtyRect, HorizontalAlignment.Center, VerticalAlignment.Center);
-            canvas.DrawString(sweep.ToString("N0"), dirtyRect, HorizontalAlignment.Center, VerticalAlignment.Center);
+            canvas.DrawString(_slider.Value.ToString("N0"), dirtyRect, HorizontalAlignment.Center, VerticalAlignment.Center);
 
             canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 12);
             var lowerRect = new Rect(
