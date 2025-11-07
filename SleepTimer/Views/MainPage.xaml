@@ -43,6 +43,16 @@
                     Text="minutes"
                     HorizontalOptions="Center"
                     />
+
+                <Grid HeightRequest="250" WidthRequest="250">
+                    <controls:RadialSlider x:Name="MySlider"
+                   WidthRequest="250"
+                   HeightRequest="250"
+                   Minimum="0"
+                   Maximum="100"
+                   Value="40" />
+                </Grid>
+
                 <Slider
                     Margin="0,15,0,0"
                     Grid.Column="1"
