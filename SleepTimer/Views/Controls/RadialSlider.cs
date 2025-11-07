@@ -77,8 +77,7 @@ namespace SleepTimer.Views.Controls
             var dy = touch.Y - center.Y;
 
             var angle = Math.Atan2(dx, -dy) * 180.0 / Math.PI;
-            if (angle < 0)
-                angle += 360.0;
+            if (angle < 0) angle += 360.0;
 
             // Detect wrap-around
             double delta = angle - _lastAngle;
@@ -119,7 +118,7 @@ namespace SleepTimer.Views.Controls
             canvas.StrokeSize = 12;
             if (_slider.Value >= _slider.Maximum)
             {
-                canvas.DrawArc(cx - r, cy - r, r * 2, r * 2, -270F, 91F, true, true);
+                canvas.DrawCircle(cx, cy, r);
             }
             else
             {
@@ -139,7 +138,7 @@ namespace SleepTimer.Views.Controls
                 canvas.FillCircle(tx, ty, 25);
             }
 
-            // Value
+            // Text value
             canvas.FontColor = Colors.LightGray;
             //canvas.FontSize = 30;
             canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 2.5F);
