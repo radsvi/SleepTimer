@@ -46,11 +46,11 @@
 
                 <Grid HeightRequest="250" WidthRequest="250">
                     <controls:RadialSlider x:Name="MySlider"
-                   WidthRequest="250"
-                   HeightRequest="250"
-                   Minimum="0"
-                   Maximum="100"
-                   Value="40" />
+                        WidthRequest="250"
+                        HeightRequest="250"
+                        Minimum="0"
+                        Maximum="100"
+                        Value="40" />
                 </Grid>
 
                 <Slider

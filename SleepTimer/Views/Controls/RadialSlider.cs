@@ -106,21 +106,20 @@ namespace SleepTimer.Views.Controls
             canvas.FillCircle(tx, ty, 15);
 
             // Value
-            var attrs1 = new TextAttributes();
-            attrs1.SetFontSize(24f);           // extension method
-            attrs1.SetAttribute(TextAttribute.FontName, "Arial");
-            attrs1.SetForegroundColor("#ef0e0e");
-            var run1 = new AttributedTextRun(0, 7, attrs1);
 
-            var runs = new List<IAttributedTextRun> { run1 };
+            canvas.FontColor = Colors.LightGray;
+            //canvas.FontSize = 30;
+            canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 4);
+            canvas.DrawString(sweep.ToString("N0"), dirtyRect, HorizontalAlignment.Center, VerticalAlignment.Center);
 
-
-            canvas.FontColor = Colors.White;
-
-            var text = "Hello";
-            var attributed = new AttributedText(text, runs);
-            //canvas.DrawText(attributed, 20, 20, 20, 20);
-            canvas.DrawString("Hello", new Rect(0, 0, 40, 40), HorizontalAlignment.Center, VerticalAlignment.Center);
+            canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 12);
+            var lowerRect = new Rect(
+                dirtyRect.X,
+                dirtyRect.Y + dirtyRect.Height / 2 + 30,
+                dirtyRect.Width,
+                dirtyRect.Height
+            );
+            canvas.DrawString("MINUTES", lowerRect, HorizontalAlignment.Center, VerticalAlignment.Top);
 
         }
     }
