@@ -8,11 +8,10 @@ namespace SleepTimer.Views.Controls
 {
     public class RadialSlider : GraphicsView
     {
-        //private bool _isTouching = false;
         public bool IsTouching { get; set; } = false;
 
         public static readonly BindableProperty ValueProperty =
-            BindableProperty.Create(nameof(Value), typeof(double), typeof(RadialSlider), 0.0, propertyChanged: (b, o, n) => ((RadialSlider)b).Invalidate());
+            BindableProperty.Create(nameof(Value), typeof(double), typeof(RadialSlider), 0.0, BindingMode.TwoWay, propertyChanged: (b, o, n) => ((RadialSlider)b).Invalidate());
 
         public static readonly BindableProperty MinimumProperty =
             BindableProperty.Create(nameof(Minimum), typeof(double), typeof(RadialSlider), 0.0);
