@@ -8,7 +8,9 @@ namespace SleepTimer.Views.Controls
 {
     public class RadialSlider : GraphicsView
     {
-        public bool IsTouching { get; set; } = false;
+        private double _cumulativeValue = 0;
+        private double _lastAngle = 0;
+        
 
         public static readonly BindableProperty ValueProperty =
             BindableProperty.Create(nameof(Value), typeof(double), typeof(RadialSlider), 0.0, BindingMode.TwoWay, propertyChanged: (b, o, n) => ((RadialSlider)b).Invalidate());
@@ -19,6 +21,7 @@ namespace SleepTimer.Views.Controls
         public static readonly BindableProperty MaximumProperty =
             BindableProperty.Create(nameof(Maximum), typeof(double), typeof(RadialSlider), 100.0);
 
+        public bool IsTouching { get; set; } = false;
         public double Value
         {
             get => (double)GetValue(ValueProperty);
@@ -73,16 +76,24 @@ namespace SleepTimer.Views.Controls
             var dx = touch.X - center.X;
             var dy = touch.Y - center.Y;
 
-            //var angle = Math.Atan2(dy, dx) * 180.0 / Math.PI; // -180..180
             var angle = Math.Atan2(dx, -dy) * 180.0 / Math.PI;
             if (angle < 0)
                 angle += 360.0;
 
-            var range = Maximum - Minimum;
-            if (range <= 0)
-                return;
+            // Detect wrap-around
+            double delta = angle - _lastAngle;
+            if (delta < -180) delta += 360; // wrapped past 0
+            else if (delta > 180) delta -= 360; // wrapped past 360
 
-            Value = Minimum + (angle / 360.0) * range;
+            _cumulativeValue += delta;       // add change in angle to cumulative
+            _lastAngle = angle;
+
+            //var range = Maximum - Minimum;
+            //if (range <= 0)
+            //    return;
+            //Value = Minimum + (angle / 360.0) * range;
+
+            Value = Minimum + (_cumulativeValue / 360.0) * (Maximum - Minimum);
         }
     }
 
@@ -106,7 +117,14 @@ namespace SleepTimer.Views.Controls
             double sweep = ((_slider.Value - _slider.Minimum) / (_slider.Maximum - _slider.Minimum)) * 360.0;
             canvas.StrokeColor = Colors.DodgerBlue;
             canvas.StrokeSize = 12;
-            canvas.DrawArc(cx - r, cy - r, r * 2, r * 2, -270F, -(float)sweep -270F, true, false);
+            if (_slider.Value >= _slider.Maximum)
+            {
+                canvas.DrawArc(cx - r, cy - r, r * 2, r * 2, -270F, 91F, true, true);
+            }
+            else
+            {
+                canvas.DrawArc(cx - r, cy - r, r * 2, r * 2, -270F, -(float)sweep - 270F, true, false);
+            }
 
             // Thumb
             double rad = (sweep - 90.0) * Math.PI / 180.0;
