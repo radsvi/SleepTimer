@@ -7,7 +7,7 @@
              x:Class="SleepTimer.Views.ConfigurationPage"
              x:DataType="viewModels:ConfigurationVM"
              Title="Configuration Page">
-    <VerticalStackLayout Margin="5">
+    <VerticalStackLayout>
         <controls:SliderControl
             Description="Extension length:"
             InlineText="minutes"
@@ -21,6 +21,13 @@
             Value="{Binding AppPreferences.FadeOutSeconds, Mode=TwoWay}"
             Minimum="0"
             Maximum="180" />
+
+        <!--<controls:ButtonValue
+            Text="TestingButton:"
+            Units="seconds"
+            Value="{Binding AppPreferences.FadeOutSeconds, Mode=TwoWay}"
+            Minimum="0"
+            Maximum="180" />-->
 
         <controls:SliderControl
             Description="Standby (Wait time after fade-out):"

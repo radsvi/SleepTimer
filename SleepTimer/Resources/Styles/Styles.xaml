@@ -473,4 +473,12 @@
         Size="{StaticResource FontSizeMedium}"
         Color="{AppThemeBinding Light={StaticResource ButtonText}, Dark={StaticResource ButtonTextDark}}" />
 
+    <!-- // Configuration Page Button // -->
+    <FontImageSource
+        x:Key="ChevronRight"
+        FontFamily="MaterialIcons"
+        Glyph="&#xe409;"
+        Size="{StaticResource FontSizeMedium}"
+        Color="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}" />
+
 </ResourceDictionary>
