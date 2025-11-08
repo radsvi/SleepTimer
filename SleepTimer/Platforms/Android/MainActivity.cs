@@ -11,6 +11,8 @@ namespace SleepTimer
         {
             base.OnCreate(savedInstanceState);
 
+            RequestedOrientation = ScreenOrientation.Portrait;
+
             SleepTimer.Platforms.Android.RequestPermissionHelper.RequestNotificationPermission();
         }
         protected override void OnResume()

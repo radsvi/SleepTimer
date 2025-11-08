@@ -68,7 +68,7 @@
         </StackLayout>
 
         <Grid
-            Grid.Row="1">
+            Grid.Row="1" MinimumHeightRequest="50">
             <Button Text="Start timer" FontSize="16" Command="{Binding StartSleepTimerCommand}" IsVisible="{Binding MainTimer.IsStarted, Converter={StaticResource InvertBoolConv}}"
                     ImageSource="{StaticResource StartTimerIcon}" />
             <Button Text="Stop timer" FontSize="16" Command="{Binding StopSleepTimerCommand}" IsVisible="{Binding MainTimer.IsStarted}"
