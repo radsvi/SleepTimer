@@ -14,7 +14,17 @@ namespace SleepTimer.ViewModels
         public DebugProperties DebugProperties { get; }
         readonly ISleepTimerServiceHelper sleepTimerServiceHelper;
 
-
+        private double sliderSize;
+        public double SliderSize
+        {
+            get => sliderSize;
+            set
+            {
+                if (sliderSize == value) return;
+                sliderSize = value;
+                OnPropertyChanged();
+            }
+        }
 
         public MainVM(AppPreferences appPreferences,
             MainTimer mainTimer,

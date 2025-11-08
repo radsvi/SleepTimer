@@ -33,9 +33,11 @@
                 
                 <controls:RadialSlider
                     Margin="0,30,0,0"
-                    Grid.Column="1"
-                    WidthRequest="330"
-                    HeightRequest="330"
+
+                    
+                    WidthRequest="{Binding SliderSize}"
+                    HeightRequest="{Binding SliderSize}"
+                    
                     Minimum="0"
                     Maximum="60"
                     Value="{Binding AppPreferences.TimerDurationMinutes}" />

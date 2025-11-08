@@ -105,8 +105,32 @@ namespace SleepTimer.Views.Controls
         private readonly RadialSlider _slider;
         public RadialSliderDrawable(RadialSlider slider) => _slider = slider;
 
+        //private RectF GetRect(RectF rect)
+        //{
+        //    var result = new RectF(rect.X, rect.Y, rect.Width, rect.Height);
+
+        //    if (rect.Height == 0 && rect.Width != 0)
+        //    {
+        //        result.Height = rect.Width;
+        //    }
+        //    else if (rect.Width == 0 && rect.Height != 0)
+        //    {
+        //        result.Width = rect.Height;
+        //    }
+        //    else
+        //    {
+        //        var min = Math.Min(rect.Width, rect.Height);
+        //        result.Width = min;
+        //        result.Height = min;
+        //    }
+
+        //    return result;
+        //}
         public void Draw(ICanvas canvas, RectF dirtyRect)
         {
+            //var trueDirtyRect = GetRect(dirtyRect);
+            //var dirtyRect = dirtyRect;
+
             float cx = (float)dirtyRect.Center.X;
             float cy = (float)dirtyRect.Center.Y;
             float r = Math.Min((float)dirtyRect.Width, (float)dirtyRect.Height) / 2 - 15;
@@ -142,7 +166,7 @@ namespace SleepTimer.Views.Controls
             canvas.FontColor = Color.FromArgb("676767");
             //canvas.FontSize = 30;
             canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 2.5F);
-            canvas.DrawString(_slider.Value.ToString("N0"), dirtyRect, HorizontalAlignment.Center, VerticalAlignment.Center);
+            canvas.DrawString(_slider.Value.ToString("N0"), (RectF)dirtyRect, HorizontalAlignment.Center, VerticalAlignment.Center);
 
             canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 14);
             var lowerRect = new Rect(
