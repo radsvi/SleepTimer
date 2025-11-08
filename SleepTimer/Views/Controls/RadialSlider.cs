@@ -112,8 +112,8 @@ namespace SleepTimer.Views.Controls
             float r = Math.Min((float)dirtyRect.Width, (float)dirtyRect.Height) / 2 - 15;
 
             // Track
-            canvas.StrokeColor = Colors.LightGray;
-            canvas.StrokeSize = 15;
+            canvas.StrokeColor = Color.FromArgb("424242");
+            canvas.StrokeSize = 12;
             canvas.DrawCircle(cx, cy, r);
 
             // Progress arc
@@ -121,13 +121,9 @@ namespace SleepTimer.Views.Controls
             canvas.StrokeColor = Colors.DodgerBlue;
             canvas.StrokeSize = 12;
             if (_slider.Value >= _slider.Maximum)
-            {
                 canvas.DrawCircle(cx, cy, r);
-            }
             else
-            {
                 canvas.DrawArc(cx - r, cy - r, r * 2, r * 2, -270F, -(float)sweep - 270F, true, false);
-            }
 
             // Thumb
             double rad = (sweep - 90.0) * Math.PI / 180.0;
@@ -143,7 +139,7 @@ namespace SleepTimer.Views.Controls
             }
 
             // Text value
-            canvas.FontColor = Colors.LightGray;
+            canvas.FontColor = Color.FromArgb("676767");
             //canvas.FontSize = 30;
             canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 2.5F);
             canvas.DrawString(_slider.Value.ToString("N0"), dirtyRect, HorizontalAlignment.Center, VerticalAlignment.Center);
@@ -156,7 +152,6 @@ namespace SleepTimer.Views.Controls
                 dirtyRect.Height
             );
             canvas.DrawString("MINUTES", lowerRect, HorizontalAlignment.Center, VerticalAlignment.Top);
-
         }
     }
 }
