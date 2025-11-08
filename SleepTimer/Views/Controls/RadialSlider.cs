@@ -8,8 +8,8 @@ namespace SleepTimer.Views.Controls
 {
     public class RadialSlider : GraphicsView
     {
-        private double _cumulativeValue = 0;
-        private double _lastAngle = 0;
+        private double _cumulativeAngle = 0;
+        //private double _lastAngle = 0;
         
 
         public static readonly BindableProperty ValueProperty =
@@ -72,6 +72,9 @@ namespace SleepTimer.Views.Controls
 
         private void UpdateValueFromPoint(Point touch)
         {
+            if (Maximum <= Minimum)
+                return;
+
             var center = new Point(Width / 2, Height / 2);
             var dx = touch.X - center.X;
             var dy = touch.Y - center.Y;
@@ -80,19 +83,20 @@ namespace SleepTimer.Views.Controls
             if (angle < 0) angle += 360.0;
 
             // Detect wrap-around
-            double delta = angle - _lastAngle;
+            var lastAngle = _cumulativeAngle % 360;
+            double delta = angle - lastAngle;
             if (delta < -180) delta += 360; // wrapped past 0
             else if (delta > 180) delta -= 360; // wrapped past 360
 
-            _cumulativeValue += delta;       // add change in angle to cumulative
-            _lastAngle = angle;
+            var newCumulativeAngle = _cumulativeAngle + delta;
+            if (newCumulativeAngle < 0)
+                _cumulativeAngle = 0;
+            else
+                _cumulativeAngle = newCumulativeAngle;
 
-            //var range = Maximum - Minimum;
-            //if (range <= 0)
-            //    return;
-            //Value = Minimum + (angle / 360.0) * range;
+            Value = Minimum + (_cumulativeAngle / 360.0) * (Maximum - Minimum);
 
-            Value = Minimum + (_cumulativeValue / 360.0) * (Maximum - Minimum);
+            //System.Diagnostics.Debug.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] Value:{Value:N0} | _cumulativeAngle:{_cumulativeAngle:N0} | _lastAngle:{lastAngle:N0} | angle:{angle:N0} | delta:{delta:N0}");
         }
     }
 
