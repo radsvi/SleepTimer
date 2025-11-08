@@ -4,6 +4,9 @@
              xmlns:controls="clr-namespace:SleepTimer.Views.Controls"
              x:Class="SleepTimer.Views.RadialSliderPage"
              Title="RadialSliderPage">
+    <!--Pridat sem nejakej nadpis. Ten taky budu posilat
+    Pomoci OnSizeAllocated budu muset alokovat SliderSize
+    -->
     <controls:RadialSlider
         Margin="0,30,0,0"
         WidthRequest="{Binding SliderSize}"
