@@ -153,7 +153,8 @@ namespace SleepTimer.Views.Controls
             double rad = (sweep - 90.0) * Math.PI / 180.0;
             float tx = cx + (float)(r * Math.Cos(rad));
             float ty = cy + (float)(r * Math.Sin(rad));
-            canvas.FillColor = Colors.DodgerBlue;
+            //canvas.FillColor = Colors.DodgerBlue;
+            canvas.FillColor = Color.FromArgb("0984FF");
             canvas.FillCircle(tx, ty, 15);
             // Thumb on touching
             if (_slider.IsTouching)
