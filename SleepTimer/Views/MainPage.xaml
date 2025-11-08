@@ -13,13 +13,11 @@
         <converters:InvertBoolConverter x:Key="InvertBoolConv"/>
     </ContentPage.Resources>
 
-    <AbsoluteLayout
+    <Grid
         Margin="5"
+        RowDefinitions="9*,1*"
         >
-        <StackLayout
-            AbsoluteLayout.LayoutBounds="0,0,1,AutoSize"
-            AbsoluteLayout.LayoutFlags="WidthProportional"
-            >
+        <StackLayout>
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,0,0,20">
                 <Button FontFamily="MaterialIcons" Text="&#xe8b8;" FontSize="32"
@@ -68,13 +66,12 @@
         </StackLayout>
 
         <Grid
-            AbsoluteLayout.LayoutBounds="0,1,1,0.1"
-            AbsoluteLayout.LayoutFlags="All">
+            Grid.Row="1">
             <Button Text="Start timer" Command="{Binding StartSleepTimerCommand}" IsVisible="{Binding MainTimer.IsStarted, Converter={StaticResource InvertBoolConv}}"
                     ImageSource="{StaticResource StartTimerIcon}" />
             <Button Text="Stop timer" Command="{Binding StopSleepTimerCommand}" IsVisible="{Binding MainTimer.IsStarted}"
                     ImageSource="{StaticResource StopTimerIcon}" />
         </Grid>
 
-    </AbsoluteLayout>
+    </Grid>
 </ContentPage>
