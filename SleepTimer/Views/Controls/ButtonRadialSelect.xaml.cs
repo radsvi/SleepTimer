@@ -63,7 +63,7 @@ public partial class ButtonRadialSelect : ContentView
         set { SetValue(MaximumProperty, value); }
     }
     public static readonly BindableProperty MaximumProperty =
-        BindableProperty.Create(nameof(Maximum), typeof(int), typeof(ButtonRadialSelect), 0);
+        BindableProperty.Create(nameof(Maximum), typeof(int), typeof(ButtonRadialSelect), 60);
 
     private string rightTextField = string.Empty;
     public string RightTextField { get => rightTextField; private set { rightTextField = value; OnPropertyChanged(); } }

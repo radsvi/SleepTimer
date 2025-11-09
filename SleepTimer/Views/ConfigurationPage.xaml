@@ -11,24 +11,18 @@
         <controls:ButtonRadialSelect
             Text="Extension length"
             Units="minutes"
-            Value="{Binding AppPreferences.ExtensionLengthMinutes, Mode=TwoWay}"
-            Minimum="0"
-            Maximum="60" />
+            Value="{Binding AppPreferences.ExtensionLengthMinutes, Mode=TwoWay}" />
 
         <controls:ButtonRadialSelect
             Text="Fade-out duration"
             Units="seconds"
-            Value="{Binding AppPreferences.FadeOutSeconds, Mode=TwoWay}"
-            Minimum="0"
-            Maximum="60" />
+            Value="{Binding AppPreferences.FadeOutSeconds, Mode=TwoWay}" />
 
         <controls:ButtonRadialSelect
             Text="Standby"
             Subtitle="Wait time after fade-out"
             Units="seconds"
-            Value="{Binding AppPreferences.StandBySeconds, Mode=TwoWay}"
-            Minimum="0"
-            Maximum="60" />
+            Value="{Binding AppPreferences.StandBySeconds, Mode=TwoWay}" />
 
         <controls:SwitchControl
             IsToggled="{Binding AppPreferences.DisplayVolumeChange, Mode=TwoWay}"
