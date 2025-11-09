@@ -8,9 +8,11 @@ namespace SleepTimer.Views.Controls
 {
     public class RadialSlider : GraphicsView
     {
-        private double _cumulativeAngle = 0;
+        private double _cumulativeAngle;
         //private double _lastAngle = 0;
-        
+
+        private bool _isValuePropertyInitialized;
+        Lock valuePropertyInitializedLock = new();
 
         public static readonly BindableProperty ValueProperty =
             BindableProperty.Create(nameof(Value), typeof(double), typeof(RadialSlider), 0.0, BindingMode.TwoWay, propertyChanged: (b, o, n) => ((RadialSlider)b).Invalidate());
@@ -59,6 +61,21 @@ namespace SleepTimer.Views.Controls
             StartInteraction += OnStartInteraction;
             DragInteraction += OnDragInteraction;
             EndInteraction += OnEndInteraction;
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object? sender, EventArgs e)
+        {
+            if (_isValuePropertyInitialized)
+                return;
+
+            _isValuePropertyInitialized = true;
+            OnAllPropertiesInitialized();
+        }
+
+        private void OnAllPropertiesInitialized()
+        {
+            _cumulativeAngle = ((Value - Minimum) / (Maximum - Minimum)) * 360.0;
         }
 
         private void OnStartInteraction(object? sender, TouchEventArgs e)
