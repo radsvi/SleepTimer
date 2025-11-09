@@ -8,33 +8,26 @@
              x:DataType="viewModels:ConfigurationVM"
              Title="Configuration Page">
     <VerticalStackLayout>
-        <controls:SliderControl
-            Description="Extension length:"
-            InlineText="minutes"
+        <controls:ButtonRadialSelect
+            Text="Extension length"
+            Units="minutes"
             Value="{Binding AppPreferences.ExtensionLengthMinutes, Mode=TwoWay}"
             Minimum="0"
-            Maximum="30" />
-
-        <controls:SliderControl
-            Description="Fade-out duration:"
-            InlineText="seconds"
-            Value="{Binding AppPreferences.FadeOutSeconds, Mode=TwoWay}"
-            Minimum="0"
-            Maximum="180" />
+            Maximum="60" />
 
         <controls:ButtonRadialSelect
-            Text="## Fade-out duration"
+            Text="Fade-out duration"
             Units="seconds"
             Value="{Binding AppPreferences.FadeOutSeconds, Mode=TwoWay}"
             Minimum="0"
-            Maximum="180" />
+            Maximum="60" />
 
-        <controls:SliderControl
-            Description="Standby (Wait time after fade-out):"
-            InlineText="seconds"
+        <controls:ButtonRadialSelect
+            Text="Standby (Wait time after fade-out)"
+            Units="seconds"
             Value="{Binding AppPreferences.StandBySeconds, Mode=TwoWay}"
             Minimum="0"
-            Maximum="120" />
+            Maximum="60" />
 
         <controls:SwitchControl
             IsToggled="{Binding AppPreferences.DisplayVolumeChange, Mode=TwoWay}"
