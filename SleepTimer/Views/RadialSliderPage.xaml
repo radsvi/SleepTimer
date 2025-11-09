@@ -4,20 +4,21 @@
              xmlns:controls="clr-namespace:SleepTimer.Views.Controls"
              xmlns:viewModels="clr-namespace:SleepTimer.ViewModels"
              x:Class="SleepTimer.Views.RadialSliderPage"
-             Title="RadialSliderPage"
+             Title="{Binding Description}"
              x:DataType="viewModels:RadialSliderVM">
     <!--Pridat sem nejakej nadpis. Ten taky budu posilat
     
     -->
     <VerticalStackLayout>
         <controls:RadialSlider
-        x:Name="MainRadialSlider"
-        Margin="0,30,0,60"
-        WidthRequest="{Binding SliderSize}"
-        HeightRequest="{Binding SliderSize}"
-        Minimum="0"
-        Maximum="60"
-        Value="{Binding Value}" />
+            x:Name="MainRadialSlider"
+            Margin="0,30,0,60"
+            WidthRequest="{Binding SliderSize}"
+            HeightRequest="{Binding SliderSize}"
+            Minimum="0"
+            Maximum="{Binding Maximum}"
+            Units="{Binding Units}"
+            Value="{Binding Value}" />
 
         <Grid ColumnDefinitions="*,*">
             <Button Text="OK" Command="{Binding ConfirmSelectionCommand}" Grid.Column="0" Margin="5" />

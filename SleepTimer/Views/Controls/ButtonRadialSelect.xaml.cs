@@ -68,6 +68,8 @@ public partial class ButtonRadialSelect : ContentView
         var route = $"{nameof(RadialSliderPage)}?" +
             $"{nameof(RadialSliderVM.Description)}={Uri.EscapeDataString(Text)}" +
             $"&{nameof(RadialSliderVM.PassValue)}={Uri.EscapeDataString(Value.ToString())}" +
+            $"&{nameof(RadialSliderVM.PassMinimum)}={Uri.EscapeDataString(Minimum.ToString())}" +
+            $"&{nameof(RadialSliderVM.PassMaximum)}={Uri.EscapeDataString(Maximum.ToString())}" +
             $"&{nameof(RadialSliderVM.Units)}={Uri.EscapeDataString(Units)}";
 
         ResultPassingHelper.CurrentTCS = tcs;

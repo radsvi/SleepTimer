@@ -21,6 +21,12 @@ namespace SleepTimer.Views.Controls
         public static readonly BindableProperty MaximumProperty =
             BindableProperty.Create(nameof(Maximum), typeof(double), typeof(RadialSlider), 100.0);
 
+        public static readonly BindableProperty UnitsProperty =
+            BindableProperty.Create(nameof(Units), typeof(string), typeof(RadialSlider), string.Empty);
+
+
+
+
         public bool IsTouching { get; set; } = false;
         public double Value
         {
@@ -38,6 +44,11 @@ namespace SleepTimer.Views.Controls
         {
             get => (double)GetValue(MaximumProperty);
             set => SetValue(MaximumProperty, value);
+        }
+        public string Units
+        {
+            get => (string)GetValue(UnitsProperty);
+            set => SetValue(UnitsProperty, value);
         }
 
         public RadialSlider()
@@ -178,7 +189,7 @@ namespace SleepTimer.Views.Controls
                 dirtyRect.Width,
                 dirtyRect.Height
             );
-            canvas.DrawString("MINUTES", lowerRect, HorizontalAlignment.Center, VerticalAlignment.Top);
+            canvas.DrawString(_slider.Units.ToUpper(), lowerRect, HorizontalAlignment.Center, VerticalAlignment.Top);
         }
     }
 }

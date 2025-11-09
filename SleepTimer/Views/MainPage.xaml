@@ -37,6 +37,7 @@
                     HeightRequest="{Binding SliderSize}"
                     Minimum="0"
                     Maximum="60"
+                    Units="minutes"
                     Value="{Binding AppPreferences.TimerDurationMinutes}" />
             </StackLayout>
             

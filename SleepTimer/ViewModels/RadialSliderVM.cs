@@ -6,20 +6,28 @@ using System.Threading.Tasks;
 
 namespace SleepTimer.ViewModels
 {
-    [QueryProperty(nameof(Description), nameof(Description))]
-    [QueryProperty(nameof(PassValue), nameof(PassValue))]
-    [QueryProperty(nameof(Units), nameof(Units))]
+    [QueryProperty(nameof(RadialSliderVM.Description), nameof(Description))]
+    [QueryProperty(nameof(RadialSliderVM.PassValue), nameof(PassValue))]
+    [QueryProperty(nameof(RadialSliderVM.Units), nameof(Units))]
+    [QueryProperty(nameof(RadialSliderVM.PassMinimum), nameof(PassMinimum))]
+    [QueryProperty(nameof(RadialSliderVM.PassMaximum), nameof(PassMaximum))]
     public partial class RadialSliderVM : ObservableObject
     {
         private string description = string.Empty;
         private double value;
         private string units = string.Empty;
+        private int minimum;
+        private int maximum;
 
         public string Description { get => description; set { description = value; OnPropertyChanged(); } }
         public double Value { get => value; set { this.value = value; OnPropertyChanged(); } }
         public string Units { get => units; set { units = value; OnPropertyChanged(); } }
+        public int Minimum { get => minimum; set { minimum = value; OnPropertyChanged(); } }
+        public int Maximum { get => maximum; set { maximum = value; OnPropertyChanged(); } }
 
         public string PassValue { get; set; } = string.Empty;
+        public string PassMinimum { get; set; } = string.Empty;
+        public string PassMaximum { get; set; } = string.Empty;
 
 
 
@@ -38,9 +46,31 @@ namespace SleepTimer.ViewModels
 
         public void OnViewAppearing()
         {
-            var success = double.TryParse(PassValue, out var result);
-            if (success)
-                Value = result;
+            ParseValues();
+        }
+        private void ParseValues()
+        {
+            {
+                var successValue = double.TryParse(PassValue, out var resultValue);
+                if (!successValue)
+                    throw new Exception($"Parsing error. PassValue: {PassValue}");
+
+                Value = resultValue;
+            }
+            {
+                var successMinimum = int.TryParse(PassMinimum, out var resultMinimum);
+                if (!successMinimum)
+                    throw new Exception($"Parsing error. PassMinimum: {PassMinimum}");
+
+                Minimum = resultMinimum;
+            }
+            {
+                var successMaximum = int.TryParse(PassMaximum, out var resultMaximum);
+                if (!successMaximum)
+                    throw new Exception($"Parsing error. PassMaximum: {PassMaximum}");
+
+                Maximum = resultMaximum;
+            }
         }
         [RelayCommand]
         private static async Task CancelSelection()
