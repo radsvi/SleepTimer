@@ -23,7 +23,7 @@ public partial class ButtonRadialSelect : ContentView
         set { SetValue(UnitsProperty, value); }
     }
     public static readonly BindableProperty UnitsProperty =
-        BindableProperty.Create(nameof(Units), typeof(string), typeof(ButtonRadialSelect), string.Empty);
+        BindableProperty.Create(nameof(Units), typeof(string), typeof(ButtonRadialSelect), string.Empty, propertyChanged: (b, o, n) => ((ButtonRadialSelect)b).UpdateRightField());
 
     //public string RightTextField
     //{
@@ -39,7 +39,7 @@ public partial class ButtonRadialSelect : ContentView
         set { SetValue(ValueProperty, value); }
     }
     public static readonly BindableProperty ValueProperty =
-        BindableProperty.Create(nameof(Value), typeof(int), typeof(ButtonRadialSelect), 0);
+        BindableProperty.Create(nameof(Value), typeof(int), typeof(ButtonRadialSelect), 0, propertyChanged: (b, o, n) => ((ButtonRadialSelect)b).UpdateRightField());
 
     public int Minimum
     {
@@ -62,14 +62,10 @@ public partial class ButtonRadialSelect : ContentView
 
     private async void OnGridTapped(object sender, EventArgs e)
     {
-        //var route = $"{nameof(RadialSliderPage)}?{nameof(RadialSliderPage.Description)}={Text}";
-        //var route = $"{nameof(RadialSliderPage)}";
         var route = $"{nameof(RadialSliderPage)}?" +
-            $"{nameof(RadialSliderPage.Description)}={Uri.EscapeDataString(Text)}" +
-            $"&{nameof(RadialSliderPage.PassValue)}={Uri.EscapeDataString(Value.ToString())}";
+            $"{nameof(RadialSliderVM.Description)}={Uri.EscapeDataString(Text)}" +
+            $"&{nameof(RadialSliderVM.PassValue)}={Uri.EscapeDataString(Value.ToString())}";
         await AppShell.Current.GoToAsync(route);
-
-        UpdateRightField();
     }
     private void UpdateRightField()
     {

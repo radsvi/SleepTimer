@@ -23,7 +23,7 @@
             Maximum="180" />
 
         <controls:ButtonRadialSelect
-            Text="ASDF"
+            Text="## Fade-out duration"
             Units="seconds"
             Value="{Binding AppPreferences.FadeOutSeconds, Mode=TwoWay}"
             Minimum="0"

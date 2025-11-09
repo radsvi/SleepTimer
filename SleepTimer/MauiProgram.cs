@@ -47,6 +47,7 @@ namespace SleepTimer
             builder.Services.AddSingleton<MainVM>();
             builder.Services.AddSingleton<ConfigurationVM>();
             builder.Services.AddSingleton<SleepLogsVM>();
+            builder.Services.AddSingleton<RadialSliderVM>();
 
             builder.Services.AddSingleton<AppPreferences>();
             builder.Services.AddSingleton<MainTimer>();
