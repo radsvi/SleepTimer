@@ -11,7 +11,7 @@ namespace SleepTimer.ViewModels
     [QueryProperty(nameof(RadialSliderVM.Units), nameof(Units))]
     [QueryProperty(nameof(RadialSliderVM.PassValue), nameof(PassValue))]
     [QueryProperty(nameof(RadialSliderVM.PassMinimum), nameof(PassMinimum))]
-    [QueryProperty(nameof(RadialSliderVM.PassMaximum), nameof(PassMaximum))]
+    [QueryProperty(nameof(RadialSliderVM.PassFullTurnValue), nameof(PassFullTurnValue))]
     public partial class RadialSliderVM : ObservableObject
     {
         private string description = string.Empty;
@@ -19,18 +19,18 @@ namespace SleepTimer.ViewModels
         private string units = string.Empty;
         private double value;
         private int minimum;
-        private int maximum;
+        private int fullTurnValue;
 
         public string Description { get => description; set { description = value; OnPropertyChanged(); } }
         public string Subtitle { get => subtitle; set { subtitle = value; OnPropertyChanged(); } }
         public string Units { get => units; set { units = value; OnPropertyChanged(); } }
         public double Value { get => value; set { this.value = value; OnPropertyChanged(); } }
         public int Minimum { get => minimum; set { minimum = value; OnPropertyChanged(); } }
-        public int Maximum { get => maximum; set { maximum = value; OnPropertyChanged(); } }
+        public int FullTurnValue { get => fullTurnValue; set { fullTurnValue = value; OnPropertyChanged(); } }
 
         public string PassValue { get; set; } = string.Empty;
         public string PassMinimum { get; set; } = string.Empty;
-        public string PassMaximum { get; set; } = string.Empty;
+        public string PassFullTurnValue { get; set; } = string.Empty;
 
 
 
@@ -68,11 +68,11 @@ namespace SleepTimer.ViewModels
                 Minimum = resultMinimum;
             }
             {
-                var successMaximum = int.TryParse(PassMaximum, out var resultMaximum);
-                if (!successMaximum)
-                    throw new Exception($"Parsing error. PassMaximum: {PassMaximum}");
+                var successFullTurnValue = int.TryParse(PassFullTurnValue, out var resultFullTurnValue);
+                if (!successFullTurnValue)
+                    throw new Exception($"Parsing error. PassFullTurnValue: {PassFullTurnValue}");
 
-                Maximum = resultMaximum;
+                FullTurnValue = resultFullTurnValue;
             }
         }
         [RelayCommand]

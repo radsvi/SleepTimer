@@ -57,13 +57,13 @@ public partial class ButtonRadialSelect : ContentView
     public static readonly BindableProperty MinimumProperty =
         BindableProperty.Create(nameof(Minimum), typeof(int), typeof(ButtonRadialSelect), 0);
 
-    public int Maximum
+    public int FullTurnValue
     {
-        get { return (int)GetValue(MaximumProperty); }
-        set { SetValue(MaximumProperty, value); }
+        get { return (int)GetValue(FullTurnValueProperty); }
+        set { SetValue(FullTurnValueProperty, value); }
     }
-    public static readonly BindableProperty MaximumProperty =
-        BindableProperty.Create(nameof(Maximum), typeof(int), typeof(ButtonRadialSelect), 60);
+    public static readonly BindableProperty FullTurnValueProperty =
+        BindableProperty.Create(nameof(FullTurnValue), typeof(int), typeof(ButtonRadialSelect), 60);
 
     private string rightTextField = string.Empty;
     public string RightTextField { get => rightTextField; private set { rightTextField = value; OnPropertyChanged(); } }
@@ -80,7 +80,7 @@ public partial class ButtonRadialSelect : ContentView
             $"&{nameof(RadialSliderVM.Units)}={Uri.EscapeDataString(Units)}" +
             $"&{nameof(RadialSliderVM.PassValue)}={Uri.EscapeDataString(Value.ToString())}" +
             $"&{nameof(RadialSliderVM.PassMinimum)}={Uri.EscapeDataString(Minimum.ToString())}" +
-            $"&{nameof(RadialSliderVM.PassMaximum)}={Uri.EscapeDataString(Maximum.ToString())}";
+            $"&{nameof(RadialSliderVM.PassFullTurnValue)}={Uri.EscapeDataString(FullTurnValue.ToString())}";
 
         ResultPassingHelper.CurrentTCS = tcs;
 

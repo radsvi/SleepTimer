@@ -27,7 +27,7 @@
             WidthRequest="{Binding SliderSize}"
             HeightRequest="{Binding SliderSize}"
             Minimum="0"
-            Maximum="{Binding Maximum}"
+            FullTurnValue="{Binding FullTurnValue}"
             Units="{Binding Units}"
             Value="{Binding Value}" />
 

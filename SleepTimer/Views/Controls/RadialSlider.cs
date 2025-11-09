@@ -20,8 +20,8 @@ namespace SleepTimer.Views.Controls
         public static readonly BindableProperty MinimumProperty =
             BindableProperty.Create(nameof(Minimum), typeof(double), typeof(RadialSlider), 0.0);
 
-        public static readonly BindableProperty MaximumProperty =
-            BindableProperty.Create(nameof(Maximum), typeof(double), typeof(RadialSlider), 100.0);
+        public static readonly BindableProperty FullTurnValueProperty =
+            BindableProperty.Create(nameof(FullTurnValue), typeof(double), typeof(RadialSlider), 100.0);
 
         public static readonly BindableProperty UnitsProperty =
             BindableProperty.Create(nameof(Units), typeof(string), typeof(RadialSlider), string.Empty);
@@ -42,10 +42,10 @@ namespace SleepTimer.Views.Controls
             set => SetValue(MinimumProperty, value);
         }
 
-        public double Maximum
+        public double FullTurnValue
         {
-            get => (double)GetValue(MaximumProperty);
-            set => SetValue(MaximumProperty, value);
+            get => (double)GetValue(FullTurnValueProperty);
+            set => SetValue(FullTurnValueProperty, value);
         }
         public string Units
         {
@@ -75,7 +75,7 @@ namespace SleepTimer.Views.Controls
 
         private void OnAllPropertiesInitialized()
         {
-            _cumulativeAngle = ((Value - Minimum) / (Maximum - Minimum)) * 360.0;
+            _cumulativeAngle = ((Value - Minimum) / (FullTurnValue - Minimum)) * 360.0;
         }
 
         private void OnStartInteraction(object? sender, TouchEventArgs e)
@@ -100,7 +100,7 @@ namespace SleepTimer.Views.Controls
 
         private void UpdateValueFromPoint(Point touch)
         {
-            if (Maximum <= Minimum)
+            if (FullTurnValue <= Minimum)
                 return;
 
             var center = new Point(Width / 2, Height / 2);
@@ -122,7 +122,7 @@ namespace SleepTimer.Views.Controls
             else
                 _cumulativeAngle = newCumulativeAngle;
 
-            Value = Minimum + (_cumulativeAngle / 360.0) * (Maximum - Minimum);
+            Value = Minimum + (_cumulativeAngle / 360.0) * (FullTurnValue - Minimum);
 
             //System.Diagnostics.Debug.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] Value:{Value:N0} | _cumulativeAngle:{_cumulativeAngle:N0} | _lastAngle:{lastAngle:N0} | angle:{angle:N0} | delta:{delta:N0}");
         }
@@ -169,10 +169,10 @@ namespace SleepTimer.Views.Controls
             canvas.DrawCircle(cx, cy, r);
 
             // Progress arc
-            double sweep = ((_slider.Value - _slider.Minimum) / (_slider.Maximum - _slider.Minimum)) * 360.0;
+            double sweep = ((_slider.Value - _slider.Minimum) / (_slider.FullTurnValue - _slider.Minimum)) * 360.0;
             canvas.StrokeColor = Colors.DodgerBlue;
             canvas.StrokeSize = 12;
-            if (_slider.Value >= _slider.Maximum)
+            if (_slider.Value >= _slider.FullTurnValue)
                 canvas.DrawCircle(cx, cy, r);
             else
                 canvas.DrawArc(cx - r, cy - r, r * 2, r * 2, -270F, -(float)sweep - 270F, true, false);
