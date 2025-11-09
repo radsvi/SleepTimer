@@ -22,8 +22,8 @@
             Minimum="0"
             Maximum="180" />
 
-        <controls:ButtonValue
-            Text="TestingButton:"
+        <controls:ButtonRadialSelect
+            Text="ASDF"
             Units="seconds"
             Value="{Binding AppPreferences.FadeOutSeconds, Mode=TwoWay}"
             Minimum="0"

@@ -84,10 +84,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\Controls\ButtonRadialSelect.xaml.cs">
+	    <DependentUpon>ButtonRadialSelect.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Views\ConfigurationPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Controls\ButtonValue.xaml">
+	  <MauiXaml Update="Views\Controls\ButtonRadialSelect.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Controls\CheckBoxControl.xaml">
