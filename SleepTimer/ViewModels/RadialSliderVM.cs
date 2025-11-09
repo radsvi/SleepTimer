@@ -8,14 +8,18 @@ namespace SleepTimer.ViewModels
 {
     [QueryProperty(nameof(Description), nameof(Description))]
     [QueryProperty(nameof(PassValue), nameof(PassValue))]
+    [QueryProperty(nameof(Units), nameof(Units))]
     public partial class RadialSliderVM : ObservableObject
     {
-        private string description;
+        private string description = string.Empty;
         private double value;
+        private string units = string.Empty;
 
         public string Description { get => description; set { description = value; OnPropertyChanged(); } }
         public double Value { get => value; set { this.value = value; OnPropertyChanged(); } }
-        public string PassValue { get; set; }
+        public string Units { get => units; set { units = value; OnPropertyChanged(); } }
+
+        public string PassValue { get; set; } = string.Empty;
 
 
 
@@ -39,13 +43,19 @@ namespace SleepTimer.ViewModels
                 Value = result;
         }
         [RelayCommand]
-        private async Task CancelSelection()
+        private static async Task CancelSelection()
         {
+            ResultPassingHelper.CurrentTCS?.TrySetCanceled();
+            ResultPassingHelper.CurrentTCS = null;
+
             await Shell.Current.GoToAsync("..");
         }
         [RelayCommand]
         private async Task ConfirmSelection()
         {
+            ResultPassingHelper.CurrentTCS?.TrySetResult(Value);
+            ResultPassingHelper.CurrentTCS = null;
+
             await Shell.Current.GoToAsync("..");
         }
     }

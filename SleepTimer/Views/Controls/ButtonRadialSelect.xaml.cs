@@ -62,13 +62,32 @@ public partial class ButtonRadialSelect : ContentView
 
     private async void OnGridTapped(object sender, EventArgs e)
     {
+        var tcs = new TaskCompletionSource<double>();
+        Routing.RegisterRoute(nameof(RadialSliderPage), typeof(RadialSliderPage));
+
         var route = $"{nameof(RadialSliderPage)}?" +
             $"{nameof(RadialSliderVM.Description)}={Uri.EscapeDataString(Text)}" +
-            $"&{nameof(RadialSliderVM.PassValue)}={Uri.EscapeDataString(Value.ToString())}";
+            $"&{nameof(RadialSliderVM.PassValue)}={Uri.EscapeDataString(Value.ToString())}" +
+            $"&{nameof(RadialSliderVM.Units)}={Uri.EscapeDataString(Units)}";
+
+        ResultPassingHelper.CurrentTCS = tcs;
+
         await AppShell.Current.GoToAsync(route);
+
+        try
+        {
+            double result = await tcs.Task;
+            Value = (int)Math.Round(result);
+            System.Diagnostics.Debug.WriteLine($"## Result: {result}");
+        }
+        catch (TaskCanceledException)
+        {
+            System.Diagnostics.Debug.WriteLine("## Cancelled");
+        }
     }
     private void UpdateRightField()
     {
         RightTextField = $"{Value} {Units}";
     }
+    
 }
