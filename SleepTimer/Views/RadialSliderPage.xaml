@@ -15,6 +15,12 @@
             Command="{Binding ConfirmSelectionCommand}" />
     </ContentPage.ToolbarItems>
     <VerticalStackLayout>
+        <Label
+            Text="{Binding Subtitle}"
+            Margin="5"
+            TextColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDarkText}}"
+            FontSize="16" />
+        
         <controls:RadialSlider
             x:Name="MainRadialSlider"
             Margin="0,30,0,60"

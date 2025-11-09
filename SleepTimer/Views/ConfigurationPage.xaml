@@ -23,7 +23,8 @@
             Maximum="60" />
 
         <controls:ButtonRadialSelect
-            Text="Standby (Wait time after fade-out)"
+            Text="Standby"
+            Subtitle="Wait time after fade-out"
             Units="seconds"
             Value="{Binding AppPreferences.StandBySeconds, Mode=TwoWay}"
             Minimum="0"

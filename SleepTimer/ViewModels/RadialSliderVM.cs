@@ -7,21 +7,24 @@ using System.Threading.Tasks;
 namespace SleepTimer.ViewModels
 {
     [QueryProperty(nameof(RadialSliderVM.Description), nameof(Description))]
-    [QueryProperty(nameof(RadialSliderVM.PassValue), nameof(PassValue))]
+    [QueryProperty(nameof(RadialSliderVM.Subtitle), nameof(Subtitle))]
     [QueryProperty(nameof(RadialSliderVM.Units), nameof(Units))]
+    [QueryProperty(nameof(RadialSliderVM.PassValue), nameof(PassValue))]
     [QueryProperty(nameof(RadialSliderVM.PassMinimum), nameof(PassMinimum))]
     [QueryProperty(nameof(RadialSliderVM.PassMaximum), nameof(PassMaximum))]
     public partial class RadialSliderVM : ObservableObject
     {
         private string description = string.Empty;
-        private double value;
+        private string subtitle = string.Empty;
         private string units = string.Empty;
+        private double value;
         private int minimum;
         private int maximum;
 
         public string Description { get => description; set { description = value; OnPropertyChanged(); } }
-        public double Value { get => value; set { this.value = value; OnPropertyChanged(); } }
+        public string Subtitle { get => subtitle; set { subtitle = value; OnPropertyChanged(); } }
         public string Units { get => units; set { units = value; OnPropertyChanged(); } }
+        public double Value { get => value; set { this.value = value; OnPropertyChanged(); } }
         public int Minimum { get => minimum; set { minimum = value; OnPropertyChanged(); } }
         public int Maximum { get => maximum; set { maximum = value; OnPropertyChanged(); } }
 

@@ -2,9 +2,9 @@ namespace SleepTimer.Views.Controls;
 
 public partial class ButtonRadialSelect : ContentView
 {
-	public ButtonRadialSelect()
-	{
-		InitializeComponent();
+    public ButtonRadialSelect()
+    {
+        InitializeComponent();
         UpdateRightField();
 
     }
@@ -16,6 +16,14 @@ public partial class ButtonRadialSelect : ContentView
     }
     public static readonly BindableProperty TextProperty =
         BindableProperty.Create(nameof(Text), typeof(string), typeof(ButtonRadialSelect), string.Empty);
+
+    public string Subtitle
+    {
+        get { return (string)GetValue(SubtitleProperty); }
+        set { SetValue(SubtitleProperty, value); OnPropertyChanged(nameof(MiddleTextField)); }
+    }
+    public static readonly BindableProperty SubtitleProperty =
+        BindableProperty.Create(nameof(Subtitle), typeof(string), typeof(ButtonRadialSelect), string.Empty);
 
     public string Units
     {
@@ -59,6 +67,7 @@ public partial class ButtonRadialSelect : ContentView
 
     private string rightTextField = string.Empty;
     public string RightTextField { get => rightTextField; private set { rightTextField = value; OnPropertyChanged(); } }
+    public string MiddleTextField { get => (String.IsNullOrEmpty(Subtitle)) ? string.Empty : (string)$"({Subtitle})"; }
 
     private async void OnGridTapped(object sender, EventArgs e)
     {
@@ -67,10 +76,11 @@ public partial class ButtonRadialSelect : ContentView
 
         var route = $"{nameof(RadialSliderPage)}?" +
             $"{nameof(RadialSliderVM.Description)}={Uri.EscapeDataString(Text)}" +
+            $"&{nameof(RadialSliderVM.Subtitle)}={Uri.EscapeDataString(Subtitle)}" +
+            $"&{nameof(RadialSliderVM.Units)}={Uri.EscapeDataString(Units)}" +
             $"&{nameof(RadialSliderVM.PassValue)}={Uri.EscapeDataString(Value.ToString())}" +
             $"&{nameof(RadialSliderVM.PassMinimum)}={Uri.EscapeDataString(Minimum.ToString())}" +
-            $"&{nameof(RadialSliderVM.PassMaximum)}={Uri.EscapeDataString(Maximum.ToString())}" +
-            $"&{nameof(RadialSliderVM.Units)}={Uri.EscapeDataString(Units)}";
+            $"&{nameof(RadialSliderVM.PassMaximum)}={Uri.EscapeDataString(Maximum.ToString())}";
 
         ResultPassingHelper.CurrentTCS = tcs;
 
@@ -91,5 +101,5 @@ public partial class ButtonRadialSelect : ContentView
     {
         RightTextField = $"{Value} {Units}";
     }
-    
+
 }

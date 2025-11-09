@@ -14,7 +14,10 @@
                     <TapGestureRecognizer Tapped="OnGridTapped"/>
                 </Grid.GestureRecognizers>
 
-                <Label Text="{TemplateBinding Text}" VerticalOptions="Center" FontSize="15" />
+                <HorizontalStackLayout>
+                    <Label Text="{TemplateBinding Text}" VerticalOptions="Center" FontSize="15" />
+                    <Label Text="{TemplateBinding MiddleTextField}" VerticalOptions="Center" FontSize="15" Margin="5,0,0,0" />
+                </HorizontalStackLayout>
                 <Label Text="{TemplateBinding RightTextField}" VerticalOptions="Center" HorizontalOptions="End" Margin="0,0,28,0" TextColor="{StaticResource Gray500}" />
                 <Image Source="{StaticResource ChevronRight}" VerticalOptions="Center" HorizontalOptions="End" Margin="0,2,0,0" />
             </Grid>
