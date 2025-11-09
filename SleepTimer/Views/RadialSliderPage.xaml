@@ -14,14 +14,15 @@
             Priority="0"
             Command="{Binding ConfirmSelectionCommand}" />
     </ContentPage.ToolbarItems>
-    <VerticalStackLayout>
-        <Label
+    <Grid RowDefinitions="9*,1*">
+        <VerticalStackLayout>
+            <Label
             Text="{Binding Subtitle}"
             Margin="5"
             TextColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDarkText}}"
             FontSize="16" />
-        
-        <controls:RadialSlider
+
+            <controls:RadialSlider
             x:Name="MainRadialSlider"
             Margin="0,30,0,60"
             WidthRequest="{Binding SliderSize}"
@@ -30,10 +31,11 @@
             FullTurnValue="{Binding FullTurnValue}"
             Units="{Binding Units}"
             Value="{Binding Value}" />
+        </VerticalStackLayout>
 
-        <Grid ColumnDefinitions="*,*">
+        <Grid ColumnDefinitions="*,*" Grid.Row="1" MinimumHeightRequest="50">
             <Button Text="OK" Command="{Binding ConfirmSelectionCommand}" Grid.Column="0" Margin="5" />
             <Button Text="Cancel" Command="{Binding CancelSelectionCommand}" Grid.Column="1" Margin="5" />
         </Grid>
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>
