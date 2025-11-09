@@ -1,8 +1,4 @@
-﻿using Android.App;
-using Android.Content;
-using AndroidX.Core.App;
-
-namespace SleepTimer.Platforms.Android
+﻿namespace SleepTimer.Models
 {
     public static class ServiceHelper
     {

@@ -5,6 +5,7 @@
              xmlns:controls="clr-namespace:SleepTimer.Views.Controls"
              xmlns:enums="clr-namespace:SleepTimer.Enums"
              xmlns:models="clr-namespace:SleepTimer.Models"
+             xmlns:views="clr-namespace:SleepTimer.Views"
              xmlns:viewModels="clr-namespace:SleepTimer.ViewModels"
              x:Class="SleepTimer.Views.MainPage"
              Shell.NavBarIsVisible="False"
@@ -22,7 +23,7 @@
             <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,0,0,20">
                 <Button FontFamily="MaterialIcons" Text="&#xe8b8;" FontSize="32"
                         TextColor="{StaticResource SecondaryDarkText}" BackgroundColor="{StaticResource OffBlack}"
-                        Command="{Binding NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.ConfigurationPage}" />
+                        Command="{Binding NavigateToPageCommand}" CommandParameter="{x:Type views:ConfigurationPage}" />
                 <!--<Button Text="Extend" Command="{Binding ExtendTimerCommand}" />-->
             </StackLayout>
 

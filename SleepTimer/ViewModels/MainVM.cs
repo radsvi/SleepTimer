@@ -53,22 +53,50 @@ namespace SleepTimer.ViewModels
 
         #region Methods
         [RelayCommand]
-        async Task NavigateToPage(Pages page)
+        async Task NavigateToPage(Type pageType)
         {
+            //var page = ActivatorUtilities.CreateInstance(App.Current.Services, pageType) as Page;
+            //var qwer = ServiceHelper.GetService<pageType.GetType()>();
+            //var method = typeof(ServiceHelper)?
+            //    .GetMethod("GetService")?
+            //    .MakeGenericMethod(pageType);
+
+            if (Activator.CreateInstance(pageType) is not Page page)
+                return;
+
             string route;
-            if (page == Pages.MainPage)
+            if (page.Title == "MainPage")
             {
-                route = "///" + page.ToString();
+                route = "///" + page.Title.ToString();
             }
             else
             {
-                route = page.ToString();
+                route = page.Title.ToString();
             }
 
             if (Shell.Current.FlyoutIsPresented is true)
                 Shell.Current.FlyoutIsPresented = false;
+
             await AppShell.Current.GoToAsync(route);
+
+            //await Shell.Current.Navigation.PushAsync(page);
         }
+        //async Task NavigateToPage(Pages page)
+        //{
+        //    string route;
+        //    if (page == Pages.MainPage)
+        //    {
+        //        route = "///" + page.ToString();
+        //    }
+        //    else
+        //    {
+        //        route = page.ToString();
+        //    }
+
+        //    if (Shell.Current.FlyoutIsPresented is true)
+        //        Shell.Current.FlyoutIsPresented = false;
+        //    await AppShell.Current.GoToAsync(route);
+        //}
         [RelayCommand]
         public void StartSleepTimer()
         {
