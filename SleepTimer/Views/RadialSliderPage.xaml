@@ -6,9 +6,14 @@
              x:Class="SleepTimer.Views.RadialSliderPage"
              Title="{Binding Description}"
              x:DataType="viewModels:RadialSliderVM">
-    <!--Pridat sem nejakej nadpis. Ten taky budu posilat
-    
-    -->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="Ok"
+            IconImageSource="{StaticResource ConfirmButton}"
+            Order="Primary"
+            Priority="0"
+            Command="{Binding ConfirmSelectionCommand}" />
+    </ContentPage.ToolbarItems>
     <VerticalStackLayout>
         <controls:RadialSlider
             x:Name="MainRadialSlider"

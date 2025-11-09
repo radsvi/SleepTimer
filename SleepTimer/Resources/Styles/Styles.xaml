@@ -481,4 +481,11 @@
         Size="{StaticResource FontSizeMedium}"
         Color="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray500}}" />
 
+    <FontImageSource
+        x:Key="ConfirmButton"
+        FontFamily="MaterialIcons"
+        Glyph="&#xe876;"
+        
+        Color="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDarkText}}" />
+
 </ResourceDictionary>
