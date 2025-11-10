@@ -72,6 +72,8 @@ public partial class ButtonOpenRadialSelect : ContentView
     private async void OnGridTapped(object sender, EventArgs e)
     {
         var tcs = new TaskCompletionSource<double>();
+        ResultPassingHelper.CurrentTCS = tcs;
+
         Routing.RegisterRoute(nameof(RadialSliderPage), typeof(RadialSliderPage));
 
         var route = $"{nameof(RadialSliderPage)}?" +
@@ -81,8 +83,6 @@ public partial class ButtonOpenRadialSelect : ContentView
             $"&{nameof(RadialSliderVM.PassValue)}={Uri.EscapeDataString(Value.ToString())}" +
             $"&{nameof(RadialSliderVM.PassMinimum)}={Uri.EscapeDataString(Minimum.ToString())}" +
             $"&{nameof(RadialSliderVM.PassFullTurnValue)}={Uri.EscapeDataString(FullTurnValue.ToString())}";
-
-        ResultPassingHelper.CurrentTCS = tcs;
 
         await AppShell.Current.GoToAsync(route);
 
@@ -95,6 +95,10 @@ public partial class ButtonOpenRadialSelect : ContentView
         catch (TaskCanceledException)
         {
             System.Diagnostics.Debug.WriteLine("## Cancelled");
+        }
+        finally
+        {
+            ResultPassingHelper.CurrentTCS = null;
         }
     }
     private void UpdateRightField()

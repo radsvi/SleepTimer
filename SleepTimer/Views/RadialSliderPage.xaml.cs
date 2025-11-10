@@ -27,4 +27,15 @@ public partial class RadialSliderPage : ContentPage
             vm.SliderSize = Math.Min(width, height) * 0.8f;
         }
     }
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        if (ResultPassingHelper.CurrentTCS is { Task.IsCompleted: false })
+        {
+            ResultPassingHelper.CurrentTCS.TrySetCanceled();
+        }
+
+        ResultPassingHelper.CurrentTCS = null;
+    }
 }

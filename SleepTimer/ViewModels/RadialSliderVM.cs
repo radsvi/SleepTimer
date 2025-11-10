@@ -87,6 +87,7 @@ namespace SleepTimer.ViewModels
         private async Task ConfirmSelection()
         {
             ResultPassingHelper.CurrentTCS?.TrySetResult(Value);
+            System.Diagnostics.Debug.WriteLine("check");
             ResultPassingHelper.CurrentTCS = null;
 
             await Shell.Current.GoToAsync("..");
