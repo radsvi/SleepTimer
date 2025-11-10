@@ -22,7 +22,7 @@ namespace SleepTimer.Models
             get
             {
                 if (MainTimer.InStandby) return $"Stand by ({AppPreferences.StandBySeconds} seconds)";
-                else return "minutes remaining";
+                else return "MINUTES REMAINING";
             }
         }
         public MainPageDisplay(AppPreferences appPreferences, MainTimer mainTimer)

@@ -195,14 +195,16 @@ namespace SleepTimer.Views.Controls
             canvas.FontColor = Color.FromArgb("676767");
             //canvas.FontSize = 30;
 
-            canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 2.2F);
+            //canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 2.2F);
+            canvas.FontSize = 150;
             canvas.Font = new Microsoft.Maui.Graphics.Font("sans-serif-condensed");
             canvas.DrawString(_slider.Value.ToString("N0"), (RectF)dirtyRect, HorizontalAlignment.Center, VerticalAlignment.Center);
 
-            canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 14);
+            //canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 14);
+            canvas.FontSize = 24;
             var lowerRect = new Rect(
                 dirtyRect.X,
-                dirtyRect.Y + dirtyRect.Height / 2 + 55,
+                (int)(dirtyRect.Y + dirtyRect.Height / 2 + 56),
                 dirtyRect.Width,
                 dirtyRect.Height
             );

@@ -41,18 +41,20 @@
             
             <!-- // Timer is active // -->
             <StackLayout
+                Margin="0,87,0,0"
                 HorizontalOptions="Fill"
                 IsVisible="{Binding MainTimer.IsStarted}">
                 <Label
                     Text="{Binding MainPageDisplay.RemainingTime, StringFormat='{0:mm\\:ss}'}"
-                    FontSize="120"
-                    FontAttributes="Bold"
-                    HorizontalOptions="Center"
+                    FontSize="150"
                     VerticalOptions="Center"
-                    Margin="0,0,10,0"/> <!--{0:mm\\:ss}-->
+                    TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
+                    Style="{StaticResource MainPageText}"/> <!--{0:mm\\:ss}-->
                 <Label
                     Text="{Binding MainPageDisplay.TextBelowTimer}"
-                    HorizontalOptions="Center"
+                    FontSize="24"
+                    Margin="-40"
+                    Style="{StaticResource MainPageText}"
                     />
             </StackLayout>
 
