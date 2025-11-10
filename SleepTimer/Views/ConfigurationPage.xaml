@@ -8,17 +8,17 @@
              x:DataType="viewModels:ConfigurationVM"
              Title="Configuration Page">
     <VerticalStackLayout>
-        <controls:ButtonRadialSelect
+        <controls:ButtonOpenRadialSelect
             Text="Extension length"
             Units="minutes"
             Value="{Binding AppPreferences.ExtensionLengthMinutes, Mode=TwoWay}" />
 
-        <controls:ButtonRadialSelect
+        <controls:ButtonOpenRadialSelect
             Text="Fade-out duration"
             Units="seconds"
             Value="{Binding AppPreferences.FadeOutSeconds, Mode=TwoWay}" />
 
-        <controls:ButtonRadialSelect
+        <controls:ButtonOpenRadialSelect
             Text="Standby"
             Subtitle="Wait time after fade-out"
             Units="seconds"

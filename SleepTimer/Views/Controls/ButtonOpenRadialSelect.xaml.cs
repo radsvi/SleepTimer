@@ -1,8 +1,8 @@
 namespace SleepTimer.Views.Controls;
 
-public partial class ButtonRadialSelect : ContentView
+public partial class ButtonOpenRadialSelect : ContentView
 {
-    public ButtonRadialSelect()
+    public ButtonOpenRadialSelect()
     {
         InitializeComponent();
         UpdateRightField();
@@ -15,7 +15,7 @@ public partial class ButtonRadialSelect : ContentView
         set { SetValue(TextProperty, value); }
     }
     public static readonly BindableProperty TextProperty =
-        BindableProperty.Create(nameof(Text), typeof(string), typeof(ButtonRadialSelect), string.Empty);
+        BindableProperty.Create(nameof(Text), typeof(string), typeof(ButtonOpenRadialSelect), string.Empty);
 
     public string Subtitle
     {
@@ -23,7 +23,7 @@ public partial class ButtonRadialSelect : ContentView
         set { SetValue(SubtitleProperty, value); OnPropertyChanged(nameof(MiddleTextField)); }
     }
     public static readonly BindableProperty SubtitleProperty =
-        BindableProperty.Create(nameof(Subtitle), typeof(string), typeof(ButtonRadialSelect), string.Empty);
+        BindableProperty.Create(nameof(Subtitle), typeof(string), typeof(ButtonOpenRadialSelect), string.Empty);
 
     public string Units
     {
@@ -31,7 +31,7 @@ public partial class ButtonRadialSelect : ContentView
         set { SetValue(UnitsProperty, value); }
     }
     public static readonly BindableProperty UnitsProperty =
-        BindableProperty.Create(nameof(Units), typeof(string), typeof(ButtonRadialSelect), string.Empty, propertyChanged: (b, o, n) => ((ButtonRadialSelect)b).UpdateRightField());
+        BindableProperty.Create(nameof(Units), typeof(string), typeof(ButtonOpenRadialSelect), string.Empty, propertyChanged: (b, o, n) => ((ButtonOpenRadialSelect)b).UpdateRightField());
 
     //public string RightTextField
     //{
@@ -39,7 +39,7 @@ public partial class ButtonRadialSelect : ContentView
     //    set { SetValue(RightTextFieldProperty, value); }
     //}
     //public static readonly BindableProperty RightTextFieldProperty =
-    //    BindableProperty.Create(nameof(RightTextField), typeof(string), typeof(ButtonRadialSelect), string.Empty);
+    //    BindableProperty.Create(nameof(RightTextField), typeof(string), typeof(ButtonOpenRadialSelect), string.Empty);
 
     public int Value
     {
@@ -47,7 +47,7 @@ public partial class ButtonRadialSelect : ContentView
         set { SetValue(ValueProperty, value); }
     }
     public static readonly BindableProperty ValueProperty =
-        BindableProperty.Create(nameof(Value), typeof(int), typeof(ButtonRadialSelect), 0, propertyChanged: (b, o, n) => ((ButtonRadialSelect)b).UpdateRightField());
+        BindableProperty.Create(nameof(Value), typeof(int), typeof(ButtonOpenRadialSelect), 0, propertyChanged: (b, o, n) => ((ButtonOpenRadialSelect)b).UpdateRightField());
 
     public int Minimum
     {
@@ -55,7 +55,7 @@ public partial class ButtonRadialSelect : ContentView
         set { SetValue(MinimumProperty, value); }
     }
     public static readonly BindableProperty MinimumProperty =
-        BindableProperty.Create(nameof(Minimum), typeof(int), typeof(ButtonRadialSelect), 0);
+        BindableProperty.Create(nameof(Minimum), typeof(int), typeof(ButtonOpenRadialSelect), 0);
 
     public int FullTurnValue
     {
@@ -63,7 +63,7 @@ public partial class ButtonRadialSelect : ContentView
         set { SetValue(FullTurnValueProperty, value); }
     }
     public static readonly BindableProperty FullTurnValueProperty =
-        BindableProperty.Create(nameof(FullTurnValue), typeof(int), typeof(ButtonRadialSelect), 60);
+        BindableProperty.Create(nameof(FullTurnValue), typeof(int), typeof(ButtonOpenRadialSelect), 60);
 
     private string rightTextField = string.Empty;
     public string RightTextField { get => rightTextField; private set { rightTextField = value; OnPropertyChanged(); } }
