@@ -11,8 +11,8 @@ namespace SleepTimer.Models
         public AppPreferences AppPreferences { get; }
         public MainTimer MainTimer { get; }
 
-        private TimeSpan remainingTime = TimeSpan.Zero;
-        public TimeSpan RemainingTime
+        private RemainingTime remainingTime = RemainingTime.Zero;
+        public RemainingTime RemainingTime
         {
             get => remainingTime;
             set { remainingTime = value; OnPropertyChanged(); }
@@ -35,15 +35,13 @@ namespace SleepTimer.Models
 
         public void SetStartTime(int minutes)
         {
-            RemainingTime = new TimeSpan(0, minutes, 0);
+            RemainingTime = new RemainingTime(minutes, 0);
         }
         public void OnTick(TimeSpan remainingTime)
         {
-            //RemainingTime = remainingTime;
-
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                RemainingTime = remainingTime;
+                RemainingTime = new RemainingTime(remainingTime);
             });
         }
     }
