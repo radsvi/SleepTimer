@@ -25,8 +25,10 @@
 
     <Style TargetType="Button">
         <!--<Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource PrimaryDarkText}}" />-->
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ButtonText}, Dark={StaticResource ButtonTextDark}}" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+        <!--<Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource ButtonText}, Dark={StaticResource ButtonTextDark}}" />-->
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+        <!--<Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />-->
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource ButtonBackgroundDark}}" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="BorderWidth" Value="0"/>
@@ -465,13 +467,13 @@
         FontFamily="MaterialIcons"
         Glyph="&#xf4ba;"
         Size="{StaticResource FontSizeMedium}"
-        Color="{AppThemeBinding Light={StaticResource ButtonText}, Dark={StaticResource ButtonTextDark}}" />
+        Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
     <FontImageSource
         x:Key="StopTimerIcon"
         FontFamily="MaterialIcons"
         Glyph="&#xe426;"
         Size="{StaticResource FontSizeMedium}"
-        Color="{AppThemeBinding Light={StaticResource ButtonText}, Dark={StaticResource ButtonTextDark}}" />
+        Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
 
     <!-- // Configuration Page Button // -->
     <FontImageSource
