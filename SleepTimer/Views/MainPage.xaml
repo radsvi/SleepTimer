@@ -26,36 +26,17 @@
                 <!--<Button Text="Extend" Command="{Binding ExtendTimerCommand}" />-->
             </StackLayout>
 
-            <!-- // Timer is stopped // -->
             <StackLayout
-                HorizontalOptions="Fill"
-                IsVisible="{Binding MainTimer.IsStarted, Converter={StaticResource InvertBoolConv}}">
+                HorizontalOptions="Fill">
                 
                 <controls:RadialSlider
                     Margin="0,30,0,0"
                     WidthRequest="{Binding SliderSize}"
                     HeightRequest="{Binding SliderSize}"
+                    TouchControl="{Binding MainTimer.IsStarted, Converter={StaticResource InvertBoolConv}}"
                     Units="minutes"
-                    Value="{Binding AppPreferences.TimerDurationMinutes}" />
-            </StackLayout>
-            
-            <!-- // Timer is active // -->
-            <StackLayout
-                Margin="0,87,0,0"
-                HorizontalOptions="Fill"
-                IsVisible="{Binding MainTimer.IsStarted}">
-                <Label
-                    Text="{Binding MainPageDisplay.RemainingTime, StringFormat='{0:mm\\:ss}'}"
-                    FontSize="150"
-                    VerticalOptions="Center"
-                    TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
-                    Style="{StaticResource MainPageText}"/> <!--{0:mm\\:ss}-->
-                <Label
-                    Text="{Binding MainPageDisplay.TextBelowTimer}"
-                    FontSize="24"
-                    Margin="-40"
-                    Style="{StaticResource MainPageText}"
-                    />
+                    Value="{Binding AppPreferences.TimerDurationMinutes}"
+                    ValueRemaining="{Binding MainPageDisplay.RemainingTime}" />
             </StackLayout>
 
         </StackLayout>

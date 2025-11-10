@@ -24,7 +24,7 @@ public partial class RadialSliderPage : ContentPage
 
         if (BindingContext is RadialSliderVM vm)
         {
-            vm.SliderSize = Math.Min(width, height) * 0.8f;
+            vm.SliderSize = Math.Min(width, height);
         }
     }
     protected override void OnDisappearing()

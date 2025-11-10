@@ -17,7 +17,7 @@ namespace SleepTimer.Views
 
             if (BindingContext is MainVM vm)
             {
-                vm.SliderSize = Math.Min(width, height) * 0.8f;
+                vm.SliderSize = Math.Min(width, height);
             }
         }
     }

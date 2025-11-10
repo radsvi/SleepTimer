@@ -25,7 +25,11 @@ namespace SleepTimer.Views.Controls
         public static readonly BindableProperty UnitsProperty =
             BindableProperty.Create(nameof(Units), typeof(string), typeof(RadialSlider), string.Empty);
 
+        public static readonly BindableProperty TouchControlProperty =
+            BindableProperty.Create(nameof(TouchControl), typeof(bool), typeof(RadialSlider), true, propertyChanged: (b, o, n) => ((RadialSlider)b).TouchControlChanged());
 
+        public static readonly BindableProperty ValueRemainingProperty =
+            BindableProperty.Create(nameof(ValueRemaining), typeof(TimeSpan), typeof(RadialSlider), TimeSpan.Zero, propertyChanged: (b, o, n) => ((RadialSlider)b).ValueRemainingChanged());
 
 
         public bool IsTouching { get; set; } = false;
@@ -51,16 +55,53 @@ namespace SleepTimer.Views.Controls
             get => (string)GetValue(UnitsProperty);
             set => SetValue(UnitsProperty, value);
         }
+        public bool TouchControl
+        {
+            get { return (bool)GetValue(TouchControlProperty); }
+            set { SetValue(TouchControlProperty, value); }
+        }
+        public TimeSpan ValueRemaining
+        {
+            get { return (TimeSpan)GetValue(ValueRemainingProperty); }
+            set { SetValue(ValueRemainingProperty, value); }
+        }
 
         public RadialSlider()
         {
             Drawable = new RadialSliderDrawable(this);
             BackgroundColor = Colors.Transparent;
 
+            if (TouchControl)
+                EnableControl();
+
+            Loaded += OnLoaded;
+        }
+        private void TouchControlChanged()
+        {
+            if (TouchControl)
+                EnableControl();
+            else
+                DisableControl();
+
+            System.Diagnostics.Debug.WriteLine($"## Changing TouchControl: {TouchControl}");
+            Invalidate();
+        }
+        private void EnableControl()
+        {
             StartInteraction += OnStartInteraction;
             DragInteraction += OnDragInteraction;
             EndInteraction += OnEndInteraction;
-            Loaded += OnLoaded;
+        }
+        private void DisableControl()
+        {
+            StartInteraction -= OnStartInteraction;
+            DragInteraction -= OnDragInteraction;
+            EndInteraction -= OnEndInteraction;
+        }
+        private void ValueRemainingChanged()
+        {
+            System.Diagnostics.Debug.WriteLine($"## Updating canvas. ValueRemaining: {ValueRemaining}");
+            Invalidate();
         }
 
         private void OnLoaded(object? sender, EventArgs e)
@@ -129,38 +170,31 @@ namespace SleepTimer.Views.Controls
 
     public class RadialSliderDrawable : IDrawable
     {
+        const float Scale = 0.8f;
+
         private readonly RadialSlider _slider;
         public RadialSliderDrawable(RadialSlider slider) => _slider = slider;
 
-        //private RectF GetRect(RectF rect)
-        //{
-        //    var result = new RectF(rect.X, rect.Y, rect.Width, rect.Height);
-
-        //    if (rect.Height == 0 && rect.Width != 0)
-        //    {
-        //        result.Height = rect.Width;
-        //    }
-        //    else if (rect.Width == 0 && rect.Height != 0)
-        //    {
-        //        result.Width = rect.Height;
-        //    }
-        //    else
-        //    {
-        //        var min = Math.Min(rect.Width, rect.Height);
-        //        result.Width = min;
-        //        result.Height = min;
-        //    }
-
-        //    return result;
-        //}
         public void Draw(ICanvas canvas, RectF dirtyRect)
         {
-            //var trueDirtyRect = GetRect(dirtyRect);
-            //var dirtyRect = dirtyRect;
+            System.Diagnostics.Debug.WriteLine($"### Draving new canvas | _slider.TouchControl {_slider.TouchControl} | _slider.ValueRemaining {_slider.ValueRemaining}");
+            if (_slider.TouchControl)
+            {
+                DrawGraphic(canvas, dirtyRect);
+                DrawText(canvas, dirtyRect, new DrawTextFields(_slider.Value, _slider.Units));
+            }
+            else
+            {
+                DrawText(canvas, dirtyRect, new DrawTextFields(_slider.ValueRemaining, _slider.Units + " remaining"));
+            }
+        }
 
+
+        private void DrawGraphic(ICanvas canvas, RectF dirtyRect)
+        {
             float cx = (float)dirtyRect.Center.X;
             float cy = (float)dirtyRect.Center.Y;
-            float r = Math.Min((float)dirtyRect.Width, (float)dirtyRect.Height) / 2 - 15;
+            float r = Scale * Math.Min((float)dirtyRect.Width, (float)dirtyRect.Height) / 2 - 15;
 
             // Track
             canvas.StrokeColor = Color.FromArgb("424242");
@@ -183,31 +217,32 @@ namespace SleepTimer.Views.Controls
             //canvas.FillColor = Colors.DodgerBlue;
             canvas.FillColor = Color.FromArgb("0984FF");
             canvas.FillCircle(tx, ty, 15);
+
             // Thumb on touching
             if (_slider.IsTouching)
             {
                 canvas.FillColor = Colors.DodgerBlue.WithAlpha(0.5f);
                 canvas.FillCircle(tx, ty, 25);
             }
-
+        }
+        private void DrawText(ICanvas canvas, RectF dirtyRect, DrawTextFields textFields)
+        {
             // Text value
             canvas.FontColor = Color.FromArgb("676767");
             //canvas.FontSize = 30;
 
-            //canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 2.2F);
-            canvas.FontSize = 150;
+            canvas.FontSize = Scale * (Math.Min(dirtyRect.Width, dirtyRect.Height) / 2.2F);
             canvas.Font = new Microsoft.Maui.Graphics.Font("sans-serif-condensed");
-            canvas.DrawString(_slider.Value.ToString("N0"), (RectF)dirtyRect, HorizontalAlignment.Center, VerticalAlignment.Center);
+            canvas.DrawString(textFields.TextValue, (RectF)dirtyRect, HorizontalAlignment.Center, VerticalAlignment.Center);
 
-            //canvas.FontSize = (Math.Min(dirtyRect.Width, dirtyRect.Height) / 14);
-            canvas.FontSize = 24;
+            canvas.FontSize = Scale * (Math.Min(dirtyRect.Width, dirtyRect.Height) / 14);
             var lowerRect = new Rect(
                 dirtyRect.X,
                 (int)(dirtyRect.Y + dirtyRect.Height / 2 + 56),
                 dirtyRect.Width,
                 dirtyRect.Height
             );
-            canvas.DrawString(_slider.Units.ToUpper(), lowerRect, HorizontalAlignment.Center, VerticalAlignment.Top);
+            canvas.DrawString(textFields.SubText.ToUpper(), lowerRect, HorizontalAlignment.Center, VerticalAlignment.Top);
         }
     }
 }
