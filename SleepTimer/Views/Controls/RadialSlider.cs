@@ -12,7 +12,6 @@ namespace SleepTimer.Views.Controls
         //private double _lastAngle = 0;
 
         private bool _isValuePropertyInitialized;
-        Lock valuePropertyInitializedLock = new();
 
         public static readonly BindableProperty ValueProperty =
             BindableProperty.Create(nameof(Value), typeof(double), typeof(RadialSlider), 0.0, BindingMode.TwoWay, propertyChanged: (b, o, n) => ((RadialSlider)b).Invalidate());
@@ -21,7 +20,7 @@ namespace SleepTimer.Views.Controls
             BindableProperty.Create(nameof(Minimum), typeof(double), typeof(RadialSlider), 0.0);
 
         public static readonly BindableProperty FullTurnValueProperty =
-            BindableProperty.Create(nameof(FullTurnValue), typeof(double), typeof(RadialSlider), 100.0);
+            BindableProperty.Create(nameof(FullTurnValue), typeof(double), typeof(RadialSlider), 60.0);
 
         public static readonly BindableProperty UnitsProperty =
             BindableProperty.Create(nameof(Units), typeof(string), typeof(RadialSlider), string.Empty);
