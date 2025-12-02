@@ -38,6 +38,7 @@
 
         <Button
             IsVisible="{Binding AppPreferences.LogWhenTimerFinishes}"
+            Style="{StaticResource ConfigurationPageButton}"
             Text="Show logs"
             Command="{Binding MainVM.NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.SleepLogsPage}" />
 
