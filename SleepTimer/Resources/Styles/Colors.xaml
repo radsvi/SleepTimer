@@ -8,6 +8,7 @@
 
     <Color x:Key="Primary">#512BD4</Color>
     <Color x:Key="PrimaryDark">#676767</Color>
+    <Color x:Key="ConfigurationButtonBackgroundDark">#1C1C1C</Color>
     <Color x:Key="PrimaryDarkText">#fbf4ea</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="SecondaryDarkText">#676767</Color>

@@ -5,7 +5,7 @@
     <ContentView.ControlTemplate>
         <ControlTemplate>
             <Grid
-                BackgroundColor="#1C1C1C"
+                BackgroundColor="{StaticResource ConfigurationButtonBackgroundDark}"
                 HeightRequest="58"
                 HorizontalOptions="Fill"
                 Padding="15,0,5,0">

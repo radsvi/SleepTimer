@@ -5,23 +5,35 @@
     <ContentView.ControlTemplate>
         <ControlTemplate>
             <VerticalStackLayout>
-                <FlexLayout
-                    Direction="Row" AlignItems="Stretch" JustifyContent="SpaceBetween">
-                    <Switch
-                        FlexLayout.Shrink="0"
-                        IsToggled="{TemplateBinding IsToggled}"
-                        x:Name="LinkedSwitch" />
-                    <Label
-                        FlexLayout.Grow="1"
-                        x:Name="LinkedLabel"
-                        VerticalOptions="Center"
-                        Text="{TemplateBinding Text}">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer />
-                        </Label.GestureRecognizers>
-                    </Label>
-                </FlexLayout>
-                <BoxView Style="{StaticResource Separator}" />
+                <Border
+                    Margin="0,0,0,13"
+                    
+                    BackgroundColor="{StaticResource ConfigurationButtonBackgroundDark}"
+                    StrokeThickness="0"
+                    Padding="15,0,5,0"
+                    HeightRequest="58"
+                    ><!--StrokeShape="RoundRectangle 8"-->
+                    <FlexLayout
+                        Direction="Row" AlignItems="Stretch" JustifyContent="SpaceBetween"
+                        >
+                        <Label
+                            FlexLayout.Grow="1"
+                            x:Name="LinkedLabel"
+                            VerticalOptions="Center"
+                            Text="{TemplateBinding Text}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Switch
+                            Margin="0,0,4,0"
+                            HorizontalOptions="End"
+                            FlexLayout.Shrink="0"
+                            IsToggled="{TemplateBinding IsToggled}"
+                            x:Name="LinkedSwitch" />
+                    </FlexLayout>
+                </Border>
+                <!--<BoxView Style="{StaticResource Separator}" />-->
             </VerticalStackLayout>
         </ControlTemplate>
     </ContentView.ControlTemplate>
