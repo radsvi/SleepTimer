@@ -16,6 +16,7 @@
         <controls:ButtonOpenRadialSelect
             Text="Fade-out duration"
             Units="seconds"
+            AdditionalText="When remaining time reaches this number, the volume starts to lower. Set to 0 to turn Fade-out off."
             Value="{Binding AppPreferences.FadeOutSeconds, Mode=TwoWay}" />
 
         <controls:ButtonOpenRadialSelect

@@ -8,6 +8,7 @@ namespace SleepTimer.ViewModels
 {
     [QueryProperty(nameof(RadialSliderVM.Description), nameof(Description))]
     [QueryProperty(nameof(RadialSliderVM.Subtitle), nameof(Subtitle))]
+    [QueryProperty(nameof(RadialSliderVM.AdditionalText), nameof(AdditionalText))]
     [QueryProperty(nameof(RadialSliderVM.Units), nameof(Units))]
     [QueryProperty(nameof(RadialSliderVM.PassValue), nameof(PassValue))]
     [QueryProperty(nameof(RadialSliderVM.PassMinimum), nameof(PassMinimum))]
@@ -16,6 +17,7 @@ namespace SleepTimer.ViewModels
     {
         private string description = string.Empty;
         private string subtitle = string.Empty;
+        private string additionalText = string.Empty;
         private string units = string.Empty;
         private double value;
         private int minimum;
@@ -23,6 +25,7 @@ namespace SleepTimer.ViewModels
 
         public string Description { get => description; set { description = value; OnPropertyChanged(); } }
         public string Subtitle { get => subtitle; set { subtitle = value; OnPropertyChanged(); } }
+        public string AdditionalText { get => additionalText; set { additionalText = value; OnPropertyChanged(); } }
         public string Units { get => units; set { units = value; OnPropertyChanged(); } }
         public double Value { get => value; set { this.value = value; OnPropertyChanged(); } }
         public int Minimum { get => minimum; set { minimum = value; OnPropertyChanged(); } }

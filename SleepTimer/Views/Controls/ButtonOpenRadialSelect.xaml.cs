@@ -65,6 +65,20 @@ public partial class ButtonOpenRadialSelect : ContentView
     public static readonly BindableProperty FullTurnValueProperty =
         BindableProperty.Create(nameof(FullTurnValue), typeof(int), typeof(ButtonOpenRadialSelect), 60);
 
+    public string AdditionalText
+    {
+        get { return (string)GetValue(AdditionalTextProperty); }
+        set { SetValue(AdditionalTextProperty, value); }
+    }
+    public static readonly BindableProperty AdditionalTextProperty =
+        BindableProperty.Create(nameof(AdditionalText), typeof(string), typeof(ButtonOpenRadialSelect), string.Empty);
+
+
+
+
+
+
+
     private string rightTextField = string.Empty;
     public string RightTextField { get => rightTextField; private set { rightTextField = value; OnPropertyChanged(); } }
     public string MiddleTextField { get => (String.IsNullOrEmpty(Subtitle)) ? string.Empty : (string)$"({Subtitle})"; }
@@ -79,6 +93,7 @@ public partial class ButtonOpenRadialSelect : ContentView
         var route = $"{nameof(RadialSliderPage)}?" +
             $"{nameof(RadialSliderVM.Description)}={Uri.EscapeDataString(Text)}" +
             $"&{nameof(RadialSliderVM.Subtitle)}={Uri.EscapeDataString(Subtitle)}" +
+            $"&{nameof(RadialSliderVM.AdditionalText)}={Uri.EscapeDataString(AdditionalText)}" +
             $"&{nameof(RadialSliderVM.Units)}={Uri.EscapeDataString(Units)}" +
             $"&{nameof(RadialSliderVM.PassValue)}={Uri.EscapeDataString(Value.ToString())}" +
             $"&{nameof(RadialSliderVM.PassMinimum)}={Uri.EscapeDataString(Minimum.ToString())}" +

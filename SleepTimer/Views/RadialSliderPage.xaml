@@ -17,20 +17,25 @@
     <Grid RowDefinitions="9*,1*">
         <VerticalStackLayout>
             <Label
-            Text="{Binding Subtitle}"
-            Margin="5"
-            TextColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDarkText}}"
-            FontSize="16" />
+                Text="{Binding Subtitle}"
+                Margin="5"
+                TextColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDarkText}}"
+                FontSize="16" />
+            <Label
+                Text="{Binding AdditionalText}"
+                Margin="5"
+                TextColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDarkText}}"
+                FontSize="16" />
 
             <controls:RadialSlider
-            x:Name="MainRadialSlider"
-            Margin="0,30,0,60"
-            WidthRequest="{Binding SliderSize}"
-            HeightRequest="{Binding SliderSize}"
-            Minimum="0"
-            FullTurnValue="{Binding FullTurnValue}"
-            Units="{Binding Units}"
-            Value="{Binding Value}" />
+                x:Name="MainRadialSlider"
+                Margin="0,30,0,60"
+                WidthRequest="{Binding SliderSize}"
+                HeightRequest="{Binding SliderSize}"
+                Minimum="0"
+                FullTurnValue="{Binding FullTurnValue}"
+                Units="{Binding Units}"
+                Value="{Binding Value}" />
         </VerticalStackLayout>
 
         <Grid ColumnDefinitions="*,auto,*" Grid.Row="1" MinimumHeightRequest="50" ColumnSpacing="3">
