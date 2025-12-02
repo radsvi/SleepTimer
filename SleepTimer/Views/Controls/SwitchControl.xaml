@@ -6,7 +6,7 @@
         <ControlTemplate>
             <VerticalStackLayout>
                 <Border
-                    Margin="0,0,0,13"
+                    Margin="0"
                     
                     BackgroundColor="{StaticResource ConfigurationButtonBackgroundDark}"
                     StrokeThickness="0"

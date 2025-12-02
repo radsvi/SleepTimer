@@ -28,19 +28,32 @@
 
         </VerticalStackLayout>
 
-        <controls:SwitchControl
+        <VerticalStackLayout Style="{StaticResource ConfigurationPageSection}">
+            <controls:SwitchControl
             IsToggled="{Binding AppPreferences.DisplayVolumeChange, Mode=TwoWay}"
             Text="Show when volume changes" />
+        </VerticalStackLayout>
 
-        <controls:SwitchControl
-            IsToggled="{Binding AppPreferences.LogWhenTimerFinishes, Mode=TwoWay}"
-            Text="Log when timer finishes" />
+        <VerticalStackLayout Style="{StaticResource ConfigurationPageSection}">
+            <controls:SwitchControl
+                IsToggled="{Binding AppPreferences.LogWhenTimerFinishes, Mode=TwoWay}"
+                Text="Generate logs for Timer events" />
 
-        <Button
-            IsVisible="{Binding AppPreferences.LogWhenTimerFinishes}"
-            Style="{StaticResource ConfigurationPageButton}"
-            Text="View logs"
-            Command="{Binding MainVM.NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.SleepLogsPage}" />
+            <!--<Button
+                Style="{StaticResource ConfigurationPageButtonInner}"
+                IsVisible="{Binding AppPreferences.LogWhenTimerFinishes}"
+                Text="Logs"
+                Command="{Binding MainVM.NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.SleepLogsPage}" />-->
+
+            <controls:WideButton
+                IsVisible="{Binding AppPreferences.LogWhenTimerFinishes}"
+                Text="Logs"
+                RightText="View"
+                NavigateTo="SleepLogsPage"
+                />
+        </VerticalStackLayout>
+
+        
 
 
 
