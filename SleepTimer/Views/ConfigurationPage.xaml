@@ -8,52 +8,57 @@
              x:DataType="viewModels:ConfigurationVM"
              Title="Configuration Page">
     <VerticalStackLayout>
-        <VerticalStackLayout Margin="0,0,0,13">
-            <controls:ButtonOpenRadialSelect
-            Text="Extension length"
-            Units="minutes"
-            Value="{Binding AppPreferences.ExtensionLengthMinutes, Mode=TwoWay}" />
+        <Border Style="{StaticResource ConfigurationPageSection}">
+            <VerticalStackLayout Style="{StaticResource ConfigurationPageSectionInner}">
+                <controls:ButtonOpenRadialSelect
+                    Text="Extension length"
+                    Units="minutes"
+                    Value="{Binding AppPreferences.ExtensionLengthMinutes, Mode=TwoWay}" />
 
-            <controls:ButtonOpenRadialSelect
-            Text="Fade-out duration"
-            Units="seconds"
-            AdditionalText="When remaining time reaches this number, the volume starts to lower. Set to 0 to turn Fade-out off."
-            Value="{Binding AppPreferences.FadeOutSeconds, Mode=TwoWay}" />
+                <controls:ButtonOpenRadialSelect
+                    Text="Fade-out duration"
+                    Units="seconds"
+                    AdditionalText="When remaining time reaches this number, the volume starts to lower. Set to 0 to turn Fade-out off."
+                    Value="{Binding AppPreferences.FadeOutSeconds, Mode=TwoWay}" />
 
-            <controls:ButtonOpenRadialSelect
-            Text="Standby"
-            Subtitle="Wait time after fade-out"
-            Units="seconds"
-            Value="{Binding AppPreferences.StandBySeconds, Mode=TwoWay}" />
+                <controls:ButtonOpenRadialSelect
+                    Text="Standby"
+                    Subtitle="Wait time after fade-out"
+                    Units="seconds"
+                    Value="{Binding AppPreferences.StandBySeconds, Mode=TwoWay}" />
+            </VerticalStackLayout>
+        </Border>
 
-        </VerticalStackLayout>
-
-        <VerticalStackLayout Style="{StaticResource ConfigurationPageSection}">
-            <controls:SwitchControl
+        <Border Style="{StaticResource ConfigurationPageSection}">
+            <VerticalStackLayout Style="{StaticResource ConfigurationPageSectionInner}">
+                <controls:SwitchControl
             IsToggled="{Binding AppPreferences.DisplayVolumeChange, Mode=TwoWay}"
             Text="Show when volume changes" />
-        </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Border>
 
-        <VerticalStackLayout Style="{StaticResource ConfigurationPageSection}">
-            <controls:SwitchControl
+        <Border Style="{StaticResource ConfigurationPageSection}">
+            <VerticalStackLayout Style="{StaticResource ConfigurationPageSectionInner}">
+                <controls:SwitchControl
                 IsToggled="{Binding AppPreferences.LogWhenTimerFinishes, Mode=TwoWay}"
                 Text="Generate logs for Timer events" />
 
-            <!--<Button
+                <!--<Button
                 Style="{StaticResource ConfigurationPageButtonInner}"
                 IsVisible="{Binding AppPreferences.LogWhenTimerFinishes}"
                 Text="Logs"
                 Command="{Binding MainVM.NavigateToPageCommand}" CommandParameter="{x:Static enums:Pages.SleepLogsPage}" />-->
 
-            <controls:WideButton
+                <controls:WideButton
                 IsVisible="{Binding AppPreferences.LogWhenTimerFinishes}"
                 Text="Logs"
                 RightText="View"
                 NavigateTo="SleepLogsPage"
                 />
-        </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Border>
 
-        
+
 
 
 

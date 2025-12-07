@@ -465,9 +465,15 @@
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
     </Style>
 
-    <Style x:Key="ConfigurationPageSection" TargetType="VerticalStackLayout">
-        <Setter Property="Margin" Value="0,0,0,13" />
+    <Style x:Key="ConfigurationPageSection" TargetType="Border">
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Margin" Value="8" />
         <Setter Property="BackgroundColor" Value="{StaticResource ConfigurationButtonBackgroundDark}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 10" />
+    </Style>
+    <Style x:Key="ConfigurationPageSectionInner" TargetType="VerticalStackLayout">
+        <Setter Property="Margin" Value="0,5" />
+        
     </Style>
 
     <!-- // Button images // -->
