@@ -24,4 +24,5 @@ namespace SleepTimer.Models
     public class LogEntryExtended() : LogEntry(LogTypes.Extended, "Timer extended") {}
     public class LogEntryEnteringStandby() : LogEntry(LogTypes.Standby, "Entering standby") {}
     public class LogEntryTimerFinished() : LogEntry(LogTypes.Finished, "Timer finished") {}
+    public class LogEntryTimerStopped() : LogEntry(LogTypes.Stopped, "Timer stopped") {}
 }

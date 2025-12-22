@@ -40,7 +40,8 @@ namespace SleepTimer.Models
                 LogTypes.Started.ToString(),
                 LogTypes.Extended.ToString(),
                 LogTypes.Standby.ToString(),
-                LogTypes.Finished.ToString()
+                LogTypes.Finished.ToString(),
+                LogTypes.StartAndStop.ToString()
             );
 
             if (action == "Cancel")
@@ -63,9 +64,16 @@ namespace SleepTimer.Models
                 {
                     DisplayEntries.Add(entry);
                 }
+                else if (appPreferences.LogFilter == LogTypes.StartAndStop)
+                {
+                    if (entry.Type == LogTypes.Started || entry.Type == LogTypes.Finished || entry.Type == LogTypes.Stopped)
+                    {
+                        DisplayEntries.Add(entry);
+                    }
+                }
                 else
                 {
-                    if (appPreferences.LogFilter == entry.Type)
+                    if (entry.Type == appPreferences.LogFilter)
                     {
                         DisplayEntries.Add(entry);
                     }

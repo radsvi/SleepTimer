@@ -12,6 +12,8 @@ namespace SleepTimer.Enums
         Started,
         Extended,
         Standby,
-        Finished
+        Finished,
+        Stopped,
+        StartAndStop
     }
 }
