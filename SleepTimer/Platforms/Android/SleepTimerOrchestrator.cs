@@ -68,9 +68,10 @@ namespace SleepTimer.Platforms.Android
             }
             else if (intent?.Action == ServiceAction.Stop.ToString())
             {
-                mainTimer.StopTimer();
                 TimerStoppedOrFinished?.Invoke(this, EventArgs.Empty);
-                mediaController.RestoreVolume();
+                //mainTimer.StopTimer();
+                OnManualStop();
+                //mediaController.RestoreVolume();
             }
         }
 
@@ -115,6 +116,12 @@ namespace SleepTimer.Platforms.Android
             TimerStoppedOrFinished?.Invoke(this, EventArgs.Empty);
             logsHandler.AddEntry(new LogEntryTimerFinished());
             mediaController.HandleFinished();
+            mainTimer.StopTimer();
+        }
+        private void OnManualStop()
+        {
+            TimerStoppedOrFinished?.Invoke(this, EventArgs.Empty);
+            logsHandler.AddEntry(new LogEntryTimerStopped());
             mainTimer.StopTimer();
         }
     }
